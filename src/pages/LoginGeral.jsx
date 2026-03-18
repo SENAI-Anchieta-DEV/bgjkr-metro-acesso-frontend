@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/LoginGeral.css";
+import logo from "../assets/logo.svg"; // ícone aqui
 
 function LoginGeral() {
   const navigate = useNavigate();
 
+  const [tipo, setTipo] = useState("admin");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
@@ -17,158 +20,113 @@ function LoginGeral() {
       return;
     }
 
-    // usuários fixos
     const usersFixos = [
       { email: "admin@metro.com", senha: "123", tipo: "admin", status: "aprovado" },
       { email: "agente@metro.com", senha: "123", tipo: "agente", status: "aprovado" }
     ];
 
-    // usuários cadastrados
     const cadastros = JSON.parse(localStorage.getItem("cadastros")) || [];
-
     const todosUsuarios = [...usersFixos, ...cadastros];
 
     const user = todosUsuarios.find(
-      (u) => u.email === email && u.senha === senha
+      (u) =>
+        u.email === email &&
+        u.senha === senha &&
+        u.tipo === tipo
     );
 
     if (!user) {
-      setErro("Email ou senha inválidos");
+      setErro("Credenciais inválidas");
       return;
     }
 
     if (user.status !== "aprovado") {
-      setErro("Cadastro em análise. Aguarde aprovação.");
+      setErro("Cadastro em análise");
       return;
     }
 
-    // salva seção
     localStorage.setItem("user", JSON.stringify(user));
 
-    //manda pro lugar certo
-    if (user.tipo === "admin") {
-      navigate("/admin");
-    } else if (user.tipo === "agente") {
-      navigate("/agente");
-    } else {
-      navigate("/pcd");
-    }
-  }
-
-  function irCadastro() {
-    navigate("/cadastro");
+    if (user.tipo === "admin") navigate("/admin");
+    if (user.tipo === "agente") navigate("/agente");
+    if (user.tipo === "pcd") navigate("/pcd");
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>MetroAcesso</h1>
-        <p style={styles.subtitle}>Sistema de Acessibilidade</p>
+    <div className="login-container">
+      <div className="login-card">
 
-        <form onSubmit={handleLogin} style={styles.form}>
+        {/* TABS */}
+        <div className="login-tabs">
+          <button
+            className={tipo === "admin" ? "active" : ""}
+            onClick={() => setTipo("admin")}
+          >
+            ADMIN
+          </button>
+
+          <button
+            className={tipo === "pcd" ? "active" : ""}
+            onClick={() => setTipo("pcd")}
+          >
+            PCD
+          </button>
+
+          <button
+            className={tipo === "agente" ? "active" : ""}
+            onClick={() => setTipo("agente")}
+          >
+            AGENTE
+          </button>
+        </div>
+
+        {/* LOGO */}
+        <img src={logo} alt="logo" className="login-logo" />
+
+
+        <h2>LOGIN {tipo.toUpperCase()}</h2>
+
+        <form onSubmit={handleLogin}>
+          <label>E-mail</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="seuemail@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
           />
 
+          <label>Senha</label>
           <input
             type="password"
-            placeholder="Senha"
+            placeholder="********"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
-            style={styles.input}
           />
 
-          {erro && <p style={styles.erro}>{erro}</p>}
+          <div className="remember">
+            <input type="checkbox" />
+            <span>Lembrar minha senha</span>
+          </div>
 
-          <button type="submit" style={styles.button}>
-            Entrar
-          </button>
+          {erro && <p className="erro">{erro}</p>}
+
+          <button className="btn-primary">Entrar</button>
         </form>
 
-        <button onClick={irCadastro} style={styles.link}>
-          Criar conta
-        </button>
+        {/* BOTÃO CADASTRO (só aparece para PCD) */}
+        {tipo === "pcd" && (
+          <button
+            className="btn-secondary"
+            onClick={() => navigate("/cadastro")}
+          >
+            Cadastrar
+          </button>
+        )}
+
+        <span className="forgot">Esqueceu a senha?</span>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-  },
-
-  card: {
-    background: "#1e1e1e",
-    padding: "40px",
-    borderRadius: "12px",
-    width: "350px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.5)",
-  },
-
-  title: {
-    margin: 0,
-    color: "#00bfff",
-  },
-
-  subtitle: {
-    marginBottom: "20px",
-    color: "#ccc",
-    fontSize: "14px",
-  },
-
-  form: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-  },
-
-  input: {
-    padding: "12px",
-    borderRadius: "6px",
-    border: "none",
-    outline: "none",
-    background: "#2a2a2a",
-    color: "white",
-  },
-
-  button: {
-    padding: "12px",
-    borderRadius: "6px",
-    border: "none",
-    background: "#00bfff",
-    color: "white",
-    fontWeight: "bold",
-    cursor: "pointer",
-    transition: "0.2s",
-  },
-
-  link: {
-    marginTop: "15px",
-    background: "none",
-    border: "none",
-    color: "#00bfff",
-    cursor: "pointer",
-    fontSize: "14px",
-  },
-
-  erro: {
-    color: "#ff4d4d",
-    fontSize: "14px",
-    textAlign: "center",
-  },
-};
 
 export default LoginGeral;
