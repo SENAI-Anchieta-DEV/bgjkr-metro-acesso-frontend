@@ -42,10 +42,10 @@ function LoginGeral() {
       return;
     }
 
-    // salva sessão
+    // salva seção
     localStorage.setItem("user", JSON.stringify(user));
 
-    // redirecionamento
+    //manda pro lugar certo
     if (user.tipo === "admin") {
       navigate("/admin");
     } else if (user.tipo === "agente") {
