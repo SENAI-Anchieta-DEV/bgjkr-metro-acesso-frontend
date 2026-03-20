@@ -3,45 +3,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #1e1e1e;
+  background: #1e1e1e;
 }
 
 .login-box {
-  background: #2a2a2a;
+  background: rgba(42, 42, 42, 0.9);
   padding: 40px;
-  border-radius: 10px;
-  width: 300px;
+  border-radius: 12px;
+  width: 320px;
   text-align: center;
   color: white;
 }
 
-.login-box h2 {
+/* tabs */
+.tabs {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.login-box input {
+.tabs button {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.tabs .active {
+  color: #00aaff;
+  border-bottom: 2px solid #00aaff;
+}
+
+/* inputs */
+input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
+  border-radius: 6px;
   border: none;
-  border-radius: 5px;
 }
 
-.login-box button {
+/* botão */
+button {
   width: 100%;
   padding: 10px;
-  background: #007bff;
+  background: #00aaff;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   color: white;
   cursor: pointer;
   margin-top: 10px;
 }
 
-.login-box button:hover {
-  background: #0056b3;
+button:hover {
+  background: #008fcc;
 }
 
+/* cadastro */
 .cadastro-link {
   margin-top: 15px;
   font-size: 14px;
@@ -50,8 +71,4 @@
 .cadastro-link span {
   color: #00aaff;
   cursor: pointer;
-}
-
-.cadastro-link span:hover {
-  text-decoration: underline;
 }

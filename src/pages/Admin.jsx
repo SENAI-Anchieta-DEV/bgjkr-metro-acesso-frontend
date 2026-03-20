@@ -9,7 +9,7 @@ function Admin() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("usuarioLogado"));
 
-    // 🔐 proteção de rota
+ 
     if (!user || user.tipo !== "admin") {
       navigate("/");
       return;
@@ -20,8 +20,8 @@ function Admin() {
 
   function carregarUsuarios() {
     const dados = JSON.parse(localStorage.getItem("cadastros")) || [];
-    const pendentes = dados.filter(u => u.status === "pendente");
-    setUsuarios(pendentes);
+    const pcds = dados.filter(u => u.tipo === "pcd" && u.status === "pendente");
+    setUsuarios(pcds);
   }
 
   function atualizarStatus(email, novoStatus) {
@@ -38,70 +38,69 @@ function Admin() {
     carregarUsuarios();
   }
 
-  function logout() {
-    localStorage.removeItem("usuarioLogado");
-    navigate("/");
-  }
-
   return (
     <div className="admin-container">
 
-      <div className="topo">
-        <h2>Painel de Aprovações</h2>
-        <button className="logout" onClick={logout}>
-          Sair
-        </button>
-      </div>
+      <h2 className="titulo">Validações</h2>
 
-      <div className="tabela">
+      <div className="card">
 
         <div className="header">
           <span>Nome</span>
-          <span>Tipo</span>
           <span>Status</span>
           <span>Deficiência</span>
+          <span>Comprovação</span>
           <span>Ações</span>
         </div>
 
         {usuarios.length === 0 ? (
-          <p className="vazio">Nenhum usuário pendente</p>
+          <p className="vazio">Nenhuma validação pendente</p>
         ) : (
           usuarios.map((user, index) => (
             <div key={index} className="linha">
 
+              {/* Nome + ícone */}
               <div className="nome">
                 <div className="avatar"></div>
-                {user.nome}
+                <span>{user.nome}</span>
+                <span className="tag-pcd">PCD</span>
               </div>
 
-              <span className="badge tipo">{user.tipo}</span>
+              {/* Status */}
+              <span className="badge ativo">Ativo</span>
 
-              <span className="badge pendente">Pendente</span>
-
+              {/* Deficiência */}
               <span className={`badge def ${user.necessidade?.toLowerCase()}`}>
                 {user.necessidade || "-"}
               </span>
 
+              {/* Documento */}
+              <span className="documento">Documento </span>
+
+              {/* Ações */}
               <div className="acoes">
                 <button
-                  className="btn aprovar"
+                  className="validar"
                   onClick={() => atualizarStatus(user.email, "aprovado")}
                 >
-                  ✔
+                  Validar
                 </button>
 
                 <button
-                  className="btn rejeitar"
+                  className="rejeitar"
                   onClick={() => atualizarStatus(user.email, "rejeitado")}
                 >
-                  ✖
+                  Rejeitar
                 </button>
               </div>
 
             </div>
           ))
         )}
+
       </div>
+
+      <footer className="footer">MetroAcesso</footer>
     </div>
   );
 }

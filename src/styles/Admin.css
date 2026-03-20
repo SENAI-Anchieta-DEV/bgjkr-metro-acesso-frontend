@@ -1,36 +1,19 @@
 .admin-container {
+  background: #1e1e1e;
   min-height: 100vh;
-  background-color: #1e1e1e;
   color: white;
   padding: 40px;
   font-family: Arial, sans-serif;
 }
 
-/* topo */
-.topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.titulo {
   margin-bottom: 20px;
 }
 
-.logout {
-  background: #dc3545;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-}
-
-.logout:hover {
-  background: #a71d2a;
-}
-
-/* tabela */
-.tabela {
+/* card principal */
+.card {
   background: #2a2a2a;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
 }
 
@@ -40,7 +23,8 @@
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   padding-bottom: 10px;
   border-bottom: 1px solid #444;
-  font-weight: bold;
+  font-size: 14px;
+  color: #aaa;
 }
 
 /* linhas */
@@ -52,7 +36,7 @@
   border-bottom: 1px solid #333;
 }
 
-/* nome + avatar */
+/* nome */
 .nome {
   display: flex;
   align-items: center;
@@ -66,6 +50,14 @@
   background: #444;
 }
 
+/* tag PCD */
+.tag-pcd {
+  background: #1e88e5;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
 /* badges */
 .badge {
   padding: 5px 10px;
@@ -74,32 +66,30 @@
   text-align: center;
 }
 
-/* tipo */
-.tipo {
-  background: #007bff;
-}
-
 /* status */
-.pendente {
-  background: #ffc107;
-  color: black;
+.ativo {
+  background: #28a745;
 }
 
 /* deficiência */
-.def {
-  background: #555;
-}
-
 .def.visual {
   background: #ff4d4d;
 }
 
 .def.auditiva {
-  background: #28a745;
+  background: #00c853;
 }
 
 .def.motora {
   background: #ff9800;
+}
+
+/* documento */
+.documento {
+  background: #3a3a3a;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
 }
 
 /* ações */
@@ -108,21 +98,18 @@
   gap: 10px;
 }
 
-.btn {
+.validar {
+  background: transparent;
+  color: #00e676;
   border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
   cursor: pointer;
 }
 
-.aprovar {
-  background: #28a745;
-  color: white;
-}
-
 .rejeitar {
-  background: #dc3545;
-  color: white;
+  background: transparent;
+  color: #ff5252;
+  border: none;
+  cursor: pointer;
 }
 
 /* vazio */
@@ -130,3 +117,10 @@
   margin-top: 20px;
   color: #aaa;
 }
+
+/* footer */
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  color: #777;
+} 

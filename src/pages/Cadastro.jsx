@@ -9,7 +9,7 @@ function Cadastro() {
     nome: "",
     email: "",
     senha: "",
-    Deficiencia: "",
+    necessidade: "", // 🔥 padronizado
     suporte: "sim",
     documento: null
   });
@@ -23,15 +23,13 @@ function Cadastro() {
   }
 
   function handleFile(e) {
-    setForm({ ...form, documento: e.target.files[0] });
+    setForm({ ...form, documento: e.target.files[0]?.name }); // salva nome só
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     setErro("");
     setSucesso("");
-
-    
 
     const cadastros = JSON.parse(localStorage.getItem("cadastros")) || [];
 
@@ -49,7 +47,7 @@ function Cadastro() {
 
     setTimeout(() => {
       navigate("/login");
-    }, 2000);
+    }, 1500);
   }
 
   return (
@@ -59,8 +57,8 @@ function Cadastro() {
         <h2>Cadastro PcD</h2>
 
         <form onSubmit={handleSubmit}>
-
           <div className="grid">
+
             <div>
               <label>Nome</label>
               <input name="nome" onChange={handleChange} />
@@ -73,16 +71,14 @@ function Cadastro() {
 
             <div>
               <label>Senha</label>
-              <input name="senha" type="password" onCh  ange={handleChange} />
+              <input name="senha" type="password" onChange={handleChange} />
             </div>
 
             <div>
-              <label>Tipo de Deficiencia</label>
+              <label>Tipo de Deficiência</label>
               <input name="necessidade" onChange={handleChange} />
             </div>
 
-          
-        
           </div>
 
           <label>Deseja suporte por padrão?</label>
@@ -113,4 +109,4 @@ function Cadastro() {
   );
 }
 
-export default Cadastro;
+export default Cadastro;  
