@@ -9,8 +9,7 @@ function Cadastro() {
     nome: "",
     email: "",
     senha: "",
-    necessidade: "",
-    endereco: "",
+    Deficiencia: "",
     suporte: "sim",
     documento: null
   });
@@ -32,16 +31,7 @@ function Cadastro() {
     setErro("");
     setSucesso("");
 
-    if (
-      !form.nome ||
-      !form.email ||
-      !form.senha ||
-      !form.necessidade ||
-      !form.endereco
-    ) {
-      setErro("Preencha todos os campos");
-      return;
-    }
+    
 
     const cadastros = JSON.parse(localStorage.getItem("cadastros")) || [];
 
@@ -83,18 +73,16 @@ function Cadastro() {
 
             <div>
               <label>Senha</label>
-              <input name="senha" type="password" onChange={handleChange} />
+              <input name="senha" type="password" onCh  ange={handleChange} />
             </div>
 
             <div>
-              <label>Tipo de Necessidade</label>
+              <label>Tipo de Deficiencia</label>
               <input name="necessidade" onChange={handleChange} />
             </div>
 
-            <div className="full">
-              <label>Endereço</label>
-              <input name="endereco" onChange={handleChange} />
-            </div>
+          
+        
           </div>
 
           <label>Deseja suporte por padrão?</label>

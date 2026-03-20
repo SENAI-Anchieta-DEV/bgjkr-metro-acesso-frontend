@@ -1,34 +1,26 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/LoginGeral";
-import Cadastro from "./pages/Cadastro";
+// páginas
+import LoginGeral from "./pages/LoginGeral.jsx";
+import Cadastro from "./pages/Cadastro.jsx";
+import Admin from "./pages/Admin.jsx";
+import Pcd from "./pages/Pcd.jsx";
 
-// páginas temporárias (depois vamos criar de verdade)
-function Admin() {
-  return <h1>Admin</h1>;
-}
-
-function Agente() {
-  return <h1>Agente</h1>;
-}
-
-function Pcd() {
-  return <h1>PcD</h1>;
-}
+// css global
+import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/agente" element={<Agente />} />
-        <Route path="/pcd" element={<Pcd />} />
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<LoginGeral />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/pcd" element={<Pcd />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

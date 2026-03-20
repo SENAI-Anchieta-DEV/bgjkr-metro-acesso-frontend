@@ -1,0 +1,64 @@
+.pcd-container {
+  min-height: 100vh;
+  background: #1e1e1e;
+  color: white;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
+
+/* topo */
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* botão logout */
+.logout {
+  background: #dc3545;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: #a71d2a;
+}
+
+/* cards */
+.card {
+  margin-top: 30px;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+/* status */
+.aprovado {
+  background: #28a745;
+}
+
+.rejeitado {
+  background: #dc3545;
+}
+
+.pendente {
+  background: #ffc107;
+  color: black;
+}
+
+/* botão editar */
+.editar {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #1c2b3a;
+  color: white;
+}
+
+.editar:hover {
+  background: #2e3f55;
+}
