@@ -17,10 +17,13 @@ function Admin() {
 
     carregarUsuarios();
   }, [navigate]);
-
-  function carregarUsuarios() {
+function carregarUsuarios() {
     const dados = JSON.parse(localStorage.getItem("cadastros")) || [];
+    console.log("1. Todos os cadastros no banco:", dados); 
+
     const pcds = dados.filter(u => u.tipo === "pcd" && u.status === "pendente");
+    console.log("2. Pendentes encontrados para o Admin:", pcds); 
+
     setUsuarios(pcds);
   }
 
