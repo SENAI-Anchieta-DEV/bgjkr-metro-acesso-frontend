@@ -9,7 +9,7 @@ function Pcd() {
   useEffect(() => {
     const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
 
-    // 🔐 proteção de rota
+    // proteção de rota
     if (!usuarioLogado || usuarioLogado.tipo !== "pcd") {
       navigate("/");
       return;

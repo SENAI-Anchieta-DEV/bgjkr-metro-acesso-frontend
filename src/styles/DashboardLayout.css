@@ -1,15 +1,19 @@
-/* Estrutura Principal (Grid de 3 Colunas) */
+
 .dashboard-container {
   display: grid;
-  grid-template-columns: 80px 1fr 250px; /* Esquerda: 80px | Centro: O resto | Direita: 250px */
+  grid-template-columns: 80px 1fr 250px;
   height: 100vh;
-  width: 100vw;
-  background-color: #121212; /* Fundo escuro do Figma */
+  width: 100%;
+  background-color: #121212; 
   color: #ffffff;
   overflow: hidden;
 }
 
-/* 🟦 BARRA ESQUERDA */
+::-webkit-scrollbar {
+ display: none;
+}
+
+/* BARRA ESQUERDA */
 .sidebar-esquerda {
   background-color: #1e1e1e;
   border-right: 1px solid #333;
@@ -22,14 +26,18 @@
 .logo-area {
   width: 40px;
   height: 40px;
-  background-color: #007bff;
+  background-color: #ffffff00;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   font-size: 20px;
   margin-bottom: 40px;
+}
+
+.logo{
+    width: 60px;
+  height: 60px;
 }
 
 .menu-icons {
@@ -54,11 +62,11 @@
   color: white;
 }
 
-/* 🟩 ÁREA CENTRAL */
+/* ÁREA CENTRAL */
 .dashboard-main {
   display: flex;
   flex-direction: column;
-  padding: 20px 40px;
+  padding: 20px 50px;
   overflow-y: auto;
 }
 
@@ -90,7 +98,7 @@
   flex: 1;
 }
 
-/* 🟨 BARRA DIREITA */
+/*  BARRA DIREITA */
 .sidebar-direita {
   background-color: #1e1e1e;
   border-left: 1px solid #333;
@@ -124,7 +132,7 @@
 }
 
 .status-badge {
-  background-color: #28a745;
+  background-color: #102cac;
   color: white;
   padding: 2px 8px;
   border-radius: 12px;

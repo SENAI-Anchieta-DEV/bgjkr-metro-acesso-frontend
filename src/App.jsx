@@ -9,7 +9,7 @@ import DashboardLayout from "./pages/DashboardLayout"; // 🔹 Importe o Layout
 function Agente() {
   return <h1>Agente (Em construção)</h1>;
 }
-
+  
 function App() {
   return (
     <BrowserRouter>
