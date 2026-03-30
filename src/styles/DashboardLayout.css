@@ -1,11 +1,10 @@
-
 .dashboard-container {
   display: grid;
   grid-template-columns: 80px 1fr 250px;
   height: 100vh;
   width: 100%;
-  background-color: #121212; 
-  color: #ffffff;
+  background-color: var(--cor-fundo-1); 
+  color: var(--cor-texto-forte);
   overflow: hidden;
 }
 
@@ -15,8 +14,8 @@
 
 /* BARRA ESQUERDA */
 .sidebar-esquerda {
-  background-color: #1e1e1e;
-  border-right: 1px solid #333;
+  background-color: var(--cor-fundo-2);
+  border-right: 1px solid var(--cor-borda);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,17 +25,15 @@
 .logo-area {
   width: 40px;
   height: 40px;
-  background-color: #ffffff00;
-  border-radius: 8px;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
   margin-bottom: 40px;
 }
 
-.logo{
-    width: 60px;
+.logo {
+  width: 60px;
   height: 60px;
 }
 
@@ -49,8 +46,7 @@
 .icon-btn {
   background: none;
   border: none;
-  color: #888;
-  font-size: 24px;
+  color: var(--cor-texto-suave);
   cursor: pointer;
   padding: 10px;
   border-radius: 8px;
@@ -58,8 +54,8 @@
 }
 
 .icon-btn:hover, .icon-btn.active {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--cor-destaque);
+  color: var(--cor-texto-forte);
 }
 
 /* ÁREA CENTRAL */
@@ -70,91 +66,59 @@
   overflow-y: auto;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
 .dashboard-header h2 {
   font-size: 24px;
   font-weight: 500;
+  color: var(--cor-texto-forte);
 }
 
 .search-bar input {
   padding: 10px 15px;
   border-radius: 20px;
-  border: 1px solid #333;
-  background-color: #1e1e1e;
-  color: white;
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-fundo-2);
+  color: var(--cor-texto-forte);
   width: 250px;
 }
 
 .dashboard-content {
-  background-color: #1e1e1e;
+  background-color: var(--cor-fundo-2);
   border-radius: 12px;
   padding: 20px;
   flex: 1;
 }
 
-/*  BARRA DIREITA */
+/* BARRA DIREITA */
 .sidebar-direita {
-  background-color: #1e1e1e;
-  border-left: 1px solid #333;
+  background-color: var(--cor-fundo-2);
+  border-left: 1px solid var(--cor-borda);
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-.top-icons {
-  display: flex;
-  justify-content: space-around;
-}
-
 .user-profile {
   text-align: center;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--cor-borda);
   padding-bottom: 20px;
 }
 
 .avatar {
   width: 60px;
   height: 60px;
-  background-color: #333;
+  background-color: var(--cor-fundo-3);
   border-radius: 50%;
   margin: 0 auto 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
 }
 
 .status-badge {
-  background-color: #102cac;
-  color: white;
+  background-color: var(--cor-destaque);
+  color: var(--cor-texto-forte);
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 12px;
 }
-
-.notifications-panel {
-  flex: 1;
-}
-
-.status-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.dot.active { background-color: #28a745; }
-.dot.inactive { background-color: #dc3545; }

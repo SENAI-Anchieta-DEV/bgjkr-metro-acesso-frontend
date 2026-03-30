@@ -1,27 +1,51 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, NavLink, Link } from "react-router-dom";
 import "../styles/DashboardLayout.css";
+
+// 1. Importar os ícones da pasta assets
 import logo from "../assets/logo.svg";
+import iconValidar from "../assets/Validar.svg";
+import iconListaUser from "../assets/listaUSer.svg";
+import iconSair from "../assets/sair.svg";
+
+// 2. Importar os ícones de ação do topo
+import iconBell from "../assets/TopAction/Bell.svg";
+import iconChat from "../assets/TopAction/Chat.svg";
+import iconSetting from "../assets/TopAction/Setting.svg";
 
 function DashboardLayout() {
   return (
     <div className="dashboard-container">
       
-      {/* BARRA ESQUERDA */}
+      {/* 🟦 BARRA LATERAL ESQUERDA */}
       <aside className="sidebar-esquerda">
-        <div className="logo-area">
-         <img className="logo" src={logo} alt="Logo" />
-        </div>
+        {/* LOGO */}
+        <Link to="/admin" className="logo-area">
+          <img src={logo} alt="Logótipo" className="logo-img" style={{ maxWidth: '40px' }} />
+        </Link>
         
         <nav className="menu-icons">
-          {/* Mudar incons depois */}
-          <button className="icon-btn active">0</button>
-          <button className="icon-btn">1</button>
-          <button className="icon-btn">3</button>
-          <button className="icon-btn">4</button>
+          {/* Ícone 1: Fila de Validações */}
+          <NavLink 
+            to="/admin" 
+            end 
+            className={({ isActive }) => isActive ? "icon-btn active" : "icon-btn"}
+            title="Validações"
+          >
+            <img src={iconValidar} alt="Validações" />
+          </NavLink>
+          
+          {/* Ícone 2: Gestão de Utilizadores */}
+          <NavLink 
+            to="/admin/usuarios" 
+            className={({ isActive }) => isActive ? "icon-btn active" : "icon-btn"}
+            title="Gestão de Utilizadores"
+          >
+            <img src={iconListaUser} alt="Utilizadores" />
+          </NavLink>
         </nav>
       </aside>
 
-      {/*CENTRAL*/}
+      {/* 🟩 ÁREA CENTRAL */}
       <main className="dashboard-main">
         <header className="dashboard-header">
           <h2>Acesso Administrador</h2>
@@ -31,23 +55,37 @@ function DashboardLayout() {
         </header>
         
         <div className="dashboard-content">
-          {/* O <Outlet /> é onde o React vai injetar o Admin.jsx ou Agente.jsx */}
+          {/* O <Outlet /> é o "buraco" onde as páginas vão ser renderizadas */}
           <Outlet /> 
         </div>
       </main>
 
-      {/* BARRRA DIREITA */}
+      {/* 🟨 BARRA LATERAL DIREITA */}
       <aside className="sidebar-direita">
         <div className="top-icons">
-          <button className="icon-btn">1</button>
-          <button className="icon-btn">2</button>
-          <button className="icon-btn">3</button>
+          {/* Ícones de Notificação, Chat e Configurações */}
+          <button className="icon-btn" title="Notificações">
+            <img src={iconBell} alt="Notificações" />
+          </button>
+          <button className="icon-btn" title="Chat">
+            <img src={iconChat} alt="Chat" />
+          </button>
+          <button className="icon-btn" title="Configurações">
+            <img src={iconSetting} alt="Configurações" />
+          </button>
+          
+          {/* O Ícone SAIR agora é o último da direita no topo */}
+          <button className="icon-btn logout" title="Sair">
+            <img src={iconSair} alt="Sair" />
+          </button>
         </div>
 
         <div className="user-profile">
-          <div className="avatar">perfil</div>
-          <p></p>
-          <span className="status-badge">Admin</span>
+          <div className="avatar">
+            <img src={iconSetting} alt="Avatar" style={{ width: '24px' }} />
+          </div>
+          <p>Admin Metro</p>
+          <span className="status-badge">Online</span>
         </div>
 
         <div className="notifications-panel">
