@@ -1,0 +1,89 @@
+.gestao-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.gestao-header h1 {
+  color: var(--cor-texto-forte);
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.gestao-header p {
+  color: var(--cor-texto-suave);
+  font-size: 14px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.perfil-card {
+  background-color: var(--cor-fundo-card);
+  padding: 30px;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Efeito 3D super moderno ao passar o mouse */
+.perfil-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-leve);
+  border-color: var(--cor-primaria);
+}
+
+.card-icon {
+  background-color: rgba(0, 156, 222, 0.1); /* Um fundo azul transparente da sua paleta */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.card-icon img {
+  width: 30px;
+}
+
+.perfil-card h3 {
+  color: var(--cor-texto-forte);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.perfil-card p {
+  color: var(--cor-texto-suave);
+  font-size: 14px;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  flex-grow: 1; /* Faz os botões ficarem alinhados embaixo */
+}
+
+/* Botão com estilo "Outline" que preenche no hover */
+.btn-cadastrar {
+  width: 100%;
+  padding: 12px;
+  background-color: transparent;
+  border: 1px solid var(--cor-primaria);
+  color: var(--cor-primaria);
+  border-radius: var(--raio-borda);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cadastrar:hover {
+  background-color: var(--cor-primaria);
+  color: white;
+}

@@ -1,33 +1,71 @@
 :root {
-  /* Cores da sua paleta - Ajuste os Hexadecimais conforme o Style Guide */
-  --cor-fundo-1: #121212;     /* Fundo principal do site */
-  --cor-fundo-2: #181818;     /* Fundo das sidebars */
-  --cor-fundo-3: #242424;     /* Fundo de cards/tabelas */
+  /* =========================================
+     🎨 PALETA DE CORES OFICIAL - METRÔ ACESSO
+     ========================================= */
   
-  --cor-destaque: #007BFF;    /* Sua cor principal de ação */
-  --cor-borda: #333333;       /* Cor de linhas e divisórias */
+  /* Brand Colours (Cor Principal) */
+  --cor-primaria: #009CDE; /* $brand-color */
+  --cor-primaria-hover: #0053A0; /* Usando o $support-01 para um hover perfeito */
   
-  --cor-texto-forte: #FFFFFF; /* Texto principal */
-  --cor-texto-suave: #A0A0A0; /* Texto secundário */
+  /* Dark Scale (Escala de Escuros para Textos e Fundos) */
+  --cor-texto-forte: #2B2B2B; /* $dark-10 (100%) - Títulos e textos principais */
+  --cor-texto-medio: #323232; /* $dark-20 (70%) - Textos secundários */
+  --cor-texto-suave: #4E4E4E; /* $dark-30 (40%) - Legendas e placeholders */
+  --cor-branco-transparente: rgba(255, 255, 255, 0.6); /* $dark-40 (10%) */
   
-  --cor-sucesso: #28A745;     /* Status positivo */
-  --cor-erro: #DC3545;        /* Status negativo */
+  /* Color System (Cores de Suporte / Status) */
+  --cor-info: #0053A0;    /* $support-01 - Message */
+  --cor-sucesso: #0BB07B; /* $support-02 - Success */
+  --cor-alerta: #FFCE52;  /* $support-03 - Warning (Amarelo) */
+  --cor-laranja: #FF9A52; /* $support-04 - Warning (Laranja) */
+  --cor-erro: #F03D3D;    /* $support-05 - Error */
+  
+  /* Fundos e Bordas */
+  --cor-borda: #E0E0E0; /* $support-06 - Information (Perfeito para divisórias e bordas) */
+  --cor-fundo-geral: #F4F6F8; /* Um cinza super claro (padrão de web) para contrastar com os cards brancos */
+  --cor-fundo-card: #FFFFFF; 
+  --cor-fundo-sidebar: #FFFFFF; 
+
+  /* =========================================
+     📏 ESPAÇAMENTOS E TIPOGRAFIA (Design System)
+     ========================================= */
+  --raio-borda: 8px; 
+  --sombra-leve: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --sombra-suave: 0 1px 3px rgba(0,0,0,0.05);
+
+  /* A Fonte Oficial do Projeto */
+  --fonte-principal: "Inter", sans-serif;
 }
 
+/* Reset básico para garantir que nada quebre */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body, html {
-  height: 100%;
-  background-color: var(--cor-fundo-1);
+/* Aplicando a fonte e as cores base no corpo inteiro do sistema */
+body {
+  font-family: var(--fonte-principal);
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: var(--cor-fundo-geral);
   color: var(--cor-texto-forte);
-  font-family: 'Inter', sans-serif;
-  overflow: hidden; /* Importante para o layout não quebrar */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  height: 100%;
+/* Scrollbar personalizada para combinar com a identidade */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cor-fundo-geral);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--cor-borda);
+  border-radius: var(--raio-borda);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-texto-suave);
 }

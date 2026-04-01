@@ -1,0 +1,101 @@
+.cadastro-container {
+  max-width: 600px;
+  margin: 0 auto; /* Centraliza o formulário na tela */
+  background-color: var(--cor-fundo-card);
+  padding: 40px;
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-leve);
+  border: 1px solid var(--cor-borda);
+}
+
+.cadastro-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.cadastro-header h2 {
+  color: var(--cor-texto-forte);
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.cadastro-header p {
+  color: var(--cor-texto-suave);
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cor-texto-medio);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Estiliza tanto os inputs de texto/senha quanto o select do PcD */
+.form-group input, 
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  font-family: var(--fonte-principal);
+  font-size: 14px;
+  color: var(--cor-texto-forte);
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: #ffffff;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  border-color: var(--cor-primaria);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* Joga os botões para a direita */
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-cancelar {
+  padding: 12px 24px;
+  background-color: transparent;
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto-medio);
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-cancelar:hover {
+  background-color: var(--cor-fundo-geral);
+  color: var(--cor-texto-forte);
+  border-color: #cbd5e1;
+}
+
+.btn-salvar {
+  padding: 12px 24px;
+  background-color: var(--cor-primaria);
+  color: white;
+  border: none;
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-salvar:hover:not(:disabled) {
+  background-color: var(--cor-primaria-hover);
+}
+
+.btn-salvar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
