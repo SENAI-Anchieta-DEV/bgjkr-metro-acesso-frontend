@@ -1,6 +1,6 @@
     import React, { useEffect, useState } from 'react';
 import { validacoesService } from '../services/validacoesService';
-import '../../styles/Admin.css'; // Reaproveitando seu CSS
+import '../../../styles/Admin.css'; 
 
 export default function ValidacoesPage() {
   const [formularios, setFormularios] = useState([]);
