@@ -1,10 +1,8 @@
 import axios from 'axios';
-
-// 1. Aponta para a porta padrão do teu Spring Boot
-const API_URL = 'http://localhost:8080';
+import { env } from '../config/env';
 
 export const httpClient = axios.create({
-  baseURL: API_URL,
+  baseURL: env.apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -36,7 +34,7 @@ httpClient.interceptors.response.use(
       localStorage.removeItem('@MetroAcesso:token');
       localStorage.removeItem('@MetroAcesso:user');
       
-      // Mais tarde vamos descomentar a linha abaixo para redirecionar para o login
+      // depois descomentar a linha abaixo para redirecionar para o login
       // window.location.href = '/login'; 
     }
     return Promise.reject(error);
