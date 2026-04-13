@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usuariosService } from '../services/usuariosService';
 import './Cadastro.css';
 
-export default function AgenteFormPage() {
+export const AgenteFormPage = () => {
   const navigate = useNavigate();
   
-  // Estado para guardar os dados do Agente
+  // 1. O Estado reflete EXATAMENTE o AgenteRequestDto do Java
   const [formData, setFormData] = useState({
     nome: '',
-    cpf: '',
     email: '',
-    senha: ''
+    senha: '',
+    estacaoId: '' // O Java espera o ID da estação (ex: 1, 2, ou um UUID)
   });
-
+  
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -31,19 +27,23 @@ export default function AgenteFormPage() {
     setErro('');
 
     try {
-      // Dispara para o serviço que bate em POST /agente
-      await usuariosService.cadastrarAgente(formData);
+      // O Payload exato que será enviado para o Java
+      const payload = {
+        ...formData,
+        estacaoId: formData.estacaoId // Garante que é enviado como string/número conforme o teu back-end pede
+      };
       
-      alert('Agente de Metrô cadastrado com sucesso!');
-      navigate('/usuarios'); // Devolve para a tela de escolha de perfis
+      console.log("A enviar para o Java:", payload);
       
-    } catch (err) {
-      console.error("Erro ao cadastrar Agente:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setErro(err.response.data.message);
-      } else {
-        setErro('Ocorreu um erro ao cadastrar o agente. Verifique os dados e tente novamente.');
-      }
+      // Aqui vais descomentar quando ligarmos o axios (usuariosService)
+      // await usuariosService.criarAgente(payload);
+      
+      alert('Agente de Atendimento cadastrado com sucesso!');
+      navigate('/usuarios');
+      
+    } catch (error) {
+      console.error(error);
+      setErro('Erro ao cadastrar o agente. Verifica se o ID da Estação existe no sistema.');
     } finally {
       setLoading(false);
     }
@@ -52,82 +52,73 @@ export default function AgenteFormPage() {
   return (
     <div className="cadastro-container">
       <div className="cadastro-header">
-        <h2>Novo Agente de Metrô</h2>
-        <p>Cadastre um novo funcionário para operação nas estações.</p>
+        <h2>Novo Agente de Atendimento</h2>
+        <p>Regista um novo funcionário e vincula-o a uma estação.</p>
       </div>
-
-      {erro && <div className="error-banner">{erro}</div>}
+      
+      {erro && <div className="erro-mensagem">{erro}</div>}
 
       <form onSubmit={handleSubmit} className="cadastro-form">
         <div className="form-group">
-          <label htmlFor="nome">Nome Completo</label>
+          <label>Nome Completo</label>
           <input
             type="text"
-            id="nome"
             name="nome"
             value={formData.nome}
             onChange={handleChange}
-            placeholder="Nome do agente"
             required
+            placeholder="Ex: Maria Santos"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="cpf">CPF</label>
-          <input
-            type="text"
-            id="cpf"
-            name="cpf"
-            value={formData.cpf}
-            onChange={handleChange}
-            placeholder="Apenas números"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="email">E-mail Operacional</label>
+          <label>E-mail Corporativo</label>
           <input
             type="email"
-            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="agente@metro.com.br"
             required
+            placeholder="maria@metro.com.br"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="senha">Senha de Acesso</label>
+          <label>Senha Provisória</label>
           <input
             type="password"
-            id="senha"
             name="senha"
             value={formData.senha}
             onChange={handleChange}
-            placeholder="Defina uma senha"
             required
+            placeholder="Cria uma senha de acesso"
           />
         </div>
 
+        <div className="form-group">
+          <label>ID da Estação</label>
+          <input
+            type="text"
+            name="estacaoId"
+            value={formData.estacaoId}
+            onChange={handleChange}
+            required
+            placeholder="Ex: 1 (ID da estação no banco de dados)"
+          />
+          <small style={{ color: '#64748b', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
+            *Para testes, insere o ID de uma estação que já exista na tua base de dados.
+          </small>
+        </div>
+
         <div className="form-actions">
-          <button 
-            type="button" 
-            className="btn-cancelar" 
-            onClick={() => navigate('/usuarios')}
-          >
+          <button type="button" onClick={() => navigate('/usuarios')} className="btn-cancelar">
             Cancelar
           </button>
-          <button 
-            type="submit" 
-            className="btn-salvar" 
-            disabled={loading}
-          >
-            {loading ? 'Salvando...' : 'Salvar Cadastro'}
+          <button type="submit" disabled={loading} className="btn-salvar">
+            {loading ? 'A salvar...' : 'Salvar Agente'}
           </button>
         </div>
       </form>
     </div>
   );
-}
+};

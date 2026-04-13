@@ -1,89 +1,265 @@
+/* src/features/usuarios/pages/GestaoUsuariosPage.css */
+
 .gestao-container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 24px;
+  animation: fadeIn 0.4s ease-out;
 }
 
-.gestao-header h1 {
-  color: var(--cor-texto-forte);
-  font-size: 24px;
-  margin-bottom: 5px;
+/* ================= HEADER DA PÁGINA ================= */
+.gestao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.gestao-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 4px;
 }
 
 .gestao-header p {
-  color: var(--cor-texto-suave);
-  font-size: 14px;
+  color: #64748B;
+  font-size: 0.875rem;
 }
 
-.cards-grid {
+.btn-adicionar {
+  background-color: #2563EB;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn-adicionar:hover {
+  background-color: #1D4ED8;
+  transform: translateY(-1px);
+}
+
+/* ================= CARTÕES DE ESTATÍSTICAS ================= */
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
 }
 
-.perfil-card {
-  background-color: var(--cor-fundo-card);
-  padding: 30px;
-  border-radius: var(--raio-borda);
-  border: 1px solid var(--cor-borda);
-  box-shadow: var(--sombra-suave);
+.stat-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.stat-title {
+  font-size: 0.875rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1E293B;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.stat-trend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.trend-up {
+  background-color: #DCFCE7;
+  color: #16A34A;
+}
+
+.trend-neutral {
+  background-color: #F1F5F9;
+  color: #64748B;
+}
+
+/* ================= TABELA DE USUÁRIOS ================= */
+.table-container {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.usuarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.usuarios-table th {
+  background-color: #F8FAFC;
+  padding: 16px 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.usuarios-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #E2E8F0;
+  vertical-align: middle;
+}
+
+.usuarios-table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+/* Perfil na Tabela (Avatar + Textos) */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #E0E7FF;
+  color: #3730A3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1E293B;
+  font-size: 0.875rem;
+}
+
+.user-email {
+  color: #64748B;
+  font-size: 0.75rem;
+}
+
+/* Badges de Função e Status */
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.role-admin { background-color: #EFF6FF; color: #1D4ED8; }
+.role-agente { background-color: #FAF5FF; color: #7E22CE; }
+.role-pcd { background-color: #FFF7ED; color: #C2410C; }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-ativo .status-dot { background-color: #10B981; box-shadow: 0 0 0 3px #D1FAE5; }
+.status-inativo .status-dot { background-color: #EF4444; box-shadow: 0 0 0 3px #FEE2E2; }
+
+/* Botões de Ação na Tabela */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  color: #94A3B8;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-edit:hover { background-color: #EFF6FF; color: #2563EB; }
+.btn-delete:hover { background-color: #FEF2F2; color: #EF4444; }
+
+
+.empty-state {
+  padding: 80px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-/* Efeito 3D super moderno ao passar o mouse */
-.perfil-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--sombra-leve);
-  border-color: var(--cor-primaria);
-}
-
-.card-icon {
-  background-color: rgba(0, 156, 222, 0.1); /* Um fundo azul transparente da sua paleta */
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
   justify-content: center;
+  text-align: center;
+  background-color: #FFFFFF;
+}
+
+.empty-icon {
+  margin-bottom: 16px;
+  background-color: #F8FAFC;
+  width: 80px;
+  height: 80px;
+  display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: center;
+  border-radius: 50%;
 }
 
-.card-icon img {
-  width: 30px;
-}
-
-.perfil-card h3 {
-  color: var(--cor-texto-forte);
-  margin-bottom: 10px;
-  font-size: 18px;
-}
-
-.perfil-card p {
-  color: var(--cor-texto-suave);
-  font-size: 14px;
-  margin-bottom: 25px;
-  line-height: 1.5;
-  flex-grow: 1; /* Faz os botões ficarem alinhados embaixo */
-}
-
-/* Botão com estilo "Outline" que preenche no hover */
-.btn-cadastrar {
-  width: 100%;
-  padding: 12px;
-  background-color: transparent;
-  border: 1px solid var(--cor-primaria);
-  color: var(--cor-primaria);
-  border-radius: var(--raio-borda);
+.empty-state h3 {
+  font-size: 1.125rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+  color: #1E293B;
+  margin-bottom: 8px;
 }
 
-.btn-cadastrar:hover {
-  background-color: var(--cor-primaria);
-  color: white;
+.empty-state p {
+  color: #64748B;
+  font-size: 0.875rem;
+  max-width: 320px;
+  line-height: 1.5;
 }
