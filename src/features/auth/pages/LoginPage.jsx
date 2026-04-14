@@ -1,31 +1,33 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../useAuth";
-import "./LoginPage.css"; 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../useAuth';
+import './LoginPage.css';
 
-export default function LoginPage() {
+export function LoginPage() {
   const navigate = useNavigate();
-  const { signIn } = useAuth(); 
+  const { signIn } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState("");
+  const [erro, setErro] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErro("");
+    setErro('');
     setLoading(true);
 
     try {
       await signIn(email, senha);
-      navigate("/admin");
+      navigate('/dashboard');
     } catch (err) {
-      console.error("Falha no login:", err);
-      if (err.response?.data?.message) {
+      console.error('Falha no login:', err);
+      if (err.response?.data?.detail) {
+        setErro(err.response.data.detail);
+      } else if (err.response?.data?.message) {
         setErro(err.response.data.message);
       } else {
-        setErro("E-mail ou senha inválidos. Tente novamente.");
+        setErro('E-mail ou senha inválidos. Tente novamente.');
       }
     } finally {
       setLoading(false);
@@ -36,7 +38,7 @@ export default function LoginPage() {
     <div className="login-container">
       <div className="login-box">
         <h2 className="login-title">Acesso ao Sistema</h2>
-        <p className="login-subtitle">Metrô Acesso - Gestão de PcDs</p>
+        <p className="login-subtitle">Metrô Acesso — Gestão de PcDs</p>
 
         <form onSubmit={handleLogin} className="login-form">
           <div className="input-group">
@@ -66,10 +68,12 @@ export default function LoginPage() {
           {erro && <div className="erro-mensagem">{erro}</div>}
 
           <button type="submit" className="btn-login" disabled={loading}>
-            {loading ? "Entrando..." : "Entrar"}
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
       </div>
     </div>
   );
 }
+
+export default LoginPage;
