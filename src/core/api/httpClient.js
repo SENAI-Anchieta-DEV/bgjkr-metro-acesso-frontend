@@ -1,41 +1,38 @@
 import axios from 'axios';
-import { env } from '../config/env';
 
 export const httpClient = axios.create({
-  baseURL: env.apiBaseUrl,
+  baseURL: 'http://localhost:8080',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// 2. Intercetor de Pedido: Antes de enviar qualquer pedido ao Java...
-httpClient.interceptors.request.use(
-  (config) => {
-    // Procura o token guardado no navegador (vamos guardar isto no login)
-    const token = localStorage.getItem('@MetroAcesso:token');
-    
-    // Se existir token, coloca o "Bearer" que o backend exige
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// 1. INTERCEPTADOR DE ENVIO (Coloca o token no cabeçalho)
+httpClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('@MetroAcesso:token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-// 3. Intercetor de Resposta: Trata os erros globais (ex: Token inválido)
+// 2. INTERCEPTADOR DE RESPOSTA (O "Sensor" de Expiração)
 httpClient.interceptors.response.use(
-  (response) => response,
+  (response) => response, // Se a resposta for OK (200), não faz nada
   (error) => {
-    // Se o Java devolver 403 (Proibido) ou 401 (Não Autorizado) -> Token expirou
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      console.error("Sessão expirada ou não autorizada.");
+    // Se o servidor devolver 401 (Token Expirado ou Inválido)
+    if (error.response && error.response.status === 401) {
+      console.warn("Sessão expirada. Redirecionando para o login...");
+      
+      // Limpa os dados do utilizador para "deslogar" no Front-end
       localStorage.removeItem('@MetroAcesso:token');
       localStorage.removeItem('@MetroAcesso:user');
       
-      // depois descomentar a linha abaixo para redirecionar para o login
-      // window.location.href = '/login'; 
+      // Força o redirecionamento para o login
+      // Nota: window.location.href garante que o estado do React seja resetado
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

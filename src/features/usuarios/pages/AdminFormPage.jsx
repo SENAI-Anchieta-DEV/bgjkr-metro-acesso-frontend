@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usuariosService } from '../services/usuariosService';
-import './Cadastro.css'; // Usamos o seu CSS de cadastro original
+import './Cadastro.css'; 
 
-export default function AdminFormPage() {
+// 1. CORREÇÃO: Usando 'export const' para não quebrar a rota (tela branca)
+export const AdminFormPage = () => {
   const navigate = useNavigate();
   
-  // Estado para guardar os dados digitados
+  // 2. CORREÇÃO: Estado apenas com nome, email e senha (Exatamente o que o Java DTO pede)
   const [formData, setFormData] = useState({
     nome: '',
-    cpf: '',
     email: '',
     senha: ''
   });
@@ -17,7 +17,6 @@ export default function AdminFormPage() {
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
 
-  // Função para atualizar o estado quando o usuário digita
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -26,22 +25,20 @@ export default function AdminFormPage() {
     }));
   };
 
-  // Função que dispara quando clica em "Salvar"
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErro('');
 
     try {
-      // Chama o serviço que vai bater no Back-end (POST /admin)
+      // 3. INTEGRAÇÃO: Dispara a requisição para o backend
       await usuariosService.cadastrarAdmin(formData);
       
       alert('Administrador cadastrado com sucesso!');
-      navigate('/usuarios'); // Volta para a tela dos 3 cards
+      navigate('/usuarios'); 
       
     } catch (err) {
       console.error("Erro ao cadastrar Admin:", err);
-      // Se o Java devolver uma mensagem de erro (ex: Email já existe)
       if (err.response && err.response.data && err.response.data.message) {
         setErro(err.response.data.message);
       } else {
@@ -75,18 +72,7 @@ export default function AdminFormPage() {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="cpf">CPF</label>
-          <input
-            type="text"
-            id="cpf"
-            name="cpf"
-            value={formData.cpf}
-            onChange={handleChange}
-            placeholder="Apenas números"
-            required
-          />
-        </div>
+        {/* CAMPO CPF REMOVIDO: O AdminRequestDto.java não exige CPF */}
 
         <div className="form-group">
           <label htmlFor="email">E-mail Corporativo</label>
@@ -133,4 +119,4 @@ export default function AdminFormPage() {
       </form>
     </div>
   );
-}
+};
