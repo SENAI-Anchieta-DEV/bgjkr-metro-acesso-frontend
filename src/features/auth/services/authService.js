@@ -8,7 +8,7 @@ export const authService = {
   login: async (credentials) => {
     // CORREÇÃO: Adicionado /api antes do /auth
     // Verifique se no seu Java o Controller tem @RequestMapping("/api/auth")
-    const response = await httpClient.post('/api/auth/login', credentials);
+    const response = await httpClient.post('/auth/login', credentials);
     return response.data;
   },
 

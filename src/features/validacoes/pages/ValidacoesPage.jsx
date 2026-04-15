@@ -83,7 +83,7 @@ export default function ValidacoesPage() {
                   <td><span className="badge-info">{form.tipoDeficiencia}</span></td>
                   <td>{new Date(form.dataSolicitacao).toLocaleDateString('pt-BR')}</td>
                   <td>
-                    <a href={`http://localhost:8080/files/${form.caminhoComprovante}`} target="_blank" rel="noreferrer" className="btn-view">
+                    <a href={`https://metro-acesso-backend.onrender.com/${form.caminhoComprovante}`} target="_blank" rel="noreferrer" className="btn-view">
                       Ver Laudo
                     </a>
                   </td>
