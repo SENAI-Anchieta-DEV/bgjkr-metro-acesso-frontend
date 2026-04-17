@@ -1,3 +1,3 @@
 export const env = {
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'https://metro-acesso-backend.onrender.com'
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL
 };

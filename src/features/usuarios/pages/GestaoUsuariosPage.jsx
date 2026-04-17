@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { httpClient } from '../../../core/api/httpClient';
+import { usuariosService } from '../services/usuariosService';
 import './GestaoUsuariosPage.css';
 
 export const GestaoUsuariosPage = () => {
@@ -18,13 +18,10 @@ export const GestaoUsuariosPage = () => {
     setErro('');
     try {
       // Busca admins e agentes em paralelo
-      const [adminsRes, agentesRes] = await Promise.all([
-        httpClient.get('/api/admin'),
-        httpClient.get('/api/agente'),
+      const [admins, agentes] = await Promise.all([
+        usuariosService.listarAdmins(),
+        usuariosService.listarAgentes(),
       ]);
-
-      const admins = adminsRes.data.map((u) => ({ ...u, role: 'ADMINISTRADOR', ativo: true }));
-      const agentes = agentesRes.data.map((u) => ({ ...u, role: 'AGENTE_ATENDIMENTO', ativo: true }));
       setUsuarios([...admins, ...agentes]);
     } catch (err) {
       console.error('Erro ao carregar usuários:', err);
@@ -34,23 +31,16 @@ export const GestaoUsuariosPage = () => {
     }
   };
 
-  const handleRemoverAdmin = async (email) => {
-    if (!confirm(`Remover o administrador ${email}?`)) return;
+  const handleRemover = async (user) => {
+    if (!confirm(`Remover ${user.email}?`)) return;
+    const fn = user.role === 'ADMINISTRADOR'
+      ? usuariosService.removerAdmin
+      : usuariosService.removerAgente;
     try {
-      await httpClient.delete(`/api/admin/${email}`);
-      setUsuarios((prev) => prev.filter((u) => u.email !== email));
+      await fn(user.email);
+      setUsuarios(prev => prev.filter(u => u.email !== user.email));
     } catch {
-      alert('Erro ao remover o administrador.');
-    }
-  };
-
-  const handleRemoverAgente = async (email) => {
-    if (!confirm(`Remover o agente ${email}?`)) return;
-    try {
-      await httpClient.delete(`/api/agente/${email}`);
-      setUsuarios((prev) => prev.filter((u) => u.email !== email));
-    } catch {
-      alert('Erro ao remover o agente.');
+      alert('Erro ao remover.');
     }
   };
 
@@ -147,11 +137,7 @@ export const GestaoUsuariosPage = () => {
                       <button
                         className="btn-icon btn-delete"
                         title="Remover"
-                        onClick={() =>
-                          user.role === 'ADMINISTRADOR'
-                            ? handleRemoverAdmin(user.email)
-                            : handleRemoverAgente(user.email)
-                        }
+                        onClick={handleRemover(user.email)}
                       >
                         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

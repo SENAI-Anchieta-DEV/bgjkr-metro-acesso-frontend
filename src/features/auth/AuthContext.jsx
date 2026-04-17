@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   function signOut() {
-    localStorage.clear();
+    authService.logout();
     setUser(null);
   }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../useAuth';
 import './LoginPage.css';
+import { getErrorMessage } from '../../../core/utils/error';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -22,10 +23,8 @@ export function LoginPage() {
       navigate('/dashboard');
     } catch (err) {
       console.error('Falha no login:', err);
-      if (err.response?.data?.detail) {
-        setErro(err.response.data.detail);
-      } else if (err.response?.data?.message) {
-        setErro(err.response.data.message);
+      if (err.response?.data?.detail || err.response?.data?.message) {
+        setErro(getErrorMessage(err, 'Tente novamente.'));
       } else {
         setErro('E-mail ou senha inválidos. Tente novamente.');
       }

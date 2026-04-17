@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usuariosService } from '../services/usuariosService';
 import './Cadastro.css'; 
+import { getErrorMessage } from '../../../core/utils/error';
 
 // 1. CORREÇÃO: Usando 'export const' para não quebrar a rota (tela branca)
 export const AdminFormPage = () => {
@@ -39,11 +40,7 @@ export const AdminFormPage = () => {
       
     } catch (err) {
       console.error("Erro ao cadastrar Admin:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setErro(err.response.data.message);
-      } else {
-        setErro('Ocorreu um erro ao cadastrar o administrador. Verifique os dados.');
-      }
+      setErro(getErrorMessage(err, 'Ocorreu um erro...'))
     } finally {
       setLoading(false);
     }

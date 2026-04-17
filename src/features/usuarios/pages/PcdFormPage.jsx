@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { httpClient } from '../../../core/api/httpClient';
 import './Cadastro.css';
+import { usuariosService } from '../services/usuariosService';
+import { getErrorMessage } from '../../../core/utils/error';
 
 export const PcdFormPage = () => {
   const navigate = useNavigate();
@@ -67,15 +68,12 @@ export const PcdFormPage = () => {
       formData.tiposDeficiencia.forEach((tipo) => data.append('tiposDeficiencia', tipo));
       data.append('comprovacao', comprovacao);
 
-      await httpClient.post('/api/formulario', data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      await usuariosService.cadastrarPcd(data);
 
       setSucesso(true);
-    } catch (error) {
-      console.error(error);
-      const msg = error.response?.data?.detail || error.response?.data?.message;
-      setErro(msg || 'Erro ao enviar a solicitação. Tente novamente.');
+    } catch (err) {
+      console.error(err);
+      setErro(getErrorMessage(err, 'Tente novamente.'));
     } finally {
       setLoading(false);
     }

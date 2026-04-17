@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { env } from '../config/env';
 
 export const httpClient = axios.create({
-  baseURL: 'https://metro-acesso-backend.onrender.com',
+  baseURL: env.apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,7 +22,7 @@ httpClient.interceptors.response.use(
   (response) => response, // Se a resposta for OK (200), não faz nada
   (error) => {
     // Se o servidor devolver 401 (Token Expirado ou Inválido)
-    if (error.response && error.response.status === 401) {
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
       console.warn("Sessão expirada. Redirecionando para o login...");
       
       // Limpa os dados do utilizador para "deslogar" no Front-end

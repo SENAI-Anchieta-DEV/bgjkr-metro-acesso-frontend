@@ -1,10 +1,11 @@
+import { usuariosService } from '../services/usuariosService';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cadastro.css';
 
 export const AgenteFormPage = () => {
   const navigate = useNavigate();
-  
+
   // 1. O Estado reflete EXATAMENTE o AgenteRequestDto do Java
   const [formData, setFormData] = useState({
     nome: '',
@@ -12,7 +13,7 @@ export const AgenteFormPage = () => {
     senha: '',
     estacaoId: '' // O Java espera o ID da estação (ex: 1, 2, ou um UUID)
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
 
@@ -27,20 +28,9 @@ export const AgenteFormPage = () => {
     setErro('');
 
     try {
-      // O Payload exato que será enviado para o Java
-      const payload = {
-        ...formData,
-        estacaoId: formData.estacaoId // Garante que é enviado como string/número conforme o teu back-end pede
-      };
-      
-      console.log("A enviar para o Java:", payload);
-      
-      // Aqui vais descomentar quando ligarmos o axios (usuariosService)
-      // await usuariosService.criarAgente(payload);
-      
+      await usuariosService.cadastrarAgente(formData);  // sem payload intermediário
       alert('Agente de Atendimento cadastrado com sucesso!');
       navigate('/usuarios');
-      
     } catch (error) {
       console.error(error);
       setErro('Erro ao cadastrar o agente. Verifica se o ID da Estação existe no sistema.');
@@ -55,7 +45,7 @@ export const AgenteFormPage = () => {
         <h2>Novo Agente de Atendimento</h2>
         <p>Regista um novo funcionário e vincula-o a uma estação.</p>
       </div>
-      
+
       {erro && <div className="erro-mensagem">{erro}</div>}
 
       <form onSubmit={handleSubmit} className="cadastro-form">

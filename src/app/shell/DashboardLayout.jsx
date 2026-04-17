@@ -13,57 +13,45 @@ import SairIcon from '../../assets/sair.svg';
 import BellIcon from '../../assets/TopAction/Bell.svg';
 import ChatIcon from '../../assets/TopAction/Chat.svg';
 
+const SidebarLink = React.memo(({ to, icon, label }) => (
+  <NavLink
+    to={to}
+    className={({ isActive }) =>
+      isActive ? "nav-item active" : "nav-item"
+    }
+  >
+    <img src={icon} alt={label} />
+    {label}
+  </NavLink>
+));
+
 export const DashboardLayout = () => {
   const { user, signOut } = useAuth();
 
-  const getInitials = (name) => {
-    if (!name) return 'A';
-    return name.charAt(0).toUpperCase();
+  const getInitials = (nome) => {
+    if (!nome) return 'A';
+    return nome.charAt(0).toUpperCase();
   };
 
   return (
     <div className="dashboard-wrapper">
-      
+
       {/* SIDEBAR ESCURA */}
       <aside className="sidebar">
         <div className="sidebar-logo">
-          {/* Pode ser que o teu SVG da logo precise estar branco. Se estiver escuro, 
-              o CSS que mandei já tenta clarear a sidebar inteira. */}
           <img src={LogoImg} alt="Metrô Acesso" style={{ filter: 'brightness(0) invert(1)' }} />
         </div>
 
         <nav className="sidebar-nav">
-          <NavLink to="/" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-            <img src={HomeIcon} alt="Home" />
-            Home
-          </NavLink>
-          
-          <NavLink to="/controle-acesso" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-            <img src={ValidarIcon} alt="Controle" />
-            Controle de Acesso
-          </NavLink>
+          <SidebarLink to="/" icon={HomeIcon} label="Landing page" /> {/* TROCAR NOME DO ICON!!! */}
+          <SidebarLink to="/controle-acesso" icon={ValidarIcon} label="Controle de Acesso" />
+          <SidebarLink to="/monitoramento" icon={PendenciasIcon} label="Monitoramento" />
+          <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações PCD" />
+          <SidebarLink to="/relatorios" icon={PendenciasIcon} label="Relatórios" />
 
-          <NavLink to="/monitoramento" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-            <img src={PendenciasIcon} alt="Monitoramento" />
-            Monitoramento
-          </NavLink>
-          
           {user?.role === 'ADMINISTRADOR' && (
-            <NavLink to="/usuarios" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-              <img src={UsersIcon} alt="Usuários" />
-              Gestão de Usuários
-            </NavLink>
+            <SidebarLink to="/usuarios" icon={UsersIcon} label="Gestão de Usuários" />
           )}
-
-          <NavLink to="/validacoes" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-            <img src={ValidarIcon} alt="Validações PCD" />
-            Validações PCD
-          </NavLink>
-
-          <NavLink to="/relatorios" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
-            <img src={PendenciasIcon} alt="Relatórios" />
-            Relatórios
-          </NavLink>
         </nav>
 
         <div className="sidebar-footer">
@@ -76,13 +64,13 @@ export const DashboardLayout = () => {
 
       {/* ÁREA CENTRAL */}
       <main className="main-area">
-        
+
         {/* TOPBAR COM PESQUISA */}
         <header className="topbar">
           <div className="search-container">
             <input type="text" className="search-input" placeholder="Pesquisar..." />
           </div>
-          
+
           <div className="topbar-actions">
             <div className="action-icons">
               <button className="action-btn">
@@ -93,7 +81,7 @@ export const DashboardLayout = () => {
                 <span className="notification-dot"></span>
               </button>
             </div>
-            
+
             <div className="user-profile">
               <div className="user-info">
                 <span className="user-name">{user?.nome || 'Admin Master'}</span>
