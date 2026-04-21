@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usuariosService } from '../services/usuariosService';
-import './Cadastro.css'; 
 import { getErrorMessage } from '../../../core/utils/error';
+import './Cadastro.css';
 
-// 1. CORREÇÃO: Usando 'export const' para não quebrar a rota (tela branca)
 export const AdminFormPage = () => {
   const navigate = useNavigate();
-  
-  // 2. CORREÇÃO: Estado apenas com nome, email e senha (Exatamente o que o Java DTO pede)
+
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
-    senha: ''
+    senha: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -20,10 +18,7 @@ export const AdminFormPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -32,15 +27,12 @@ export const AdminFormPage = () => {
     setErro('');
 
     try {
-      // 3. INTEGRAÇÃO: Dispara a requisição para o backend
       await usuariosService.cadastrarAdmin(formData);
-      
       alert('Administrador cadastrado com sucesso!');
-      navigate('/usuarios'); 
-      
+      navigate('/usuarios');
     } catch (err) {
-      console.error("Erro ao cadastrar Admin:", err);
-      setErro(getErrorMessage(err, 'Ocorreu um erro...'))
+      console.error('Erro ao cadastrar Admin:', err);
+      setErro(getErrorMessage(err, 'Ocorreu um erro ao cadastrar o administrador.'));
     } finally {
       setLoading(false);
     }
@@ -49,8 +41,9 @@ export const AdminFormPage = () => {
   return (
     <div className="cadastro-container">
       <div className="cadastro-header">
+        <div className="cadastro-badge admin">Administrador</div>
         <h2>Novo Administrador</h2>
-        <p>Preencha os dados abaixo para criar um novo acesso de gestão.</p>
+        <p>Preencha os dados para criar um novo acesso de gestão completo ao sistema.</p>
       </div>
 
       {erro && <div className="error-banner">{erro}</div>}
@@ -68,8 +61,6 @@ export const AdminFormPage = () => {
             required
           />
         </div>
-
-        {/* CAMPO CPF REMOVIDO: O AdminRequestDto.java não exige CPF */}
 
         <div className="form-group">
           <label htmlFor="email">E-mail Corporativo</label>
@@ -92,25 +83,26 @@ export const AdminFormPage = () => {
             name="senha"
             value={formData.senha}
             onChange={handleChange}
-            placeholder="Crie uma senha forte"
+            placeholder="Mínimo 8 caracteres"
             required
+            minLength={8}
           />
         </div>
 
         <div className="form-actions">
-          <button 
-            type="button" 
-            className="btn-cancelar" 
+          <button
+            type="button"
+            className="btn-cancelar"
             onClick={() => navigate('/usuarios')}
           >
             Cancelar
           </button>
-          <button 
-            type="submit" 
-            className="btn-salvar" 
+          <button
+            type="submit"
+            className="btn-salvar"
             disabled={loading}
           >
-            {loading ? 'Salvando...' : 'Salvar Cadastro'}
+            {loading ? 'A guardar...' : 'Guardar Administrador'}
           </button>
         </div>
       </form>

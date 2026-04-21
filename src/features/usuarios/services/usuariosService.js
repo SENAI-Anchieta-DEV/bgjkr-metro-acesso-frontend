@@ -34,7 +34,7 @@ export const usuariosService = {
 
   cadastrarPcd: async (formData) => {
     // Como envia arquivo, o header precisa ser multipart/form-data
-    const response = await httpClient.post('/api/formulario/solicitar', formData);
+    const response = await httpClient.post('/api/formulario', formData);
     return response.data;
   },
 

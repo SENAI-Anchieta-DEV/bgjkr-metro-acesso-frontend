@@ -1,17 +1,21 @@
 import { usuariosService } from '../services/usuariosService';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getErrorMessage } from '../../../core/utils/error';
 import './Cadastro.css';
 
 export const AgenteFormPage = () => {
   const navigate = useNavigate();
 
-  // 1. O Estado reflete EXATAMENTE o AgenteRequestDto do Java
+  // Estado reflete EXATAMENTE o AgenteRequestDto do Java
+  // nome, email, senha, inicioTurno, fimTurno, codigoEstacao
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
     senha: '',
-    estacaoId: '' // O Java espera o ID da estação (ex: 1, 2, ou um UUID)
+    inicioTurno: '',
+    fimTurno: '',
+    codigoEstacao: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -28,12 +32,12 @@ export const AgenteFormPage = () => {
     setErro('');
 
     try {
-      await usuariosService.cadastrarAgente(formData);  // sem payload intermediário
+      await usuariosService.cadastrarAgente(formData);
       alert('Agente de Atendimento cadastrado com sucesso!');
       navigate('/usuarios');
-    } catch (error) {
-      console.error(error);
-      setErro('Erro ao cadastrar o agente. Verifica se o ID da Estação existe no sistema.');
+    } catch (err) {
+      console.error(err);
+      setErro(getErrorMessage(err, 'Erro ao cadastrar o agente. Verifique se o código da Estação existe no sistema.'));
     } finally {
       setLoading(false);
     }
@@ -42,11 +46,12 @@ export const AgenteFormPage = () => {
   return (
     <div className="cadastro-container">
       <div className="cadastro-header">
-        <h2>Novo Agente de Atendimento</h2>
-        <p>Regista um novo funcionário e vincula-o a uma estação.</p>
+        <div className="cadastro-badge agente">Agente de Atendimento</div>
+        <h2>Novo Agente</h2>
+        <p>Regista um novo funcionário e vincula-o a uma estação de atendimento.</p>
       </div>
 
-      {erro && <div className="erro-mensagem">{erro}</div>}
+      {erro && <div className="error-banner">{erro}</div>}
 
       <form onSubmit={handleSubmit} className="cadastro-form">
         <div className="form-group">
@@ -81,22 +86,46 @@ export const AgenteFormPage = () => {
             value={formData.senha}
             onChange={handleChange}
             required
-            placeholder="Cria uma senha de acesso"
+            minLength={8}
+            placeholder="Mínimo 8 caracteres"
           />
         </div>
 
+        <div className="form-row">
+          <div className="form-group">
+            <label>Início do Turno</label>
+            <input
+              type="time"
+              name="inicioTurno"
+              value={formData.inicioTurno}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Fim do Turno</label>
+            <input
+              type="time"
+              name="fimTurno"
+              value={formData.fimTurno}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
         <div className="form-group">
-          <label>ID da Estação</label>
+          <label>Código da Estação</label>
           <input
             type="text"
-            name="estacaoId"
-            value={formData.estacaoId}
+            name="codigoEstacao"
+            value={formData.codigoEstacao}
             onChange={handleChange}
             required
-            placeholder="Ex: 1 (ID da estação no banco de dados)"
+            placeholder="Ex: EST-001 (código cadastrado no sistema)"
           />
-          <small style={{ color: '#64748b', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
-            *Para testes, insere o ID de uma estação que já exista na tua base de dados.
+          <small className="form-hint">
+            Insira o código de uma estação já cadastrada no sistema.
           </small>
         </div>
 
@@ -105,7 +134,7 @@ export const AgenteFormPage = () => {
             Cancelar
           </button>
           <button type="submit" disabled={loading} className="btn-salvar">
-            {loading ? 'A salvar...' : 'Salvar Agente'}
+            {loading ? 'A guardar...' : 'Guardar Agente'}
           </button>
         </div>
       </form>

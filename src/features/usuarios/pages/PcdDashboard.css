@@ -1,0 +1,153 @@
+.pcd-dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pcd-dashboard-header {
+  margin-bottom: 2.5rem;
+}
+
+.pcd-dashboard-header h1 {
+  font-size: 2rem;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.pcd-dashboard-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.pcd-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.pcd-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid #f1f5f9;
+}
+
+.pcd-card h3 {
+  font-size: 1.25rem;
+  color: #334155;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 0.75rem;
+}
+
+.tag-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.tag-icon {
+  font-size: 2rem;
+}
+
+.tag-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-label {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.tag-code {
+  font-family: monospace;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.tag-badge {
+  margin-left: auto;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pending {
+  color: #94a3b8;
+  text-align: center;
+  padding: 1rem;
+}
+
+.support-status {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.support-badge {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.support-badge.yes {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.support-badge.no {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.support-status p {
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.info-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-card li {
+  padding: 0.75rem 0;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.info-card li::before {
+  content: "•";
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+.info-card li:last-child {
+  border-bottom: none;
+}
+
+.pcd-dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.1rem;
+  color: #64748b;
+}

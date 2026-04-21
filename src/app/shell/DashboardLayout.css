@@ -53,20 +53,33 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
+  gap: 14px;
+  padding: 12px 14px;
   text-decoration: none;
   color: var(--sidebar-text);
   border-radius: 8px;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: transparent;
+  border-radius: 0 8px 8px 0;
+  transition: background-color 0.2s ease;
 }
 
 /* Para garantir que os SVGs pretos fiquem brancos/cinzas na sidebar escura */
@@ -87,8 +100,12 @@
 }
 
 .nav-item.active {
-  background-color: var(--sidebar-active);
+  background-color: rgba(37, 99, 235, 0.1);
   color: var(--sidebar-active-text);
+}
+
+.nav-item.active::before {
+  background-color: var(--sidebar-active);
 }
 
 .nav-item.active img {
@@ -98,6 +115,7 @@
 .sidebar-footer {
   padding: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
 }
 
 .btn-sair {
@@ -264,4 +282,5 @@
   flex: 1;
   padding: 32px;
   overflow-y: auto;
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
 }

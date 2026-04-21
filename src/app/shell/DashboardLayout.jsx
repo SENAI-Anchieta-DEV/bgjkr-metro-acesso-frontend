@@ -43,14 +43,15 @@ export const DashboardLayout = () => {
         </div>
 
         <nav className="sidebar-nav">
-          <SidebarLink to="/" icon={HomeIcon} label="Landing page" /> {/* TROCAR NOME DO ICON!!! */}
-          <SidebarLink to="/controle-acesso" icon={ValidarIcon} label="Controle de Acesso" />
-          <SidebarLink to="/monitoramento" icon={PendenciasIcon} label="Monitoramento" />
-          <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações PCD" />
-          <SidebarLink to="/relatorios" icon={PendenciasIcon} label="Relatórios" />
-
+          <SidebarLink to="/dashboard" icon={HomeIcon} label="Início" />
           {user?.role === 'ADMINISTRADOR' && (
-            <SidebarLink to="/usuarios" icon={UsersIcon} label="Gestão de Usuários" />
+            <>
+              <SidebarLink to="/usuarios" icon={UsersIcon} label="Gestão de Usuários" />
+              <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações PCD" />
+            </>
+          )}
+          {user?.role === 'AGENTE_ATENDIMENTO' && (
+            <SidebarLink to="/atendimento" icon={PendenciasIcon} label="Atendimento" />
           )}
         </nav>
 
@@ -84,13 +85,17 @@ export const DashboardLayout = () => {
 
             <div className="user-profile">
               <div className="user-info">
-                <span className="user-name">{user?.nome || 'Admin Master'}</span>
+                <span className="user-name">{user?.nome || 'Usuário'}</span>
                 <span className="user-role">
-                  {user?.role === 'ADMINISTRADOR' ? 'Administrador' : 'Agente'}
+                  {user?.role === 'ADMINISTRADOR' 
+                    ? 'Administrador' 
+                    : user?.role === 'AGENTE_ATENDIMENTO'
+                    ? 'Agente'
+                    : 'PCD'}
                 </span>
               </div>
               <div className="avatar">
-                {getInitials(user?.nome || 'Admin')}
+                {getInitials(user?.nome || 'Usuário')}
               </div>
             </div>
           </div>
