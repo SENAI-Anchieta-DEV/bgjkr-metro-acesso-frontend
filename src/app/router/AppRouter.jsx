@@ -1,3 +1,17 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from '../../features/auth/useAuth';
+
+import { DashboardLayout } from '../shell/DashboardLayout';
+import { ProtectedRoute } from './ProtectedRoute';
+import { LandingPage } from '../shell/LandingPage';
+import { LoginPage } from '../../features/auth/pages/LoginPage';
+import { PcdFormPage } from '../../features/usuarios/pages/PcdFormPage';
+import { GestaoUsuariosPage } from '../../features/usuarios/pages/GestaoUsuariosPage';
+import { AgenteFormPage } from '../../features/usuarios/pages/AgenteFormPage';
+import { AdminFormPage } from '../../features/usuarios/pages/AdminFormPage';
+
+
 export const AppRouter = () => {
   const { signed, loading } = useAuth();
 
