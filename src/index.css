@@ -22,12 +22,12 @@
   
   /* Fundos e Bordas */
   --cor-borda: #E0E0E0; /* $support-06 - Information (Perfeito para divisórias e bordas) */
-  --cor-fundo-geral: #F4F6F8; /* Um cinza super claro (padrão de web) para contrastar com os cards brancos */
+  --cor-fundo-geral: #282828; /* Um cinza super claro (padrão de web) para contrastar com os cards brancos */
   --cor-fundo-card: #FFFFFF; 
   --cor-fundo-sidebar: #FFFFFF; 
 
   /* =========================================
-     📏 ESPAÇAMENTOS E TIPOGRAFIA (Design System)
+      ESPAÇAMENTOS E TIPOGRAFIA (Design System)
      ========================================= */
   --raio-borda: 8px; 
   --sombra-leve: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
