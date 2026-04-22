@@ -8,9 +8,9 @@
   --cor-primaria-hover: #0053A0; /* Usando o $support-01 para um hover perfeito */
   
   /* Dark Scale (Escala de Escuros para Textos e Fundos) */
-  --cor-texto-forte: #2B2B2B; /* $dark-10 (100%) - Títulos e textos principais */
-  --cor-texto-medio: #323232; /* $dark-20 (70%) - Textos secundários */
-  --cor-texto-suave: #4E4E4E; /* $dark-30 (40%) - Legendas e placeholders */
+  --cor-texto-forte: #ffffff; /* $dark-10 (100%) - Títulos e textos principais */
+  --cor-texto-medio: #ffffff70; /* $dark-20 (70%) - Textos secundários */
+  --cor-texto-suave: #ffffff40; /* $dark-30 (40%) - Legendas e placeholders */
   --cor-branco-transparente: rgba(255, 255, 255, 0.6); /* $dark-40 (10%) */
   
   /* Color System (Cores de Suporte / Status) */
@@ -21,10 +21,10 @@
   --cor-erro: #F03D3D;    /* $support-05 - Error */
   
   /* Fundos e Bordas */
-  --cor-borda: #E0E0E0; /* $support-06 - Information (Perfeito para divisórias e bordas) */
+
   --cor-fundo-geral: #282828; /* Um cinza super claro (padrão de web) para contrastar com os cards brancos */
-  --cor-fundo-card: #FFFFFF; 
-  --cor-fundo-sidebar: #FFFFFF; 
+  --cor-fundo-card: #323232; 
+  --cor-fundo-sidebar: #323232; /* Mesma cor do fundo geral para uma integração suave */
 
   /* =========================================
       ESPAÇAMENTOS E TIPOGRAFIA (Design System)
@@ -53,6 +53,7 @@ body {
   color: var(--cor-texto-forte);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: none;
 }
 
 /* Scrollbar personalizada para combinar com a identidade */
