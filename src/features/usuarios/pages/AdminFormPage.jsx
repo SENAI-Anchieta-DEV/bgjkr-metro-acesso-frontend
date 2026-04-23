@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAsync } from '../../../core/hooks/useAsync';
 import { usuariosService } from '../services/usuariosService';
 import { getErrorMessage } from '../../../core/utils/error';
 import './Cadastro.css';
@@ -13,29 +14,28 @@ export const AdminFormPage = () => {
     senha: '',
   });
 
-  const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState('');
+  const { execute: cadastrarAdmin, loading, erro } =
+    useAsync(usuariosService.cadastrarAdmin);
+
+  const mensagemErro = erro
+    ? getErrorMessage(erro, 'Erro ao cadastrar administrador.')
+    : '';
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await cadastrarAdmin(formData);
+      alert('Administrador cadastrado com sucesso!');
+      navigate('/usuarios');
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErro('');
-
-    try {
-      await usuariosService.cadastrarAdmin(formData);
-      alert('Administrador cadastrado com sucesso!');
-      navigate('/usuarios');
-    } catch (err) {
-      console.error('Erro ao cadastrar Admin:', err);
-      setErro(getErrorMessage(err, 'Ocorreu um erro ao cadastrar o administrador.'));
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -46,7 +46,9 @@ export const AdminFormPage = () => {
         <p>Preencha os dados para criar um novo acesso de gestão completo ao sistema.</p>
       </div>
 
-      {erro && <div className="error-banner">{erro}</div>}
+      {mensagemErro && (
+        <div className="error-banner">{mensagemErro}</div>
+      )}
 
       <form onSubmit={handleSubmit} className="cadastro-form">
         <div className="form-group">
@@ -57,7 +59,6 @@ export const AdminFormPage = () => {
             name="nome"
             value={formData.nome}
             onChange={handleChange}
-            placeholder="Digite o nome completo"
             required
           />
         </div>
@@ -70,7 +71,6 @@ export const AdminFormPage = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="exemplo@metro.com.br"
             required
           />
         </div>
@@ -83,7 +83,6 @@ export const AdminFormPage = () => {
             name="senha"
             value={formData.senha}
             onChange={handleChange}
-            placeholder="Mínimo 8 caracteres"
             required
             minLength={8}
           />
@@ -97,6 +96,7 @@ export const AdminFormPage = () => {
           >
             Cancelar
           </button>
+
           <button
             type="submit"
             className="btn-salvar"

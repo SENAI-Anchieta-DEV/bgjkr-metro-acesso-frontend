@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../auth/useAuth';
 import { pcdService } from '../services/pcdService';
+import { useFetch } from '../../../core/hooks/useFetch'
 import './PcdDashboard.css';
 
 export const PcdDashboardPage = () => {
   const { user } = useAuth();
-  const [pcdData, setPcdData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState('');
-
-  useEffect(() => {
-    const fetchPcdData = async () => {
-      try {
-        const data = await pcdService.buscarPcdAtivo(user.email);
-        setPcdData(data);
-      } catch (err) {
-        console.error('Erro ao buscar dados do PCD:', err);
-        setErro('Não foi possível carregar as informações da sua Tag.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.email) {
-      fetchPcdData();
-    }
-  }, [user]);
+  const { data: pcdData, loading, erro } = useFetch(
+    () => pcdService.buscarPcdAtivo(user.email),
+    [user?.email],
+    { enabled: !!user?.email }
+  );
 
   if (loading) return <div className="pcd-dashboard-loading">Carregando seus dados de acesso...</div>;
-  
+
   if (erro) return <div className="pcd-dashboard-loading" style={{ color: '#ef4444' }}>{erro}</div>;
 
   return (
@@ -66,8 +51,8 @@ export const PcdDashboardPage = () => {
               {pcdData?.desejaSuporte ? '✓ Suporte Ativado' : '✗ Sem Suporte'}
             </span>
             <p>
-              {pcdData?.desejaSuporte 
-                ? 'Os agentes de atendimento serão notificados quando você aproximar sua Tag nas catracas.' 
+              {pcdData?.desejaSuporte
+                ? 'Os agentes de atendimento serão notificados quando você aproximar sua Tag nas catracas.'
                 : 'Você optou por navegar de forma independente pelas estações.'}
             </p>
           </div>

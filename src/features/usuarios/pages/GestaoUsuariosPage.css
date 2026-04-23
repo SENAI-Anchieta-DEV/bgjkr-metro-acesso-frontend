@@ -1,18 +1,3 @@
-:root {
-  /* Paleta do Figma */
-  --sidebar-bg: #323232;       /* Azul marinho muito escuro */
-  --sidebar-hover: #343434;    /* Fundo ao passar o rato */
-  --sidebar-active: #009CDE;   /* Azul primário vibrante (Item ativo) */
-  --sidebar-text: #ffffff8a;     /* Texto inativo (Cinza azulado) */
-  --sidebar-active-text: #FFFFFF; /* Texto ativo */
-  
-  --topbar-bg: #282828;         /* Cinza escuro para a topbar */
-  --main-bg: #282828;          /* Fundo cinza claro da aplicação */
-  
-
-  --sombra-leve: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-}
-
 /* Animação de entrada */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }

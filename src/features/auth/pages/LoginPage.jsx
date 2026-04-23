@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../useAuth';
-import './LoginPage.css';
+import { useAsync } from '../../../core/hooks/useAsync';
 import { getErrorMessage } from '../../../core/utils/error';
+import './LoginPage.css';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -10,26 +11,21 @@ export function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState('');
+
+  const { execute: login, loading, erro } = useAsync(signIn);
+
+  const mensagemErro = erro
+    ? getErrorMessage(erro, 'E-mail ou senha inválidos.')
+    : '';
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErro('');
-    setLoading(true);
 
     try {
-      await signIn(email, senha);
+      await login(email, senha);
       navigate('/dashboard');
     } catch (err) {
       console.error('Falha no login:', err);
-      if (err.response?.data?.detail || err.response?.data?.message) {
-        setErro(getErrorMessage(err, 'Tente novamente.'));
-      } else {
-        setErro('E-mail ou senha inválidos. Tente novamente.');
-      }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -64,7 +60,9 @@ export function LoginPage() {
             />
           </div>
 
-          {erro && <div className="erro-mensagem">{erro}</div>}
+          {mensagemErro && (
+            <div className="erro-mensagem">{mensagemErro}</div>
+          )}
 
           <button type="submit" className="btn-login" disabled={loading}>
             {loading ? 'Entrando...' : 'Entrar'}

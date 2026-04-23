@@ -1,0 +1,21 @@
+import { useState, useCallback } from 'react';
+
+export function useAsync(asyncFn) {
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState(null);
+
+  const execute = useCallback(async (...args) => {
+    setLoading(true);
+    setErro(null);
+    try {
+      return await asyncFn(...args);
+    } catch (err) {
+      setErro(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [asyncFn]);
+
+  return { execute, loading, erro, setErro };
+}

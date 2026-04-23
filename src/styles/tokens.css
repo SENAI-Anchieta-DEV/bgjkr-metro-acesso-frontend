@@ -1,0 +1,34 @@
+:root {
+  /* Marca */
+  --cor-primaria: #009CDE;
+  --cor-primaria-hover: #0053A0;
+
+  /* Sidebar */
+  --sidebar-bg: #323232;
+  --sidebar-hover: #343434;
+  --sidebar-active: #009CDE;
+  --sidebar-text: #ffffff8a;
+  --sidebar-active-text: #FFFFFF;
+
+  /* Layout geral */
+  --topbar-bg: #282828;
+  --main-bg: #282828;
+  --cor-fundo-geral: #282828;
+  --cor-fundo-card: #323232;
+  --cor-fundo-sidebar: #323232;
+
+  /* Texto */
+  --cor-texto-forte: #ffffff;
+  --cor-texto-medio: #ffffff70;
+  --cor-texto-suave: #ffffff40;
+
+  /* Status */
+  --cor-info: #0053A0;
+  --cor-sucesso: #0BB07B;
+  --cor-alerta: #FFCE52;
+  --cor-erro: #F03D3D;
+
+  /* Utilitários */
+  --raio-borda: 8px;
+  --fonte-principal: "Inter", sans-serif;
+}
