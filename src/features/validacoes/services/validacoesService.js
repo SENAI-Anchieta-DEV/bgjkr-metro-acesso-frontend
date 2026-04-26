@@ -8,10 +8,11 @@ export const validacoesService = {
 
   // Backend: POST /api/formulario/validar/{email}
   // Body: { aprovado: boolean, motivoReprovacao: string | null }
-  processarValidacao: async (email, aprovado, motivoReprovacao) => {
+  processarValidacao: async (email, aprovado, motivoReprovacao, codigoTag = null) => {
     const response = await httpClient.post(`/api/formulario/validar/${email}`, {
       aprovado,
       motivoReprovacao: motivoReprovacao || null,
+      codigoTag: codigoTag || null,
     });
     return response.data;
   },

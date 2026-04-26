@@ -5,3 +5,4 @@ export { PcdPublicFormPage } from './PcdPublicFormPage';
 export { PcdAdminFormPage } from './PcdAdminFormPage';   
 export { PcdDashboardPage } from './PcdDashboardPage';
 export { PcdProfilePage } from './PcdProfilePage';
+export { AgenteDashboardPage } from './AgenteDashboardPage';

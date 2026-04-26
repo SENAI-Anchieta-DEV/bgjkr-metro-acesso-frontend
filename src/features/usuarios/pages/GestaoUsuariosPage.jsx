@@ -105,13 +105,12 @@ export const GestaoUsuariosPage = () => {
     }
   };
 
-const handleSelecionarTipo = (tipo) => {
-  setShowModal(false);
-  if (tipo === 'admin') navigate('/usuarios/novo-admin');
-  else if (tipo === 'agente') navigate('/usuarios/novo-agente');
-  else if (tipo === 'pcd') navigate('/usuarios/novo-pcd'); 
-};
-
+  const handleSelecionarTipo = (tipo) => {
+    setShowModal(false);
+    if (tipo === 'admin') navigate('/usuarios/novo-admin');
+    else if (tipo === 'agente') navigate('/usuarios/novo-agente');
+    else if (tipo === 'pcd') navigate('/usuarios/novo-pcd');
+  };
 
   const getInitials = (nome) => (nome ? nome.charAt(0).toUpperCase() : 'U');
 
@@ -197,6 +196,7 @@ const handleSelecionarTipo = (tipo) => {
             { key: 'TODOS', label: 'Todos' },
             { key: 'ADMINISTRADOR', label: 'Administradores' },
             { key: 'AGENTE_ATENDIMENTO', label: 'Agentes' },
+            { key: 'PCD', label: 'Usuários PCD' },
           ].map(({ key, label }) => (
             <button
               key={key}

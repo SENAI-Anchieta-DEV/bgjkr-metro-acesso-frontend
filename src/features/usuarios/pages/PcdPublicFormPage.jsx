@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PcdForm.css';
+import './pcdForm.css';
 import { usuariosService } from '../services/usuariosService';
 import { getErrorMessage } from '../../../core/utils/error';
 
@@ -78,25 +78,22 @@ export const PcdPublicFormPage = () => {
 
   if (sucesso) {
     return (
-      <div className="cadastro-container">
-        <div className="cadastro-card success-card">
+      <div className="pcd-public-container">
+        <div className="pcd-public-card success-card">
           <div className="success-icon">✓</div>
-          <h2 style={{ color: 'var(--cor-texto-forte)', marginBottom: '0.5rem' }}>Solicitação Enviada!</h2>
-          <p style={{ color: 'var(--cor-texto-medio)', marginBottom: '1.5rem' }}>
+          <h2>Solicitação Enviada!</h2>
+          <p>
             Recebemos seus dados e o laudo médico com sucesso.
           </p>
           <div className="success-info-box">
             <p>
-              <strong>O que acontece agora?</strong>  
-
-              • Nossa equipe analisará sua documentação.  
-
-              • Você receberá um e-mail com a confirmação em breve.  
-
+              <strong>O que acontece agora?</strong>{"\n\n"}
+              • Nossa equipe analisará sua documentação.{"\n\n"}
+              • Você receberá um e-mail com a confirmação em breve.{"\n\n"}
               • Após aprovado, você poderá acessar o sistema normalmente.
             </p>
           </div>
-          <button onClick={() => navigate('/')} className="btn-primary" style={{ width: '100%' }}>
+          <button onClick={() => navigate('/')} className="btn-primary">
             Voltar para o Início
           </button>
         </div>
@@ -105,16 +102,16 @@ export const PcdPublicFormPage = () => {
   }
 
   return (
-    <div className="cadastro-container">
-      <div className="cadastro-card">
-        <div className="cadastro-header">
+    <div className="pcd-public-container">
+      <div className="pcd-public-card">
+        <div className="pcd-public-header">
           <h2>Solicitar Acesso PCD</h2>
           <p>Preencha os dados abaixo para solicitar seu acesso especial às estações.</p>
         </div>
 
         {erro && <div className="erro"><span>⚠️</span> {erro}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="pcd-public-form">
           <div className="grid">
             <div className="full form-group">
               <label>Nome Completo</label>

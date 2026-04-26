@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { validacoesService } from '../services/validacoesService';
+import { tagsService } from '../../tags/services/tagsService';
 import { env } from '../../../core/config/env';
 import './ValidacoesPage.css';
 
@@ -8,6 +9,11 @@ export default function ValidacoesPage() {
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState('');
   const [processando, setProcessando] = useState(null);
+  const [showApprovalModal, setShowApprovalModal] = useState(false);
+  const [selectedForm, setSelectedForm] = useState(null);
+  const [tagsDisponiveis, setTagsDisponiveis] = useState([]);
+  const [selectedTag, setSelectedTag] = useState('');
+  const [loadingTags, setLoadingTags] = useState(false);
 
   const carregarDados = async () => {
     setLoading(true);
@@ -26,21 +32,53 @@ export default function ValidacoesPage() {
     carregarDados();
   }, []);
 
-  const handleDecisao = async (form, aprovado) => {
-    let motivoReprovacao = null;
-
-    if (!aprovado) {
-      motivoReprovacao = window.prompt('Digite o motivo da reprovação:');
-      if (!motivoReprovacao || !motivoReprovacao.trim()) return;
+  const handleApprovalClick = async (form) => {
+    setSelectedForm(form);
+    setSelectedTag('');
+    setLoadingTags(true);
+    try {
+      const tags = await tagsService.listarDisponiveis();
+      setTagsDisponiveis(tags);
+    } catch (err) {
+      console.error('Erro ao carregar tags:', err);
+      setErro('Erro ao carregar tags disponíveis.');
+    } finally {
+      setLoadingTags(false);
     }
+    setShowApprovalModal(true);
+  };
+
+  const handleConfirmApproval = async () => {
+    if (!selectedTag) {
+      alert('Selecione uma Tag RFID para vincular ao usuário.');
+      return;
+    }
+
+    setProcessando(selectedForm.id);
+    try {
+      await validacoesService.processarValidacao(selectedForm.email, true, null, selectedTag);
+      setFormularios(prev => prev.filter(f => f.id !== selectedForm.id));
+      setShowApprovalModal(false);
+      alert('Usuário aprovado com sucesso!');
+    } catch (err) {
+      console.error('Erro ao aprovar:', err);
+      alert('Erro ao processar a aprovação. Tente novamente.');
+    } finally {
+      setProcessando(null);
+    }
+  };
+
+  const handleReject = async (form) => {
+    const motivoReprovacao = window.prompt('Digite o motivo da reprovação:');
+    if (!motivoReprovacao || !motivoReprovacao.trim()) return;
 
     setProcessando(form.id);
     try {
-      // Backend usa o EMAIL no path, não o id
-      await validacoesService.processarValidacao(form.email, aprovado, motivoReprovacao);
+      await validacoesService.processarValidacao(form.email, false, motivoReprovacao);
       setFormularios(prev => prev.filter(f => f.id !== form.id));
-      alert(aprovado ? 'Usuário aprovado com sucesso!' : 'Solicitação reprovada.');
-    } catch {
+      alert('Solicitação reprovada.');
+    } catch (err) {
+      console.error('Erro ao reprovar:', err);
       alert('Erro ao processar a decisão. Tente novamente.');
     } finally {
       setProcessando(null);
@@ -60,7 +98,7 @@ export default function ValidacoesPage() {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1>Fila de Validações PcD</h1>
+        <h1>Fila de Validações PCD</h1>
         <p>
           {formularios.length === 0
             ? 'Nenhuma solicitação pendente.'
@@ -102,7 +140,6 @@ export default function ValidacoesPage() {
                   <td>{form.nome}</td>
                   <td style={{ fontSize: '0.85rem', color: '#64748b' }}>{form.email}</td>
                   <td>
-                    {/* tiposDeficiencia é um Set<TipoDeficiencia> — pode vir como array */}
                     {Array.isArray(form.tiposDeficiencia)
                       ? form.tiposDeficiencia.map(t => (
                           <span key={t} className="badge-info" style={{ marginRight: '4px' }}>
@@ -131,14 +168,14 @@ export default function ValidacoesPage() {
                     <button
                       className="btn-approve"
                       disabled={processando === form.id}
-                      onClick={() => handleDecisao(form, true)}
+                      onClick={() => handleApprovalClick(form)}
                     >
                       {processando === form.id ? '...' : 'Aprovar'}
                     </button>
                     <button
                       className="btn-reject"
                       disabled={processando === form.id}
-                      onClick={() => handleDecisao(form, false)}
+                      onClick={() => handleReject(form)}
                     >
                       {processando === form.id ? '...' : 'Reprovar'}
                     </button>
@@ -149,6 +186,55 @@ export default function ValidacoesPage() {
           </tbody>
         </table>
       </div>
+
+      {showApprovalModal && (
+        <div className="modal-backdrop" onClick={() => setShowApprovalModal(false)}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Aprovar Solicitação PCD</h3>
+              <button className="modal-close" onClick={() => setShowApprovalModal(false)}>✕</button>
+            </div>
+            <div className="modal-content">
+              <p className="modal-subtitle">Selecione a Tag RFID para vincular ao usuário:</p>
+              <p className="modal-user-info"><strong>{selectedForm?.nome}</strong> ({selectedForm?.email})</p>
+              
+              {loadingTags ? (
+                <p style={{ color: '#94a3b8', textAlign: 'center' }}>Carregando tags disponíveis...</p>
+              ) : tagsDisponiveis.length === 0 ? (
+                <p style={{ color: '#ef4444', textAlign: 'center' }}>Nenhuma tag disponível no sistema.</p>
+              ) : (
+                <select 
+                  value={selectedTag} 
+                  onChange={(e) => setSelectedTag(e.target.value)}
+                  className="modal-select"
+                >
+                  <option value="">Selecione uma tag...</option>
+                  {tagsDisponiveis.map(tag => (
+                    <option key={tag.codigoTag} value={tag.codigoTag}>
+                      {tag.codigoTag}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+            <div className="modal-actions">
+              <button 
+                className="btn-secondary" 
+                onClick={() => setShowApprovalModal(false)}
+              >
+                Cancelar
+              </button>
+              <button 
+                className="btn-approve" 
+                onClick={handleConfirmApproval}
+                disabled={!selectedTag || loadingTags}
+              >
+                Confirmar Aprovação
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

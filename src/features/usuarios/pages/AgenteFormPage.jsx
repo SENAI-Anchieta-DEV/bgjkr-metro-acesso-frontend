@@ -1,5 +1,7 @@
+
 import { usuariosService } from '../services/usuariosService';
-import { useState } from 'react';
+import { estacoesService } from '../../estacoes/services/estacoesService';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getErrorMessage } from '../../../core/utils/error';
 import './Cadastro.css';
@@ -7,8 +9,6 @@ import './Cadastro.css';
 export const AgenteFormPage = () => {
   const navigate = useNavigate();
 
-  // Estado reflete EXATAMENTE o AgenteRequestDto do Java
-  // nome, email, senha, inicioTurno, fimTurno, codigoEstacao
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -18,8 +18,24 @@ export const AgenteFormPage = () => {
     codigoEstacao: '',
   });
 
+  const [estacoes, setEstacoes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingEstacoes, setLoadingEstacoes] = useState(true);
   const [erro, setErro] = useState('');
+
+  useEffect(() => {
+    const carregarEstacoes = async () => {
+      try {
+        const dados = await estacoesService.listarTodas();
+        setEstacoes(dados);
+      } catch (err) {
+        console.error('Erro ao carregar estações:', err);
+      } finally {
+        setLoadingEstacoes(false);
+      }
+    };
+    carregarEstacoes();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -115,17 +131,23 @@ export const AgenteFormPage = () => {
         </div>
 
         <div className="form-group">
-          <label>Código da Estação</label>
-          <input
-            type="text"
+          <label>Estação de Atendimento</label>
+          <select
             name="codigoEstacao"
             value={formData.codigoEstacao}
             onChange={handleChange}
             required
-            placeholder="Ex: EST-001 (código cadastrado no sistema)"
-          />
+            disabled={loadingEstacoes}
+          >
+            <option value="">{loadingEstacoes ? 'Carregando estações...' : 'Selecione uma estação...'}</option>
+            {estacoes.map(e => (
+              <option key={e.codigoEstacao} value={e.codigoEstacao}>
+                {e.nome} ({e.codigoEstacao})
+              </option>
+            ))}
+          </select>
           <small className="form-hint">
-            Insira o código de uma estação já cadastrada no sistema.
+            O agente será vinculado a esta estação para controle de acesso.
           </small>
         </div>
 

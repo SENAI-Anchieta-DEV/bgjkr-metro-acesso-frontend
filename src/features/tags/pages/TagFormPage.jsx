@@ -31,9 +31,13 @@ export const TagFormPage = () => {
   };
 
   return (
-    <div className="gestao-container">
-      <div className="table-container" style={{ padding: '30px', backgroundColor: 'var(--cor-fundo-card)' }}>
-        <h2>{isEdit ? 'Editar Tag RFID' : 'Nova Tag RFID'}</h2>
+    <div className="cadastro-container">
+      <div className="cadastro-card">
+        <div className="cadastro-header">
+          <h2>{isEdit ? 'Editar Tag RFID' : 'Nova Tag RFID'}</h2>
+          <p>{isEdit ? 'Atualize as informações do dispositivo RFID.' : 'Cadastre um novo dispositivo de identificação no sistema.'}</p>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="grid">
             <div className="full form-group">
@@ -45,14 +49,16 @@ export const TagFormPage = () => {
                 required 
                 placeholder="Ex: E28011606000020A12345678"
               />
-              <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '5px' }}>
-                Este código deve corresponder ao identificador físico do dispositivo.
+              <p className="form-hint">
+                O UID deve ser único e corresponder ao gravado fisicamente no chip RFID.
               </p>
             </div>
           </div>
           <div className="form-actions">
             <button type="button" onClick={() => navigate('/tags')} className="btn-secondary">Cancelar</button>
-            <button type="submit" disabled={loading} className="btn-primary">Salvar Tag</button>
+            <button type="submit" disabled={loading} className="btn-primary">
+              {loading ? 'Salvando...' : 'Salvar Tag'}
+            </button>
           </div>
         </form>
       </div>

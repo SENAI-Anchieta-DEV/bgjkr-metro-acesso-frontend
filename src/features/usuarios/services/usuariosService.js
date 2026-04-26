@@ -38,6 +38,12 @@ export const usuariosService = {
     return response.data;
   },
 
+  cadastrarPcdDireto: async (dados) => {
+    // Cadastro administrativo (JSON) que já vincula a TAG
+    const response = await httpClient.post('/api/pcd', dados);
+    return response.data;
+  },
+
   listarUsuarios: async () => {
     const response = await httpClient.get('/api/admin/usuarios'); 
     return response.data;

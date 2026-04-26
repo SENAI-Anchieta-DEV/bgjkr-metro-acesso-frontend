@@ -2,10 +2,11 @@
 
 .landing-container {
   font-family: 'Inter', system-ui, sans-serif;
-  background-color: #F8FAFC;
+  background-color: var(--cor-fundo-geral);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: var(--cor-texto-forte);
 }
 
 /* ================= HEADER ================= */
@@ -13,33 +14,35 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 5%;
-  background-color: #FFFFFF;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 5%;
+  background-color: rgba(40, 40, 40, 0.8);
+  backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .landing-logo {
-  height: 40px;
+  height: 32px;
 }
 
 .btn-login-header {
-  background-color: transparent;
-  color: #64748B;
+  color: var(--cor-texto-medio);
   font-weight: 600;
-  border: 1px solid #E2E8F0;
-  padding: 10px 24px;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
   text-decoration: none;
+  font-size: 0.9rem;
 }
 
 .btn-login-header:hover {
-  background-color: #F1F5F9;
-  color: #1E293B;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--cor-texto-forte);
+  border-color: var(--cor-primaria);
 }
 
 /* ================= HERO SECTION ================= */
@@ -50,87 +53,100 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-  color: #FFFFFF;
+  padding: 6rem 1.5rem;
+  background: radial-gradient(circle at center, #1e293b 0%, #282828 100%);
 }
 
 .hero-section h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  max-width: 800px;
-  line-height: 1.2;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  max-width: 900px;
+  line-height: 1.1;
 }
 
 .hero-section h1 span {
-  color: #3B82F6; /* Azul vibrante */
+  color: var(--cor-primaria);
 }
 
 .hero-section p {
   font-size: 1.25rem;
-  color: #94A3B8;
-  max-width: 600px;
-  margin-bottom: 40px;
+  color: var(--cor-texto-medio);
+  max-width: 700px;
+  margin-bottom: 3rem;
   line-height: 1.6;
 }
 
 .btn-solicitar {
-  background-color: #2563EB;
+  background-color: var(--cor-primaria);
   color: white;
-  font-size: 1.125rem;
-  font-weight: 600;
-  padding: 16px 32px;
-  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 1.25rem 2.5rem;
+  border-radius: 4px;
   text-decoration: none;
   transition: all 0.2s;
-  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 10px 20px rgba(0, 156, 222, 0.3);
 }
 
 .btn-solicitar:hover {
-  background-color: #1D4ED8;
-  transform: translateY(-2px);
+  background-color: var(--cor-primaria-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 156, 222, 0.4);
 }
 
 /* ================= FEATURES ================= */
 .features-section {
   display: flex;
   justify-content: center;
-  gap: 32px;
-  padding: 80px 5%;
+  gap: 2.5rem;
+  padding: 5rem 5%;
   flex-wrap: wrap;
-  background-color: #FFFFFF;
+  background-color: #222;
 }
 
 .feature-card {
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-radius: 16px;
-  padding: 32px;
-  max-width: 300px;
+  background: var(--cor-fundo-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 2.5rem;
+  max-width: 340px;
   text-align: center;
+  transition: transform 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
 }
 
 .feature-icon {
-  width: 64px;
-  height: 64px;
-  background-color: #DBEAFE;
-  color: #2563EB;
+  width: 70px;
+  height: 70px;
+  background-color: rgba(0, 156, 222, 0.1);
+  color: var(--cor-primaria);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 24px;
-  font-size: 1.5rem;
+  margin: 0 auto 1.5rem;
+  font-size: 2rem;
 }
 
 .feature-card h3 {
   font-size: 1.25rem;
-  color: #1E293B;
-  margin-bottom: 12px;
+  color: var(--cor-texto-forte);
+  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .feature-card p {
-  color: #64748B;
-  line-height: 1.5;
+  color: var(--cor-texto-medio);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
 }

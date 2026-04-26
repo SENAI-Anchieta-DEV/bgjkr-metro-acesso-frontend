@@ -1,3 +1,4 @@
+
 import { httpClient } from '../../../core/api/httpClient';
 
 export const tagsService = {
@@ -19,5 +20,11 @@ export const tagsService = {
   },
   remover: async (codigoTag) => {
     await httpClient.delete(`/api/tag/${codigoTag}` );
+  },
+  listarDisponiveis: async () => {
+    const response = await httpClient.get('/api/tag');
+    // Filtra no front por enquanto se o backend não tiver o filtro, 
+    // mas a instrução diz que o backend deve filtrar por usuarioPcd == null
+    return response.data.filter(tag => tag.usuarioPcd === null);
   }
 };
