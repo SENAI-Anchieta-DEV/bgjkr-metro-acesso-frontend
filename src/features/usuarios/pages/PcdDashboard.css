@@ -41,6 +41,31 @@
   padding-bottom: 0.75rem;
 }
 
+/* Status Card Styles */
+.status-card.em_analise { border-top: 4px solid #f59e0b; }
+.status-card.aprovado { border-top: 4px solid #10b981; }
+.status-card.reprovado { border-top: 4px solid #ef4444; }
+
+.status-badge-large {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.status-badge-large.em_analise { background: #fef3c7; color: #92400e; }
+.status-badge-large.aprovado { background: #dcfce7; color: #166534; }
+.status-badge-large.reprovado { background: #fee2e2; color: #991b1b; }
+.status-badge-large.pendente { background: #f1f5f9; color: #475569; }
+
+.status-description {
+  color: #64748b;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Tag Card Styles */
 .tag-info {
   display: flex;
   align-items: center;
@@ -85,12 +110,14 @@
   color: #166534;
 }
 
-.status-pending {
+.tag-info-placeholder {
   color: #94a3b8;
   text-align: center;
   padding: 1rem;
+  font-style: italic;
 }
 
+/* Support Card Styles */
 .support-status {
   display: flex;
   flex-direction: column;
@@ -119,35 +146,57 @@
   line-height: 1.5;
 }
 
-.info-card ul {
+/* Help List Styles */
+.help-list {
   list-style: none;
   padding: 0;
 }
 
-.info-card li {
+.help-list li {
   padding: 0.75rem 0;
   color: #475569;
   border-bottom: 1px solid #f1f5f9;
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.info-card li::before {
-  content: "•";
-  color: #3b82f6;
-  font-weight: bold;
+.help-list li span {
+  font-size: 1.2rem;
 }
 
-.info-card li:last-child {
+.help-list li:hover {
+  color: #009cde;
+  padding-left: 5px;
+}
+
+.help-list li:last-child {
   border-bottom: none;
 }
 
+/* Loading State */
 .pcd-dashboard-loading {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  font-size: 1.1rem;
+  height: 300px;
+  gap: 1rem;
   color: #64748b;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #009cde;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

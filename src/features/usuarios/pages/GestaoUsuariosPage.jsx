@@ -105,12 +105,13 @@ export const GestaoUsuariosPage = () => {
     }
   };
 
-  const handleSelecionarTipo = (tipo) => {
-    setShowModal(false);
-    if (tipo === 'admin') navigate('/usuarios/novo-admin');
-    else if (tipo === 'agente') navigate('/usuarios/novo-agente');
-    else if (tipo === 'pcd') navigate('/solicitar-acesso');
-  };
+const handleSelecionarTipo = (tipo) => {
+  setShowModal(false);
+  if (tipo === 'admin') navigate('/usuarios/novo-admin');
+  else if (tipo === 'agente') navigate('/usuarios/novo-agente');
+  else if (tipo === 'pcd') navigate('/usuarios/novo-pcd'); 
+};
+
 
   const getInitials = (nome) => (nome ? nome.charAt(0).toUpperCase() : 'U');
 

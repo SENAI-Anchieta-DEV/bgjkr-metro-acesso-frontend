@@ -6,7 +6,8 @@ import { DashboardLayout } from '../shell/DashboardLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { LandingPage } from '../shell/LandingPage';
 import { LoginPage } from '../../features/auth/pages/LoginPage';
-import { PcdFormPage } from '../../features/usuarios/pages/PcdFormPage';
+import { PcdPublicFormPage } from '../../features/usuarios/pages/PcdPublicFormPage';
+import { PcdAdminFormPage } from '../../features/usuarios/pages/PcdAdminFormPage';
 import { GestaoUsuariosPage } from '../../features/usuarios/pages/GestaoUsuariosPage';
 import { AgenteFormPage } from '../../features/usuarios/pages/AgenteFormPage';
 import { AdminFormPage } from '../../features/usuarios/pages/AdminFormPage';
@@ -14,7 +15,6 @@ import { PcdDashboardPage } from '../../features/usuarios/pages/PcdDashboardPage
 import { PcdProfilePage } from '../../features/usuarios/pages/PcdProfilePage';
 import ValidacoesPage from '../../features/validacoes/pages/ValidacoesPage';
 
-// Redireciona para a página certa conforme a role do usuário logado
 const HomeRedirect = () => {
   const { user } = useAuth();
   if (user?.role === 'USUARIO_PCD') return <Navigate to="/meu-acesso" replace />;
@@ -24,83 +24,37 @@ const HomeRedirect = () => {
 export const AppRouter = () => {
   const { signed, loading } = useAuth();
 
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <h2>A carregar sistema...</h2>
-      </div>
-    );
-  }
+  if (loading) return <div>A carregar sistema...</div>;
 
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* ROTAS PÚBLICAS */}
+        {/* ROTA PÚBLICA - AUTOATENDIMENTO */}
         <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/login"
-          element={signed ? <HomeRedirect /> : <LoginPage />}
-        />
-        <Route path="/solicitar-acesso" element={<PcdFormPage />} />
+        <Route path="/login" element={signed ? <HomeRedirect /> : <LoginPage />} />
+        <Route path="/solicitar-acesso" element={<PcdPublicFormPage />} />
 
-        {/* ROTAS PRIVADAS — qualquer utilizador autenticado */}
+        {/* ROTAS PRIVADAS */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
-
-            {/* Dashboard padrão (admin / agente) */}
-            <Route
-              path="/dashboard"
-              element={<div style={{ padding: '20px' }}><h2>Bem-vindo ao Painel!</h2></div>}
-            />
-
-            {/* Dashboard do PCD (role USUARIO_PCD) */}
-            <Route
-              path="/meu-acesso"
-              element={
-                <ProtectedRoute role="USUARIO_PCD">
-                  <PcdDashboardPage />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Perfil do PCD */}
-            <Route
-              path="/meu-perfil"
-              element={
-                <ProtectedRoute role="USUARIO_PCD">
-                  <PcdProfilePage />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Validações (admin / agente) */}
-            <Route
-              path="/validacoes"
-              element={
-                <ProtectedRoute role="ADMINISTRADOR">
-                  <ValidacoesPage />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Gestão de usuários (somente admin) */}
-            <Route
-              path="/usuarios"
-              element={
-                <ProtectedRoute role="ADMINISTRADOR">
-                  <GestaoUsuariosPage />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/dashboard" element={<h2>Bem-vindo ao Painel!</h2>} />
+            <Route path="/meu-acesso" element={<ProtectedRoute role="USUARIO_PCD"><PcdDashboardPage /></ProtectedRoute>} />
+            <Route path="/meu-perfil" element={<ProtectedRoute role="USUARIO_PCD"><PcdProfilePage /></ProtectedRoute>} />
+            <Route path="/validacoes" element={<ProtectedRoute role="ADMINISTRADOR"><ValidacoesPage /></ProtectedRoute>} />
+            <Route path="/usuarios" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoUsuariosPage /></ProtectedRoute>} />
+            
             <Route path="/usuarios/novo-agente" element={<AgenteFormPage />} />
             <Route path="/usuarios/novo-admin" element={<AdminFormPage />} />
-
+            
+            {/* NOVA ROTA PRIVADA PARA ADMIN CADASTRAR PCD */}
+            <Route path="/usuarios/novo-pcd" element={
+              <ProtectedRoute role="ADMINISTRADOR">
+                <PcdAdminFormPage />
+              </ProtectedRoute>
+            } />
           </Route>
         </Route>
-
         <Route path="*" element={<Navigate to="/" replace />} />
-
       </Routes>
     </BrowserRouter>
   );

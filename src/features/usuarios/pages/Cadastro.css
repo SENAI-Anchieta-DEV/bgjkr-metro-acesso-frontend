@@ -1,175 +1,191 @@
-/* ====================================================
-   FORMULÁRIOS DE CADASTRO — CSS COMPARTILHADO
-   ==================================================== */
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* test-to-front/src/styles/Cadastro.css */
+/* Focado exclusivamente na estilização de formulários dentro do Painel Administrativo */
 
 .cadastro-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
-  border: 1px solid #E2E8F0;
-  animation: fadeInUp 0.35s ease-out;
-}
-
-/* ── Header com badge de tipo ───────────────────────── */
-.cadastro-header {
-  margin-bottom: 32px;
-  text-align: center;
-}
-
-.cadastro-badge {
-  display: inline-block;
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.cadastro-badge.admin  { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
-.cadastro-badge.agente { background: #FAF5FF; color: #7E22CE; border: 1px solid #E9D5FF; }
-.cadastro-badge.pcd    { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; }
-
-.cadastro-header h2 {
-  color: #1E293B;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.cadastro-header p {
-  color: #64748B;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-/* ── Banner de Erro ─────────────────────────────────── */
-.error-banner {
-  background: #FEF2F2;
-  border: 1px solid #FCA5A5;
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: #B91C1C;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 20px;
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.35s ease-out;
 }
 
-/* ── Grupos de campos ───────────────────────────────── */
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-row {
+/* Sistema de Grid para organizar os campos em colunas */
+.grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .full {
+    grid-column: span 1;
+  }
+}
+
+/* Grupos de Formulário */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #374151;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 600;
+  color: var(--cor-texto-medio);
+  margin-left: 2px;
 }
 
-.form-group input,
-.form-group select {
+/* Inputs e Selects padronizados com o tema Dark do Admin */
+input, select, textarea {
   width: 100%;
-  padding: 11px 14px;
-  border: 1px solid #D1D5DB;
+  padding: 0.85rem 1rem;
   border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.875rem;
-  color: #1E293B;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #2a2a2a;
+  color: var(--cor-texto-forte);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  background-color: #fff;
-  box-sizing: border-box;
 }
 
-.form-group input:focus,
-.form-group select:focus {
-  border-color: #2563EB;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+input:focus, select:focus {
+  border-color: var(--cor-primaria);
+  background-color: #323232;
+  box-shadow: 0 0 0 3px rgba(0, 156, 222, 0.15);
 }
 
-.form-group input[type="time"] {
-  cursor: text;
+input::placeholder {
+  color: var(--cor-texto-suave);
 }
 
-.form-hint {
-  display: block;
-  color: #64748B;
-  font-size: 0.75rem;
-  margin-top: 5px;
-  line-height: 1.4;
+/* Checkbox Group (usado no cadastro de PCD pelo Admin) */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ── Ações do formulário ────────────────────────────── */
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--cor-texto-forte);
+  transition: color 0.2s;
+}
+
+.checkbox-item:hover {
+  color: var(--cor-primaria);
+}
+
+.checkbox-item input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+  accent-color: var(--cor-primaria);
+}
+
+/* Área de Upload de Arquivo */
+.file-upload-wrapper {
+  position: relative;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.file-upload-wrapper:hover {
+  border-color: var(--cor-primaria);
+  background-color: rgba(0, 156, 222, 0.05);
+}
+
+.file-upload-text {
+  color: var(--cor-texto-medio);
+  font-size: 0.9rem;
+}
+
+/* Botões de Ação */
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid #F1F5F9;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.btn-cancelar {
-  padding: 10px 22px;
-  background: transparent;
-  border: 1px solid #D1D5DB;
-  color: #64748B;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: all 0.15s;
-  font-family: inherit;
-}
-
-.btn-cancelar:hover {
-  background: #F8FAFC;
-  border-color: #9CA3AF;
-  color: #1E293B;
-}
-
-.btn-salvar {
-  padding: 10px 24px;
-  background: #2563EB;
+.btn-primary {
+  padding: 0.85rem 2rem;
+  background-color: var(--cor-primaria);
   color: #fff;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   font-weight: 700;
-  font-size: 0.875rem;
-  transition: all 0.15s;
-  font-family: inherit;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 156, 222, 0.2);
 }
 
-.btn-salvar:hover:not(:disabled) {
-  background: #1D4ED8;
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--cor-primaria-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 6px 15px rgba(0, 156, 222, 0.3);
 }
 
-.btn-salvar:disabled {
+.btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
+}
+
+.btn-secondary {
+  padding: 0.85rem 2rem;
+  background-color: transparent;
+  color: var(--cor-texto-medio);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--cor-texto-forte);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Mensagens de Erro */
+.erro {
+  background-color: rgba(240, 61, 61, 0.1);
+  border: 1px solid var(--cor-erro);
+  color: var(--cor-erro);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--cor-texto-suave);
+  margin-top: 4px;
 }

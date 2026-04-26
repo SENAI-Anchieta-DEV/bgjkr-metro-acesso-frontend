@@ -11,6 +11,10 @@ export const PcdProfilePage = () => {
   const [formData, setFormData] = useState({
     nome: '',
     desejaSuporte: true,
+    email: '',
+    senha: '', // Senha opcional na atualização
+    tiposDeficiencia: [],
+    codigoTag: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -24,7 +28,11 @@ export const PcdProfilePage = () => {
         setPcdData(data);
         setFormData({
           nome: data.nome || '',
-          desejaSuporte: data.desejaSuporte || true,
+          desejaSuporte: data.desejaSuporte !== undefined ? data.desejaSuporte : true,
+          email: data.email || '',
+          senha: '', // Mantém vazio a menos que queira trocar
+          tiposDeficiencia: data.tiposDeficiencia || [],
+          codigoTag: data.tag?.codigoTag || ''
         });
       } catch (err) {
         console.error('Erro ao buscar dados do PCD:', err);
@@ -54,12 +62,23 @@ export const PcdProfilePage = () => {
     setSaving(true);
 
     try {
-      await pcdService.atualizarPcd(user.email, formData);
+      // O backend espera o PcdRequestDto completo.
+      // Enviamos os dados preservando os campos que não podem mudar ou que o usuário não editou.
+      const payload = {
+        nome: formData.nome,
+        email: formData.email,
+        senha: formData.senha || undefined, // Só envia se preenchido
+        tiposDeficiencia: formData.tiposDeficiencia,
+        desejaSuporte: formData.desejaSuporte,
+        codigoTag: formData.codigoTag
+      };
+
+      await pcdService.atualizarPcd(user.email, payload);
       setSucesso('Perfil atualizado com sucesso!');
-      setTimeout(() => navigate('/dashboard'), 2000);
+      setTimeout(() => navigate('/meu-acesso'), 2000);
     } catch (err) {
       console.error('Erro ao atualizar perfil:', err);
-      setErro('Não foi possível atualizar seu perfil. Tente novamente.');
+      setErro('Não foi possível atualizar seu perfil. Verifique os dados e tente novamente.');
     } finally {
       setSaving(false);
     }
@@ -75,9 +94,9 @@ export const PcdProfilePage = () => {
       </header>
 
       <div className="pcd-profile-content">
-        {/* Seção de Informações Básicas */}
+        {/* Seção de Informações Básicas (Leitura) */}
         <div className="profile-section">
-          <h2>Informações Básicas</h2>
+          <h2>Informações de Acesso</h2>
           <div className="info-grid">
             <div className="info-item">
               <label>E-mail</label>
@@ -114,6 +133,7 @@ export const PcdProfilePage = () => {
                 value={formData.nome}
                 onChange={handleChange}
                 className="form-input"
+                required
               />
             </div>
 
@@ -136,13 +156,27 @@ export const PcdProfilePage = () => {
               </p>
             </div>
 
+            <div className="form-group">
+              <label htmlFor="senha">Nova Senha (opcional)</label>
+              <input
+                type="password"
+                id="senha"
+                name="senha"
+                value={formData.senha}
+                onChange={handleChange}
+                className="form-input"
+                placeholder="Deixe em branco para manter a atual"
+                minLength={8}
+              />
+            </div>
+
             {erro && <div className="alert alert-error">{erro}</div>}
             {sucesso && <div className="alert alert-success">{sucesso}</div>}
 
             <div className="form-actions">
               <button
                 type="button"
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/meu-acesso')}
                 className="btn-cancelar"
               >
                 Cancelar
@@ -162,7 +196,9 @@ export const PcdProfilePage = () => {
         <div className="profile-section danger-zone">
           <h2>Zona de Risco</h2>
           <p>Estas ações não podem ser desfeitas.</p>
-          <button className="btn-danger">Desativar Minha Conta</button>
+          <button type="button" className="btn-danger" onClick={() => alert('Para desativar sua conta, entre em contato com a administração.')}>
+            Desativar Minha Conta
+          </button>
         </div>
       </div>
     </div>

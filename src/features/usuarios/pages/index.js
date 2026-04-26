@@ -1,6 +1,7 @@
 export { GestaoUsuariosPage } from './GestaoUsuariosPage';
 export { AdminFormPage } from './AdminFormPage';
 export { AgenteFormPage } from './AgenteFormPage';
-export { PcdFormPage } from './PcdFormPage';
+export { PcdPublicFormPage } from './PcdPublicFormPage'; 
+export { PcdAdminFormPage } from './PcdAdminFormPage';   
 export { PcdDashboardPage } from './PcdDashboardPage';
 export { PcdProfilePage } from './PcdProfilePage';
