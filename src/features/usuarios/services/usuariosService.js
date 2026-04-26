@@ -38,7 +38,7 @@ export const usuariosService = {
     return response.data;
   },
 
-  cadastrarPcdDireto: async (dados) => {
+    cadastrarPcdDireto: async (dados) => {
     // Cadastro administrativo (JSON) que já vincula a TAG
     const response = await httpClient.post('/api/pcd', dados);
     return response.data;

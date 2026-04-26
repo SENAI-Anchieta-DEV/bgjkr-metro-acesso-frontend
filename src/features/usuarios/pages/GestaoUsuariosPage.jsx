@@ -69,6 +69,7 @@ export const GestaoUsuariosPage = () => {
       const [admins, agentes] = await Promise.all([
         usuariosService.listarAdmins(),
         usuariosService.listarAgentes(),
+        
       ]);
 
       const adminsComRole = admins.map(u => ({ ...u, role: 'ADMINISTRADOR' }));
