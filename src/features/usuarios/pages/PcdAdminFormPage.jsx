@@ -71,7 +71,7 @@ export const PcdAdminFormPage = () => {
 
 
 
-      await usuariosService.cadastrarPcd(data);
+      await usuariosService.cadastrarPcdDireto(data);
       setSucesso(true);
       setTimeout(() => navigate('/usuarios'), 1500);
     } catch (err) {
