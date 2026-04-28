@@ -12,6 +12,11 @@ export const usuariosService = {
     return response.data;
   },
 
+  listarPcds: async () => {
+    const response = await httpClient.get('/api/pcd');
+    return response.data;
+  },
+
   removerAdmin: async (email) => {
     const response = await httpClient.delete(`/api/admin/${email}`);
     return response.data;
@@ -21,7 +26,7 @@ export const usuariosService = {
     const response = await httpClient.delete(`/api/agente/${email}`);
     return response.data;
   },
-  
+
   cadastrarAdmin: async (dados) => {
     const response = await httpClient.post('/api/admin', dados);
     return response.data;
@@ -38,14 +43,14 @@ export const usuariosService = {
     return response.data;
   },
 
-    cadastrarPcdDireto: async (dados) => {
+  cadastrarPcdDireto: async (dados) => {
     // Cadastro administrativo (JSON) que já vincula a TAG
     const response = await httpClient.post('/api/pcd', dados);
     return response.data;
   },
 
   listarUsuarios: async () => {
-    const response = await httpClient.get('/api/admin/usuarios'); 
+    const response = await httpClient.get('/api/admin/usuarios');
     return response.data;
   }
 }
