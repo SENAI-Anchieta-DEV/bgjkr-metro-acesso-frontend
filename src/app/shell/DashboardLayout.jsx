@@ -33,7 +33,7 @@ export const DashboardLayout = () => {
 
         <nav className="sidebar-nav">
           <SidebarLink to="/dashboard" icon={HomeIcon} label="Início" />
-          
+
           {/* Menu Administrativo */}
           {user?.role === 'ADMINISTRADOR' && (
             <>
@@ -41,6 +41,15 @@ export const DashboardLayout = () => {
               <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações" />
               <SidebarLink to="/estacoes" icon={PendenciasIcon} label="Estações" />
               <SidebarLink to="/tags" icon={PendenciasIcon} label="Tags RFID" />
+            </>
+          )}
+
+
+
+          {/* Menu Agente */}
+          {user?.role === 'AGENTE_ATENDIMENTO' && (
+            <>
+              <SidebarLink to="/agente/dashboard" icon={HomeIcon} label="Dashboard" />
             </>
           )}
 
@@ -61,7 +70,7 @@ export const DashboardLayout = () => {
         </div>
       </aside>
 
-     
+
       <main className="main-area">
 
         <header className="topbar">
@@ -69,10 +78,10 @@ export const DashboardLayout = () => {
 
           <div className="topbar-actions">
             <button className="action-btn">
-   
+
             </button>
 
-          
+
             <div className="avatar">
               {user?.nome?.[0] || 'U'}
             </div>

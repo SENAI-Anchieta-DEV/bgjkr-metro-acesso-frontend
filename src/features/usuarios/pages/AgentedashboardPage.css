@@ -1,172 +1,251 @@
 .agente-dashboard-container {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  color: var(--cor-texto-forte);
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .agente-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .agente-header h1 {
-  font-size: 1.8rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 24px;
+  color: #1a1a1a;
+}
+
+.agente-header p {
+  margin: 5px 0 0;
+  color: #666;
 }
 
 .estacao-badge {
-  background: var(--cor-primaria);
-  padding: 0.5rem 1rem;
-  border-radius: var(--raio-borda);
-  font-size: 0.9rem;
-  font-weight: 500;
+  background: #f0f7ff;
+  color: #0066cc;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid #cce4ff;
+}
+
+.error-message {
+  background: #fff5f5;
+  color: #e53e3e;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #fed7d7;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-@media (max-width: 1024px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+  gap: 25px;
 }
 
 .dashboard-section {
-  background: var(--cor-fundo-card);
-  border-radius: var(--raio-borda);
-  padding: 1.5rem;
-  border: 1px solid var(--cor-borda);
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+}
+
+.dashboard-section.full-width {
+  grid-column: 1 / -1;
 }
 
 .section-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  border-bottom: 1px solid var(--cor-borda);
-  padding-bottom: 1rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .section-header h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 18px;
+  color: #333;
 }
 
 .alert-count {
-  background: var(--cor-alerta);
-  color: #000;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  background: #e53e3e;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: bold;
 }
 
+.alert-count.blue {
+  background: #3182ce;
+}
+
+/* Pendências Horizontal List */
+.pendencias-horizontal-list {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.pendencia-card-mini {
+  min-width: 250px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 4px solid #3182ce;
+}
+
+.pendencia-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.pendencia-header h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.status-tag.urgent {
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.pendencia-body p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pendencia-body .time {
+  margin-top: 5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.btn-concluir-pendencia {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-concluir-pendencia:hover {
+  background: #059669;
+}
+
+/* Alertas e Presença */
 .cards-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-height: 600px;
+  gap: 15px;
+  max-height: 500px;
   overflow-y: auto;
-  padding-right: 0.5rem;
-}
-
-/* Scrollbar personalizada */
-.cards-list::-webkit-scrollbar {
-  width: 6px;
-}
-.cards-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-.cards-list::-webkit-scrollbar-thumb {
-  background: var(--cor-borda);
-  border-radius: 10px;
 }
 
 .alerta-card {
-  background: rgba(255, 206, 82, 0.05);
-  border: 1px solid rgba(255, 206, 82, 0.2);
-  border-left: 4px solid var(--cor-alerta);
-  padding: 1rem;
-  border-radius: var(--raio-borda);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #d1d5db;
 }
 
 .alerta-card.urgente {
-  background: rgba(255, 206, 82, 0.15);
-  border: 1px solid var(--cor-alerta);
+  background: #fff5f5;
+  border-left-color: #e53e3e;
 }
 
 .alerta-info h3 {
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
+  margin: 0 0 5px;
+  font-size: 16px;
 }
 
 .alerta-info p {
-  font-size: 0.85rem;
-  color: var(--cor-texto-medio);
+  margin: 2px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.presenca-time {
+  font-size: 12px;
+  color: #999;
+  display: block;
+  margin-top: 5px;
 }
 
 .btn-concluir {
-  background: var(--cor-sucesso);
+  background: #4a5568;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: var(--raio-borda);
+  padding: 8px 16px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: opacity 0.2s;
+  font-size: 14px;
 }
 
 .btn-concluir:hover {
-  opacity: 0.9;
+  background: #2d3748;
 }
 
 .presenca-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--cor-borda);
-}
-
-.presenca-item:last-child {
-  border-bottom: none;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .user-name {
-  font-weight: 500;
+  font-weight: 600;
+  color: #333;
+  display: block;
 }
 
 .user-tag {
-  font-size: 0.75rem;
-  color: var(--cor-texto-suave);
-}
-
-.presenca-time {
-  font-size: 0.85rem;
-  color: var(--cor-texto-medio);
+  font-size: 11px;
+  color: #888;
 }
 
 .empty-state {
   text-align: center;
-  padding: 2rem;
-  color: var(--cor-texto-suave);
+  color: #a0aec0;
+  padding: 40px 0;
   font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }

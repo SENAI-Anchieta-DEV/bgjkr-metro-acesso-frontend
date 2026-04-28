@@ -15,7 +15,8 @@ import {
   PcdPublicFormPage, 
   PcdAdminFormPage, 
   PcdDashboardPage, 
-  PcdProfilePage 
+  PcdProfilePage,
+  AgenteDashboardPage
 } from '../../features/usuarios/pages';
 
 // Importações de Validações
@@ -32,7 +33,9 @@ import { TagFormPage } from '../../features/tags/pages/TagFormPage';
 const HomeRedirect = () => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/" />;
-  return user.role === 'USUARIO_PCD' ? <Navigate to="/meu-acesso" /> : <Navigate to="/dashboard" />;
+  if (user.role === 'USUARIO_PCD') return <Navigate to="/meu-acesso" />;
+  if (user.role === 'AGENTE_ATENDIMENTO') return <Navigate to="/agente/dashboard" />;
+  return <Navigate to="/dashboard" />;
 };
 
 export const AppRouter = () => {
@@ -48,10 +51,15 @@ export const AppRouter = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<HomeRedirect />} />
-            
+
             {/* Perfil PCD */}
             <Route path="/meu-acesso" element={<PcdDashboardPage />} />
             <Route path="/meu-perfil" element={<PcdProfilePage />} />
+
+            {/* Agente */}
+            <Route path="/agente/dashboard" element={<ProtectedRoute role="AGENTE_ATENDIMENTO"><AgenteDashboardPage /></ProtectedRoute>} />
+
+
 
             {/* Administrativo: Usuários */}
             <Route path="/usuarios" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoUsuariosPage /></ProtectedRoute>} />
@@ -71,7 +79,7 @@ export const AppRouter = () => {
             <Route path="/tags" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoTagsPage /></ProtectedRoute>} />
             <Route path="/tags/nova" element={<ProtectedRoute role="ADMINISTRADOR"><TagFormPage /></ProtectedRoute>} />
             <Route path="/tags/editar/:codigoTag" element={<ProtectedRoute role="ADMINISTRADOR"><TagFormPage /></ProtectedRoute>} />
-            
+
           </Route>
         </Route>
       </Routes>
