@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usuariosService } from '../services/usuariosService';
+import { MetroMap } from '../../dashboard/components/MetroMap';
 import './GestaoUsuariosPage.css';
 
 // ─── Modal de seleção de tipo de usuário ───────────────────────────────────────
@@ -69,7 +70,7 @@ export const GestaoUsuariosPage = () => {
       const [admins, agentes] = await Promise.all([
         usuariosService.listarAdmins(),
         usuariosService.listarAgentes(),
-        
+
       ]);
 
       const adminsComRole = admins.map(u => ({ ...u, role: 'ADMINISTRADOR' }));
@@ -154,6 +155,11 @@ export const GestaoUsuariosPage = () => {
             Adicionar Usuário
           </button>
         </header>
+
+
+
+
+
 
         {/* Stats */}
         <div className="stats-grid">
@@ -288,4 +294,4 @@ export const GestaoUsuariosPage = () => {
       </div>
     </>
   );
-};
+  };

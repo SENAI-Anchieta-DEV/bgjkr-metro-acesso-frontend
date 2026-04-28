@@ -6,3 +6,4 @@ export { PcdAdminFormPage } from './PcdAdminFormPage';
 export { PcdDashboardPage } from './PcdDashboardPage';
 export { PcdProfilePage } from './PcdProfilePage';
 export { AgenteDashboardPage } from './AgenteDashboardPage';
+export { AdminHomePage } from './AdminHomePage';

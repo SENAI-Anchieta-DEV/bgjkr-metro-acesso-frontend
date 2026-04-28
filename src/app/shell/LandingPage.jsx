@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MetroMap } from '../../features/dashboard/components/MetroMap';
 import './LandingPage.css';
 import LogoImg from '../../assets/logo.svg';
 
@@ -41,6 +42,17 @@ export const LandingPage = () => {
           <div className="feature-icon">🚇</div>
           <h3>3. Acesso Liberado</h3>
           <p>Receba a sua Tag ou utilize o sistema nas catracas adaptadas para uma viagem tranquila e sem barreiras.</p>
+        </div>
+      </section>
+
+      {/* Mapa Público de Monitoramento */}
+      <section className="map-public-section" style={{ padding: '60px 20px', textAlign: 'center', background: '#f8f9fa' }}>
+        <h2 style={{ marginBottom: '20px' }}>Acompanhe a Rede em Tempo Real</h2>
+        <p style={{ marginBottom: '40px', color: '#666', maxWidth: '800px', margin: '0 auto 40px' }}>
+          Visualize o status de acessibilidade e o fluxo de atendimento nas principais estações da rede MetroAcesso.
+        </p>
+        <div style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.1)', borderRadius: '15px', overflow: 'hidden' }}>
+          <MetroMap />
         </div>
       </section>
     </div>

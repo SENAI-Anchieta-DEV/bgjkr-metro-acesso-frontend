@@ -32,11 +32,10 @@ export const DashboardLayout = () => {
         </div>
 
         <nav className="sidebar-nav">
-          <SidebarLink to="/dashboard" icon={HomeIcon} label="Início" />
-
-          {/* Menu Administrativo */}
+          {/* Link Dinâmico para o Início/Dashboard conforme o Perfil */}
           {user?.role === 'ADMINISTRADOR' && (
             <>
+              <SidebarLink to="/dashboard" icon={HomeIcon} label="Início" />
               <SidebarLink to="/usuarios" icon={UsersIcon} label="Usuários" />
               <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações" />
               <SidebarLink to="/estacoes" icon={PendenciasIcon} label="Estações" />
@@ -44,19 +43,15 @@ export const DashboardLayout = () => {
             </>
           )}
 
-
-
-          {/* Menu Agente */}
           {user?.role === 'AGENTE_ATENDIMENTO' && (
             <>
-              <SidebarLink to="/agente/dashboard" icon={HomeIcon} label="Dashboard" />
+              <SidebarLink to="/agente/dashboard" icon={HomeIcon} label="Início" />
             </>
           )}
 
-          {/* Menu PCD */}
           {user?.role === 'USUARIO_PCD' && (
             <>
-              <SidebarLink to="/meu-acesso" icon={HomeIcon} label="Meu Status" />
+              <SidebarLink to="/meu-acesso" icon={HomeIcon} label="Início" />
               <SidebarLink to="/meu-perfil" icon={UsersIcon} label="Meu Perfil" />
             </>
           )}

@@ -3,6 +3,7 @@ import { useAuth } from '../../auth/useAuth';
 import { monitoramentoService } from '../../sensores/services/monitoramentoService';
 import { pendenciasService } from '../services/pendenciasService';
 import { getErrorMessage } from '../../../core/utils/error';
+import { MetroMap } from '../../dashboard/components/MetroMap';
 import './AgenteDashboardPage.css';
 
 export const AgenteDashboardPage = () => {
@@ -85,6 +86,11 @@ export const AgenteDashboardPage = () => {
       </header>
 
       {error && <div className="error-message">{error}</div>}
+
+      {/* Mapa Interativo de Monitoramento */}
+      <section className="dashboard-section full-width" style={{ marginBottom: '25px', padding: '0' }}>
+        <MetroMap />
+      </section>
 
       <div className="dashboard-grid">
         {/* Minhas Pendências de Atendimento */}

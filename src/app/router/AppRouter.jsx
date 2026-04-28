@@ -16,7 +16,8 @@ import {
   PcdAdminFormPage, 
   PcdDashboardPage, 
   PcdProfilePage,
-  AgenteDashboardPage
+  AgenteDashboardPage,
+  AdminHomePage
 } from '../../features/usuarios/pages';
 
 // Importações de Validações
@@ -35,6 +36,7 @@ const HomeRedirect = () => {
   if (!user) return <Navigate to="/" />;
   if (user.role === 'USUARIO_PCD') return <Navigate to="/meu-acesso" />;
   if (user.role === 'AGENTE_ATENDIMENTO') return <Navigate to="/agente/dashboard" />;
+
   return <Navigate to="/dashboard" />;
 };
 
@@ -50,7 +52,7 @@ export const AppRouter = () => {
         {/* Rotas Protegidas (Dashboard) */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<HomeRedirect />} />
+            <Route path="/dashboard" element={<ProtectedRoute role="ADMINISTRADOR"><AdminHomePage /></ProtectedRoute>} />
 
             {/* Perfil PCD */}
             <Route path="/meu-acesso" element={<PcdDashboardPage />} />

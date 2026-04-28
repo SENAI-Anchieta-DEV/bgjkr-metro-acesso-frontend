@@ -1,0 +1,144 @@
+.metro-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+}
+
+.map-container-inner {
+  flex: 1;
+  height: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.map-container-inner.with-panel {
+  margin-right: 350px;
+}
+
+/* Animação Pulse para Marcadores com Alerta */
+@keyframes pulse-red {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+    stroke-width: 2;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.4;
+    stroke-width: 10;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+    stroke-width: 2;
+  }
+}
+
+.pulse-marker {
+  animation: pulse-red 2s infinite ease-in-out;
+  stroke: #ff0000;
+  stroke-opacity: 0.6;
+}
+
+/* Estilização do Painel Lateral */
+.station-detail-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100%;
+  background: white;
+  box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.panel-header {
+  padding: 20px;
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.btn-close-panel {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.panel-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.info-section {
+  margin-bottom: 25px;
+}
+
+.info-section h3 {
+  font-size: 1rem;
+  color: #666;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.agente-tag {
+  display: inline-block;
+  background: #f0f7ff;
+  color: #0066cc;
+  padding: 4px 12px;
+  border-radius: 15px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.pcd-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.pcd-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.status-waiting {
+  color: #e53e3e;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.empty-text {
+  color: #999;
+  font-style: italic;
+}
