@@ -27,6 +27,12 @@ export const usuariosService = {
     return response.data;
   },
 
+    removerPcd: async (email) => {
+    const response = await httpClient.delete(`/api/pcd/${email}`);
+    return response.data;
+  },
+
+
   cadastrarAdmin: async (dados) => {
     const response = await httpClient.post('/api/admin', dados);
     return response.data;

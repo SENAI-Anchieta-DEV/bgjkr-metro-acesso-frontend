@@ -40,7 +40,7 @@ export const DashboardLayout = () => {
               <SidebarLink to="/usuarios" icon={UsersIcon} label="Usuários" />
               <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações" />
               <SidebarLink to="/estacoes" icon={PendenciasIcon} label="Estações" />
-              <SidebarLink to="/tags" icon={PendenciasIcon} label="Tags RFID" />
+              <SidebarLink to="/tags" icon={PendenciasIcon} label="Tags" />
             </>
           )}
 
