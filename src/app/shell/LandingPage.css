@@ -316,7 +316,7 @@
 .hero-section p {
   font-size: 1.5rem;
   font-weight: 300;
-  color: var(--cor-texto-medio);
+  color: white;
   max-width: 50vw;
   margin-bottom: 3rem;
   line-height: 1.8;
@@ -600,7 +600,7 @@
 }
 
 .content-section p {
-  color: var(--cor-texto-medio);
+  color: white;
   font-size: 1.5rem;
   line-height: 1.85;
   font-weight: 300;
@@ -617,7 +617,7 @@
 .content-section ul li {
   position: relative;
   padding-left: 1.5rem;
-  color: var(--cor-texto-medio);
+  color: white;
   font-size: 1.2rem;
   line-height: 1.65;
 }
@@ -758,7 +758,7 @@
 }
 
 .feature-card p {
-  color: var(--cor-texto-medio);
+  color: white;
   line-height: 1.7;
   font-size: 1.2rem;
   font-weight: 300;
@@ -815,7 +815,7 @@
 }
 
 .info-card p {
-  color: var(--cor-texto-medio);
+  color: white;
   font-size: 1.2rem;
   line-height: 1.65;
   font-weight: 300;
@@ -879,7 +879,7 @@
 }
 
 .scope-card.negative h3 {
-  color: var(--cor-texto-medio);
+  color: white;
 }
 
 .scope-card ul {
@@ -892,7 +892,7 @@
 .scope-card ul li {
   position: relative;
   padding-left: 1.4rem;
-  color: var(--cor-texto-medio);
+  color: white;
   font-size: 1.2rem;
   line-height: 1.55;
 }
@@ -922,7 +922,7 @@
   max-width: 50vw;
   text-align: center;
   margin: 0 auto 3.5rem;
-  color: var(--cor-texto-medio);
+  color: white;
   font-size: 1.05rem;
   line-height: 1.85;
   font-weight: 300;
@@ -954,7 +954,7 @@
   padding: 1.5rem 2rem;
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--cor-texto-medio);
+  color: white;
   white-space: nowrap;
   transition: all var(--transicao);
   cursor: default;
