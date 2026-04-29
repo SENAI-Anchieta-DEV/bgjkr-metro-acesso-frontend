@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './LandingPage.css';
 import LogoImg from '../../assets/logo.svg';
 
+
+
 export const LandingPage = () => {
   return (
     <div className="landing-container">

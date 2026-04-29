@@ -19,14 +19,14 @@
 
   /* Texto */
   --cor-texto-forte: #ffffff;
-  --cor-texto-medio: #ffffff70;
-  --cor-texto-suave: #ffffff40;
+  --cor-texto-medio: #ffffffc7;
+  --cor-texto-suave: #ffffff8c;
 
   /* Status */
   --cor-info: #0053A0;
   --cor-sucesso: #0BB07B;
   --cor-alerta: #FFCE52;
-  --cor-erro: #F03D3D;
+  --cor-erro: #F03D3D;  
 
   /* Utilitários */
   --raio-borda: 8px;
