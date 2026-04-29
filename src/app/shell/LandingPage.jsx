@@ -11,8 +11,15 @@ export const LandingPage = () => {
 
       {/* HEADER */}
       <header className="landing-header">
+        <div className="logo-nome">
           <img src={LogoImg} alt="MetroAcesso" className="landing-logo" />
-          <h1>MetroAcesso</h1>
+          <div id="nome-metro-acesso">
+            <h1>Metro</h1>
+            <div id="acesso-azul">
+              <h1>Acesso</h1>
+            </div>
+          </div>
+        </div>
         <Link to="/login" className="btn-login-header">
           Acesso Restrito
         </Link>
@@ -20,6 +27,8 @@ export const LandingPage = () => {
 
       {/* HERO */}
       <section className="hero-section">
+        <div className="overlay-azul-banner"></div>
+        <img src="src\assets\station.jpg" className="banner-hero"></img>
         <h1>Autonomia e Inclusão no <span>Transporte Público</span></h1>
         <p>
           Automatizamos o atendimento a pessoas com deficiência no metrô, tornando o processo mais rápido, previsível e independente.
@@ -46,8 +55,7 @@ export const LandingPage = () => {
           </div>
 
           <div className="image-placeholder">
-            {/* IMAGEM FUTURA */}
-            <span>Imagem / Ilustração</span>
+            <img src="src\assets\pcd-estacao.jpg" className="img-content"></img>
           </div>
         </div>
       </section>
@@ -57,7 +65,7 @@ export const LandingPage = () => {
         <h2>Nossa Solução</h2>
         <div className="content-grid reverse">
           <div className="image-placeholder">
-            <span>Fluxo do sistema</span>
+            <img src="src\assets\tag.png" className="img-content"></img>
           </div>
 
           <div>
