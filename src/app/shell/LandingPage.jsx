@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
 import LogoImg from '../../assets/logo.svg';
-
-
+import station from '../../assets/station.jpg'
+import pcdStation from '../../assets/pcd-station.jpg'
+import tag from '../../assets/tag.png'
 
 export const LandingPage = () => {
   return (
@@ -28,7 +29,7 @@ export const LandingPage = () => {
       {/* HERO */}
       <section className="hero-section">
         <div className="overlay-azul-banner"></div>
-        <img src="src\assets\station.jpg" className="banner-hero"></img>
+        <img src={station} className="banner-hero"></img>
         <h1>Autonomia e Inclusão no <span>Transporte Público</span></h1>
         <p>
           Automatizamos o atendimento a pessoas com deficiência no metrô, tornando o processo mais rápido, previsível e independente.
@@ -55,7 +56,7 @@ export const LandingPage = () => {
           </div>
 
           <div className="image-placeholder">
-            <img src="src\assets\pcd-estacao.jpg" className="img-content"></img>
+              <img src={pcdStation} className="img-content"></img>
           </div>
         </div>
       </section>
@@ -65,7 +66,7 @@ export const LandingPage = () => {
         <h2>Nossa Solução</h2>
         <div className="content-grid reverse">
           <div className="image-placeholder">
-            <img src="src\assets\tag.png" className="img-content"></img>
+            <img src={tag} className="img-content"></img>
           </div>
 
           <div>
