@@ -33,7 +33,7 @@ export function LoginPage() {
     <div className="login-container">
       <div className="login-box">
         <h2 className="login-title">Acesso ao Sistema</h2>
-        <p className="login-subtitle">Metrô Acesso — Gestão de PcDs</p>
+        <p className="login-subtitle">MetroAcesso — Gestão de PcDs</p>
 
         <form onSubmit={handleLogin} className="login-form">
           <div className="input-group">
