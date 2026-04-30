@@ -114,7 +114,8 @@
   gap: 0;
 }
 
-.btn-login-header {
+.btn-login-header,
+.btn-solicitar-pequeno {
   font-family: var(--fonte-corpo);
   color: var(--cor-texto-forte);
   font-weight: 500;
@@ -132,7 +133,8 @@
   overflow: hidden;
 }
 
-.btn-login-header::before {
+.btn-login-header::before,
+.btn-solicitar-pequeno::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -141,13 +143,29 @@
   transition: opacity var(--transicao);
 }
 
-.btn-login-header:hover {
+.btn-login-header:hover,
+.btn-solicitar-pequeno:hover {
   border-color: var(--cor-borda-ativa);
   color: var(--cor-primaria);
 }
 
-.btn-login-header:hover::before {
+.btn-login-header:hover::before,
+.btn-solicitar-pequeno:hover::before {
   opacity: 1;
+}
+
+.btn-solicitar-pequeno {
+  background-color: #009CDE;
+}
+
+.btn-solicitar-pequeno:hover {
+  background-color: #ffffff22;
+}
+
+.botoes-header {
+  gap: 20px;
+  display: flex;
+  align-items: center;
 }
 
 /* ── HERO ─────────────────────────────────────────────────── */
@@ -365,7 +383,8 @@
 }
 
 .btn-solicitar::before,
-.btn-solicitar-grande::before {
+.btn-solicitar-grande::before,
+.btn-solicitar-pequeno::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -375,18 +394,17 @@
 }
 
 .btn-solicitar:hover,
-.btn-solicitar-grande:hover {
+.btn-solicitar-grande:hover{
   background: #00aaee;
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 16px 48px rgba(0, 156, 222, 0.45), 0 0 0 1px rgba(0, 156, 222, 0.4);
 }
 
 .btn-solicitar:hover::before,
-.btn-solicitar-grande:hover::before {
+.btn-solicitar-grande:hover::before,
+.btn-solicitar-pequeno:hover::before {
   opacity: 1;
 }
-
-
 
 /* ── 3D CARD FLUTUANTE (hero) ─────────────────────────────── */
 .hero-3d-card {

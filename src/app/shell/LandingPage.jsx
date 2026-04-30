@@ -21,9 +21,14 @@ export const LandingPage = () => {
             </div>
           </div>
         </div>
-        <Link to="/login" className="btn-login-header">
-          Entre com uma conta
-        </Link>
+        <div className="botoes-header">
+          <Link to="/solicitar-acesso" className="btn-solicitar-pequeno">
+            Cadastro para PcD
+          </Link>
+          <Link to="/login" className="btn-login-header">
+            Entre com uma conta
+          </Link>
+        </div>
       </header>
 
       {/* HERO */}
@@ -99,7 +104,7 @@ export const LandingPage = () => {
           <div className="feature-icon">📝</div>
           <h3>Solicitação de uma tag</h3>
           <p>
-            Receba uma tag que notifique os agentes de atendimento até o PcD, 
+            Receba uma tag que notifique os agentes de atendimento até o PcD,
             <span className="destaque-azul"> instantaneamente.</span>
           </p>
         </div>
@@ -197,7 +202,7 @@ export const LandingPage = () => {
         <p className="center-text">
           Pretendemos evoluir para uma <span className="destaque-azul">infraestrutura integrada de mobilidade acessível</span>, onde o
           atendimento a pessoas com deficiência é contínuo, automatizado e <span className="destaque-azul">coordenado entre
-          todas as etapas da viagem</span>. O objetivo é eliminar barreiras operacionais, reduzir
+            todas as etapas da viagem</span>. O objetivo é eliminar barreiras operacionais, reduzir
           dependência de intervenção manual e garantir uma experiência de transporte mais
           autônoma, previsível e <span className="destaque-azul">inclusiva em toda a rede metroviária</span>.
         </p>

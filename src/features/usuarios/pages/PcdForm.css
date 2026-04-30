@@ -1,11 +1,58 @@
+.botao-voltar {
+  position: fixed;
+  z-index: 2;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  margin: 40px;
+  transition: all 0.25s ease;
+}
+
+.botao-voltar img {
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.botao-voltar:hover {
+  transform: scale(1.08);
+  border-color: #ffffff;
+  background: var(--cor-primaria-hover);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.botao-voltar:hover img {
+  transform: scale(1.1);
+}
+
 .pcd-public-container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--cor-fundo-geral);
-  padding: 2rem;
-  animation: fadeIn 0.5s ease-out;
+  min-height: 100vh;
+  padding: 60px 0;
+
+  background-image: url("../../../assets/fundo-metro.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.pcd-public-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 0;
 }
 
 .pcd-public-card {
@@ -16,6 +63,8 @@
   width: 100%;
   max-width: 600px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
 }
 
 .pcd-public-header {
@@ -61,7 +110,8 @@
   letter-spacing: 1px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 0.85rem 1.25rem;
   background-color: #2a2a2a;
@@ -73,7 +123,8 @@ input, select {
   outline: none;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: var(--cor-primaria);
   background-color: #323232;
   box-shadow: 0 0 0 4px rgba(0, 156, 222, 0.1);
@@ -236,6 +287,13 @@ input:focus, select:focus {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
