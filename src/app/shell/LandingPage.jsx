@@ -5,6 +5,7 @@ import LogoImg from '../../assets/logo.svg';
 import station from '../../assets/station.jpg'
 import pcdStation from '../../assets/pcd-station.jpg'
 import tag from '../../assets/tag.png'
+import qrcode from '../../assets/qrcode.jpg'
 
 export const LandingPage = () => {
   return (
@@ -217,15 +218,19 @@ export const LandingPage = () => {
 
       {/* CTA FINAL */}
       <section className="cta-section">
-        <h2>Deseja pegar o metrô com atendimento focado em <span className="destaque-azul">acessibilidade, agilidade e autonomia?</span></h2>
-        <br></br>
-        <br></br>
-        <br></br>
-        <Link to="/solicitar-acesso" className="btn-solicitar-grande">
-          Solicitar Acesso Gratuito para PcD
-        </Link>
+        <div className="cta-esquerda">
+          <h2>Deseja pegar o metrô com atendimento focado em <span className="destaque-azul">acessibilidade, agilidade e autonomia?</span></h2>
+          <br></br>
+          <br></br>
+          <br></br>
+          <Link to="/solicitar-acesso" className="btn-solicitar-grande">
+            Solicitar Acesso Gratuito para PcD
+          </Link>
+        </div>
+        <div className="cta-direita">
+          <img src={qrcode} alt="qrcode" />
+        </div>
       </section>
-
     </div>
   );
 };
