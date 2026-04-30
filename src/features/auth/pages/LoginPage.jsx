@@ -39,7 +39,7 @@ export function LoginPage() {
       <div className="login-container">
 
         <div className="login-box">
-          <h2 className="login-title">Acesso ao Sistema</h2>
+          <h2 className="login-title">Acesso o Sistema</h2>
           <p className="login-subtitle">MetroAcesso — Autonomia Acessível</p>
 
           <form onSubmit={handleLogin} className="login-form">
