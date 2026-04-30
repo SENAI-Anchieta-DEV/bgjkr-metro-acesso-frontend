@@ -302,6 +302,7 @@
   letter-spacing: -0.04em;
   max-width: 900px;
   margin-bottom: 1.8rem;
+  margin-top: 5rem;
   animation: fadeUp 0.8s 0.1s ease both;
 }
 
@@ -336,7 +337,8 @@
 }
 
 /* ── BOTÃO PRINCIPAL ──────────────────────────────────────── */
-.btn-solicitar {
+.btn-solicitar,
+.btn-solicitar-grande {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -357,7 +359,13 @@
   overflow: hidden;
 }
 
-.btn-solicitar::before {
+.btn-solicitar-grande {
+  font-size: 2rem;
+  padding: 2rem 2.4rem;
+}
+
+.btn-solicitar::before,
+.btn-solicitar-grande::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -366,15 +374,19 @@
   transition: opacity var(--transicao);
 }
 
-.btn-solicitar:hover {
+.btn-solicitar:hover,
+.btn-solicitar-grande:hover {
   background: #00aaee;
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 16px 48px rgba(0, 156, 222, 0.45), 0 0 0 1px rgba(0, 156, 222, 0.4);
 }
 
-.btn-solicitar:hover::before {
+.btn-solicitar:hover::before,
+.btn-solicitar-grande:hover::before {
   opacity: 1;
 }
+
+
 
 /* ── 3D CARD FLUTUANTE (hero) ─────────────────────────────── */
 .hero-3d-card {
@@ -516,6 +528,11 @@
 .img-content {
   height: inherit;
   width: 100%;
+}
+
+.destaque-azul{
+  color:#30bdff;
+  font-weight: bold;
 }
 
 /* Reveal animation via JS (classe adicionada quando visível) */
@@ -769,7 +786,7 @@
 /* ── CARDS GRID (objetivos) ───────────────────────────────── */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
@@ -882,32 +899,25 @@
   color: white;
 }
 
-.scope-card ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.scope-card ul li::before {
+  all: unset;
 }
 
 .scope-card ul li {
+  display: block;
   position: relative;
   padding-left: 1.4rem;
-  color: white;
-  font-size: 1.2rem;
-  line-height: 1.55;
 }
 
 .scope-card.positive ul li::before {
-  content: '✓';
+  content: "✓";
   position: absolute;
   left: 0;
   color: var(--cor-primaria);
-  font-size: 0.85rem;
-  font-weight: 700;
 }
 
 .scope-card.negative ul li::before {
-  content: '×';
+  content: '↗';
   position: absolute;
   left: 0;
   color: var(--cor-texto-suave);
@@ -919,7 +929,7 @@
 }
 
 .center-text {
-  max-width: 50vw;
+  max-width: 1000px;
   text-align: center;
   margin: 0 auto 3.5rem;
   color: white;
