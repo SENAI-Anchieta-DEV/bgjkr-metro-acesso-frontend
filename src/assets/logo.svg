@@ -1,8 +1,8 @@
-<svg width="141" height="122" viewBox="0 0 141 122" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 58.8965H140.781V120C140.781 121.105 139.885 122 138.781 122H2C0.895428 122 0 121.105 0 120V58.8965Z" fill="#009CDE"/>
-<path d="M0 2C0 0.895428 0.895431 0 2 0H138.781C139.885 0 140.781 0.895431 140.781 2V63.1035H0V2Z" fill="white"/>
-<rect x="59.0371" y="79.9309" width="22.7066" height="42.069" fill="white"/>
-<path d="M61.4159 77.8666L70.6764 70.0935L118.722 111.488L108.59 120.853L61.4159 77.8666Z" fill="white"/>
-<path d="M79.7416 77.8666L70.4811 70.0935L22.4356 111.488L32.5676 120.853L79.7416 77.8666Z" fill="white"/>
-<ellipse cx="70.3906" cy="31.552" rx="24.9772" ry="23.1379" fill="#009CDE"/>
+<svg width="530" height="530" viewBox="0 0 530 530" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="265" width="530" height="265" fill="#009CDE"/>
+<rect width="530" height="265" fill="white"/>
+<rect x="235" y="345" width="61" height="185" fill="white"/>
+<path d="M230.845 343.257L265.773 309.489L446.993 489.315L408.776 530L230.845 343.257Z" fill="white"/>
+<path d="M299.879 343.257L264.95 309.488L83.7312 489.315L121.948 530L299.879 343.257Z" fill="white"/>
+<circle cx="266.5" cy="132.5" r="96.5" fill="#009CDE"/>
 </svg>

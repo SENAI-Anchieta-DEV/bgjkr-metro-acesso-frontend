@@ -59,6 +59,8 @@ export const PcdAdminFormPage = () => {
     setLoading(true);
 
     try {
+
+
       const data = new FormData();
       data.append('nome', formData.nome);
       data.append('email', formData.email);
@@ -67,7 +69,9 @@ export const PcdAdminFormPage = () => {
       formData.tiposDeficiencia.forEach((tipo) => data.append('tiposDeficiencia', tipo));
       data.append('comprovacao', comprovacao);
 
-      await usuariosService.cadastrarPcd(data);
+
+
+      await usuariosService.cadastrarPcdDireto(data);
       setSucesso(true);
       setTimeout(() => navigate('/usuarios'), 1500);
     } catch (err) {

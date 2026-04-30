@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { validacoesService } from '../services/validacoesService';
+import { tagsService } from '../../tags/services/tagsService';
 import { env } from '../../../core/config/env';
 import './ValidacoesPage.css';
 
@@ -8,6 +9,11 @@ export default function ValidacoesPage() {
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState('');
   const [processando, setProcessando] = useState(null);
+
+
+
+
+
 
   const carregarDados = async () => {
     setLoading(true);
@@ -26,21 +32,54 @@ export default function ValidacoesPage() {
     carregarDados();
   }, []);
 
-  const handleDecisao = async (form, aprovado) => {
-    let motivoReprovacao = null;
+  const handleApprove = async (form) => {
+    if (!window.confirm(`Aprovar a solicitação de ${form.nome}?`)) return;
 
-    if (!aprovado) {
-      motivoReprovacao = window.prompt('Digite o motivo da reprovação:');
-      if (!motivoReprovacao || !motivoReprovacao.trim()) return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    setProcessando(form.id);
+
+
+
+
+
+
+    try {
+      // O back-end original NÃO aceita codigoTag aqui. 
+      // Ele escolhe uma tag automaticamente no service.
+      await validacoesService.processarValidacao(form.email, true, null);
+      setFormularios(prev => prev.filter(f => f.id !== form.id));
+      alert('Usuário aprovado com sucesso! Uma Tag foi vinculada automaticamente.');
+    } catch (err) {
+      console.error('Erro ao aprovar:', err);
+      alert('Erro ao processar a aprovação. Tente novamente.');
+    } finally {
+      setProcessando(null);
     }
+  };
+
+  const handleReject = async (form) => {
+    const motivoReprovacao = window.prompt('Digite o motivo da reprovação:');
+    if (!motivoReprovacao || !motivoReprovacao.trim()) return;
 
     setProcessando(form.id);
     try {
-      // Backend usa o EMAIL no path, não o id
-      await validacoesService.processarValidacao(form.email, aprovado, motivoReprovacao);
+      await validacoesService.processarValidacao(form.email, false, motivoReprovacao);
       setFormularios(prev => prev.filter(f => f.id !== form.id));
-      alert(aprovado ? 'Usuário aprovado com sucesso!' : 'Solicitação reprovada.');
-    } catch {
+      alert('Solicitação reprovada.');
+    } catch (err) {
+      console.error('Erro ao reprovar:', err);
       alert('Erro ao processar a decisão. Tente novamente.');
     } finally {
       setProcessando(null);
@@ -60,7 +99,7 @@ export default function ValidacoesPage() {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1>Fila de Validações PcD</h1>
+        <h1>Fila de Validações PCD</h1>
         <p>
           {formularios.length === 0
             ? 'Nenhuma solicitação pendente.'
@@ -102,7 +141,6 @@ export default function ValidacoesPage() {
                   <td>{form.nome}</td>
                   <td style={{ fontSize: '0.85rem', color: '#64748b' }}>{form.email}</td>
                   <td>
-                    {/* tiposDeficiencia é um Set<TipoDeficiencia> — pode vir como array */}
                     {Array.isArray(form.tiposDeficiencia)
                       ? form.tiposDeficiencia.map(t => (
                           <span key={t} className="badge-info" style={{ marginRight: '4px' }}>
@@ -131,14 +169,14 @@ export default function ValidacoesPage() {
                     <button
                       className="btn-approve"
                       disabled={processando === form.id}
-                      onClick={() => handleDecisao(form, true)}
+                      onClick={() => handleApprove(form)}
                     >
                       {processando === form.id ? '...' : 'Aprovar'}
                     </button>
                     <button
                       className="btn-reject"
                       disabled={processando === form.id}
-                      onClick={() => handleDecisao(form, false)}
+                      onClick={() => handleReject(form)}
                     >
                       {processando === form.id ? '...' : 'Reprovar'}
                     </button>
@@ -149,6 +187,54 @@ export default function ValidacoesPage() {
           </tbody>
         </table>
       </div>
-    </div>
+
+
+
+
+   </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

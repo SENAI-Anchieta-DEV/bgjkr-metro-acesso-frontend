@@ -13,6 +13,7 @@ import SairIcon from '../../assets/sair.svg';
 import BellIcon from '../../assets/TopAction/Bell.svg';
 import ChatIcon from '../../assets/TopAction/Chat.svg';
 
+
 const SidebarLink = ({ to, icon, label }) => (
   <NavLink to={to} className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
     <img src={icon} alt={label} />
@@ -25,7 +26,6 @@ export const DashboardLayout = () => {
 
   return (
     <div className="dashboard-wrapper">
-
       <aside className="sidebar">
         <div className="sidebar-logo">
           <img src={LogoImg} alt="Logo" />
@@ -33,9 +33,33 @@ export const DashboardLayout = () => {
 
         <nav className="sidebar-nav">
           <SidebarLink to="/dashboard" icon={HomeIcon} label="Início" />
-          <SidebarLink to="/usuarios" icon={UsersIcon} label="Usuários" />
-          <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações" />
-          <SidebarLink to="/pendencias" icon={PendenciasIcon} label="Pendências" />
+
+          {/* Menu Administrativo */}
+          {user?.role === 'ADMINISTRADOR' && (
+            <>
+              <SidebarLink to="/usuarios" icon={UsersIcon} label="Usuários" />
+              <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações" />
+              <SidebarLink to="/estacoes" icon={PendenciasIcon} label="Estações" />
+              <SidebarLink to="/tags" icon={PendenciasIcon} label="Tags RFID" />
+            </>
+          )}
+
+
+
+          {/* Menu Agente */}
+          {user?.role === 'AGENTE_ATENDIMENTO' && (
+            <>
+              <SidebarLink to="/agente/dashboard" icon={HomeIcon} label="Dashboard" />
+            </>
+          )}
+
+          {/* Menu PCD */}
+          {user?.role === 'USUARIO_PCD' && (
+            <>
+              <SidebarLink to="/meu-acesso" icon={HomeIcon} label="Meu Status" />
+              <SidebarLink to="/meu-perfil" icon={UsersIcon} label="Meu Perfil" />
+            </>
+          )}
         </nav>
 
         <div className="sidebar-footer">
@@ -46,6 +70,7 @@ export const DashboardLayout = () => {
         </div>
       </aside>
 
+
       <main className="main-area">
 
         <header className="topbar">
@@ -53,13 +78,9 @@ export const DashboardLayout = () => {
 
           <div className="topbar-actions">
             <button className="action-btn">
-              <img src={ChatIcon} />
+
             </button>
 
-            <button className="action-btn">
-              <img src={BellIcon} />
-              <span className="notification-dot"></span>
-            </button>
 
             <div className="avatar">
               {user?.nome?.[0] || 'U'}

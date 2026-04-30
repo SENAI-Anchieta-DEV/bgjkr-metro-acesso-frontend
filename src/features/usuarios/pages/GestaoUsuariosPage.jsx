@@ -66,15 +66,17 @@ export const GestaoUsuariosPage = () => {
     try {
       // Busca admins e agentes em paralelo e injeta a role manualmente
       // (a API retorna AdminResponseDto/AgenteResponseDto sem campo role)
-      const [admins, agentes] = await Promise.all([
+      const [admins, agentes, pcds] = await Promise.all([
         usuariosService.listarAdmins(),
         usuariosService.listarAgentes(),
+        usuariosService.listarPcds()
       ]);
 
       const adminsComRole = admins.map(u => ({ ...u, role: 'ADMINISTRADOR' }));
       const agentesComRole = agentes.map(u => ({ ...u, role: 'AGENTE_ATENDIMENTO' }));
+      const pcdsComRole = pcds.map(u => ({ ...u, role: 'USUARIO_PCD'}));
 
-      setUsuarios([...adminsComRole, ...agentesComRole]);
+      setUsuarios([...adminsComRole, ...agentesComRole, ...pcdsComRole]);
     } catch (err) {
       console.error('Erro ao carregar usuários:', err);
       setErro('Não foi possível carregar os usuários. Verifique a conexão com o servidor.');
@@ -105,13 +107,12 @@ export const GestaoUsuariosPage = () => {
     }
   };
 
-const handleSelecionarTipo = (tipo) => {
-  setShowModal(false);
-  if (tipo === 'admin') navigate('/usuarios/novo-admin');
-  else if (tipo === 'agente') navigate('/usuarios/novo-agente');
-  else if (tipo === 'pcd') navigate('/usuarios/novo-pcd'); 
-};
-
+  const handleSelecionarTipo = (tipo) => {
+    setShowModal(false);
+    if (tipo === 'admin') navigate('/usuarios/novo-admin');
+    else if (tipo === 'agente') navigate('/usuarios/novo-agente');
+    else if (tipo === 'pcd') navigate('/usuarios/novo-pcd');
+  };
 
   const getInitials = (nome) => (nome ? nome.charAt(0).toUpperCase() : 'U');
 
@@ -197,6 +198,7 @@ const handleSelecionarTipo = (tipo) => {
             { key: 'TODOS', label: 'Todos' },
             { key: 'ADMINISTRADOR', label: 'Administradores' },
             { key: 'AGENTE_ATENDIMENTO', label: 'Agentes' },
+            { key: 'PCD', label: 'Usuários PCD' },
           ].map(({ key, label }) => (
             <button
               key={key}
