@@ -1,13 +1,61 @@
+.botao-voltar {
+  position: fixed;
+  z-index: 2;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  margin: 40px;
+  transition: all 0.25s ease;
+}
+
+.botao-voltar img {
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.botao-voltar:hover {
+  transform: scale(1.08);
+  border-color: #ffffff;
+  background: var(--cor-primaria-hover);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.botao-voltar:hover img {
+  transform: scale(1.1);
+}
+
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--cor-fundo-geral);
-  animation: fadeIn 0.5s ease-out;
+
+  background-image: url("../../../assets/fundo-metro.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
 }
 
 .login-box {
+  position: relative;
+  z-index: 1;
   background-color: var(--cor-fundo-card);
   padding: 3rem;
   border-radius: var(--raio-borda);
