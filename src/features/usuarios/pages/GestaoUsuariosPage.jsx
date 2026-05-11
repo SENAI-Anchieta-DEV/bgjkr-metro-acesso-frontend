@@ -63,9 +63,7 @@ export const GestaoUsuariosPage = () => {
   const carregarUsuarios = useCallback(async () => {
     setLoading(true);
     setErro('');
-    try {
-      // Busca admins e agentes em paralelo e injeta a role manualmente
-      // (a API retorna AdminResponseDto/AgenteResponseDto sem campo role)
+       try {
       const [admins, agentes, pcds] = await Promise.all([
         usuariosService.listarAdmins(),
         usuariosService.listarAgentes(),
@@ -74,7 +72,7 @@ export const GestaoUsuariosPage = () => {
 
       const adminsComRole = admins.map(u => ({ ...u, role: 'ADMINISTRADOR' }));
       const agentesComRole = agentes.map(u => ({ ...u, role: 'AGENTE_ATENDIMENTO' }));
-      const pcdsComRole = pcds.map(u => ({ ...u, role: 'USUARIO_PCD'}));
+      const pcdsComRole = pcds.map(u => ({ ...u, role: 'PCD' })); // ✅ corrigido
 
       setUsuarios([...adminsComRole, ...agentesComRole, ...pcdsComRole]);
     } catch (err) {
@@ -85,6 +83,7 @@ export const GestaoUsuariosPage = () => {
     }
   }, []);
 
+
   useEffect(() => {
     carregarUsuarios();
   }, [carregarUsuarios]);
@@ -92,13 +91,16 @@ export const GestaoUsuariosPage = () => {
   const handleRemover = async (user) => {
     if (!window.confirm(`Deseja remover o usuário "${user.nome}" (${user.email})?`)) return;
 
-    setRemovendoEmail(user.email);
+     setRemovendoEmail(user.email);
     try {
       if (user.role === 'ADMINISTRADOR') {
         await usuariosService.removerAdmin(user.email);
-      } else {
+      } else if (user.role === 'AGENTE_ATENDIMENTO') {
         await usuariosService.removerAgente(user.email);
+      } else if (user.role === 'PCD') {
+        await usuariosService.removerPcd(user.email); // ✅ corrigido
       }
+
       setUsuarios(prev => prev.filter(u => u.email !== user.email));
     } catch (err) {
       alert('Erro ao remover usuário. Tente novamente.');
@@ -106,6 +108,7 @@ export const GestaoUsuariosPage = () => {
       setRemovendoEmail(null);
     }
   };
+  
 
   const handleSelecionarTipo = (tipo) => {
     setShowModal(false);
@@ -120,6 +123,7 @@ export const GestaoUsuariosPage = () => {
     const config = {
       ADMINISTRADOR: { label: 'Administrador', className: 'role-admin' },
       AGENTE_ATENDIMENTO: { label: 'Agente', className: 'role-agente' },
+      PCD: { label: 'Pcd', className: 'role-pcd' },
     };
     const { label, className } = config[role] || { label: 'Desconhecido', className: '' };
     return <span className={`role-badge ${className}`}>{label}</span>;
@@ -131,7 +135,7 @@ export const GestaoUsuariosPage = () => {
 
   const totalAdmins = usuarios.filter(u => u.role === 'ADMINISTRADOR').length;
   const totalAgentes = usuarios.filter(u => u.role === 'AGENTE_ATENDIMENTO').length;
-
+  const totalPcds = usuarios.filter(u => u.role === 'PCD').length;
   return (
     <>
       {showModal && (
@@ -200,18 +204,19 @@ export const GestaoUsuariosPage = () => {
             { key: 'AGENTE_ATENDIMENTO', label: 'Agentes' },
             { key: 'PCD', label: 'Usuários PCD' },
           ].map(({ key, label }) => (
-            <button
-              key={key}
-              className={`filtro-btn ${filtro === key ? 'ativo' : ''}`}
-              onClick={() => setFiltro(key)}
-            >
-              {label}
-              <span className="filtro-count">
-                {key === 'TODOS' ? usuarios.length
-                  : key === 'ADMINISTRADOR' ? totalAdmins
-                  : totalAgentes}
-              </span>
-            </button>
+        <button
+  key={key}
+  className={`filtro-btn ${filtro === key ? 'ativo' : ''}`}
+  onClick={() => setFiltro(key)}
+>
+  {label}
+  <span className="filtro-count">
+    {key === 'TODOS' ? usuarios.length
+      : key === 'ADMINISTRADOR' ? totalAdmins
+      : key === 'AGENTE_ATENDIMENTO' ? totalAgentes
+      : totalPcds}
+  </span>
+</button>
           ))}
         </div>
 
@@ -236,12 +241,18 @@ export const GestaoUsuariosPage = () => {
                 {usuariosFiltrados.map(user => (
                   <tr key={user.id || user.email}>
                     <td>
-                      <div className="user-cell">
-                        <div className={`user-avatar avatar-${user.role === 'ADMINISTRADOR' ? 'admin' : 'agente'}`}>
-                          {getInitials(user.nome)}
-                        </div>
-                        <span className="user-name">{user.nome}</span>
-                      </div>
+            <div className="user-cell">
+  <div className={`user-avatar avatar-${
+    user.role === 'ADMINISTRADOR'
+      ? 'admin'
+      : user.role === 'AGENTE_ATENDIMENTO'
+      ? 'agente'
+      : 'pcd'
+  }`}>
+    {getInitials(user.nome)}
+  </div>
+  <span className="user-name">{user.nome}</span>
+</div>
                     </td>
                     <td>{renderRoleBadge(user.role)}</td>
                     <td><span className="user-email">{user.email}</span></td>
