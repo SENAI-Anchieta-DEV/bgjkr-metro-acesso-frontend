@@ -143,7 +143,7 @@
 .pendencia-body .time {
   margin-top: 5px;
   font-weight: 600;
-  color: #ffffff;
+  color: #334155;
 }
 
 .btn-concluir-pendencia {
@@ -206,7 +206,7 @@
 
 .btn-concluir {
   background: #4a5568;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -222,13 +222,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 11px;
   border-bottom: 1px solid #f0f0f0;
 }
 
 .user-name {
   font-weight: 600;
-  color: #333;
+  color: #ffffff;
   display: block;
 }
 
