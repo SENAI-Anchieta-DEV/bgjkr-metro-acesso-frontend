@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../useAuth';
 import { useAsync } from '../../../core/hooks/useAsync';
 import { getErrorMessage } from '../../../core/utils/error';
 import './LoginPage.css';
+import voltar from '../../../assets/voltar.svg'
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -30,44 +32,50 @@ export function LoginPage() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2 className="login-title">Acesso ao Sistema</h2>
-        <p className="login-subtitle">Metrô Acesso — Gestão de PcDs</p>
+    <div>
+      <Link to="/" className="botao-voltar">
+        <img src={voltar} alt="voltar" />
+      </Link>
+      <div className="login-container">
 
-        <form onSubmit={handleLogin} className="login-form">
-          <div className="input-group">
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Digite seu e-mail corporativo"
-              required
-            />
-          </div>
+        <div className="login-box">
+          <h2 className="login-title">Acesso o Sistema</h2>
+          <p className="login-subtitle">MetroAcesso — Autonomia Acessível</p>
 
-          <div className="input-group">
-            <label htmlFor="senha">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Digite sua senha"
-              required
-            />
-          </div>
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="input-group">
+              <label htmlFor="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Digite seu endereço de e-mail"
+                required
+              />
+            </div>
 
-          {mensagemErro && (
-            <div className="erro-mensagem">{mensagemErro}</div>
-          )}
+            <div className="input-group">
+              <label htmlFor="senha">Senha</label>
+              <input
+                type="password"
+                id="senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
 
-          <button type="submit" className="btn-login" disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
-          </button>
-        </form>
+            {mensagemErro && (
+              <div className="erro-mensagem">{mensagemErro}</div>
+            )}
+
+            <button type="submit" className="btn-login" disabled={loading}>
+              {loading ? 'Entrando...' : 'Entrar'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
