@@ -9,6 +9,8 @@ import HomeIcon from '../../assets/Home.svg';
 import UsersIcon from '../../assets/listaUSer.svg';
 import ValidarIcon from '../../assets/Validar.svg';
 import PendenciasIcon from '../../assets/Pendencias.svg';
+import EstacaoesIcon from '../../assets/train-front.svg';
+import TagIcon from '../../assets/tagIcon.svg';
 import SairIcon from '../../assets/sair.svg';
 import BellIcon from '../../assets/TopAction/Bell.svg';
 import ChatIcon from '../../assets/TopAction/Chat.svg';
@@ -39,8 +41,8 @@ export const DashboardLayout = () => {
             <>
               <SidebarLink to="/usuarios" icon={UsersIcon} label="Usuários" />
               <SidebarLink to="/validacoes" icon={ValidarIcon} label="Validações" />
-              <SidebarLink to="/estacoes" icon={PendenciasIcon} label="Estações" />
-              <SidebarLink to="/tags" icon={PendenciasIcon} label="Tags RFID" />
+              <SidebarLink to="/estacoes" icon={EstacaoesIcon} label="Estações" />
+              <SidebarLink to="/tags" icon={TagIcon} label="Tags" />
             </>
           )}
 
