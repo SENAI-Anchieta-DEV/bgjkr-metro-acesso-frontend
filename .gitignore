@@ -8,10 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Dependências e build
-node_modules
-dist
-dist-ssr
-coverage
+node_modules/
+dist/
+dist-ssr/
+coverage/
 
 # Variáveis de ambiente
 .env
@@ -25,8 +25,8 @@ vite.svg
 .firebase/
 
 # Cache
-.cache
-.parcel-cache
+.cache/
+.parcel-cache/
 
 # Sistema operacional
 .DS_Store
@@ -36,7 +36,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
