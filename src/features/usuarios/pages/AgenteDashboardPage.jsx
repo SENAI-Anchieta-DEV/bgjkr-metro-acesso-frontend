@@ -8,7 +8,6 @@ import './AgenteDashboardPage.css';
 export const AgenteDashboardPage = () => {
   const { user } = useAuth();
   const [alertas, setAlertas] = useState([]);
-  const [acessos, setAcessos] = useState([]);
   const [pendencias, setPendencias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,9 +18,7 @@ export const AgenteDashboardPage = () => {
       
       if (user?.codigoEstacao) {
         promises.push(monitoramentoService.buscarAlertas(user.codigoEstacao));
-        promises.push(monitoramentoService.buscarAcessosRecentes(user.codigoEstacao));
       } else {
-        promises.push(Promise.resolve([]));
         promises.push(Promise.resolve([]));
       }
 
@@ -31,10 +28,9 @@ export const AgenteDashboardPage = () => {
         promises.push(Promise.resolve([]));
       }
 
-      const [alertasData, acessosData, pendenciasData] = await Promise.all(promises);
+      const [alertasData, pendenciasData] = await Promise.all(promises);
       
       setAlertas(alertasData);
-      setAcessos(acessosData);
       setPendencias(pendenciasData);
       setError(null);
     } catch (err) {
@@ -68,7 +64,7 @@ export const AgenteDashboardPage = () => {
     }
   };
 
-  if (loading && !alertas.length && !acessos.length && !pendencias.length) {
+  if (loading && !alertas.length && !pendencias.length) {
     return <div className="agente-dashboard-container">Carregando painel do agente...</div>;
   }
 
@@ -152,30 +148,6 @@ export const AgenteDashboardPage = () => {
           </div>
         </section>
 
-        {/* Painel de Presença */}
-        <section className="dashboard-section">
-          <div className="section-header">
-            <h2>Acessos Recentes</h2>
-          </div>
-
-          <div className="cards-list">
-            {acessos.length === 0 ? (
-              <p className="empty-state">Nenhum acesso recente.</p>
-            ) : (
-              acessos.map(acesso => (
-                <div key={acesso.id} className="presenca-item">
-                  <div className="user-info">
-                    <span className="user-name">{acesso.nomeUsuario}</span>
-                    <span className="user-tag">TAG: {acesso.codigoTag}</span>
-                  </div>
-                  <span className="presenca-time">
-                    {new Date(acesso.dataHora).toLocaleTimeString()}
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
       </div>
     </div>
   );

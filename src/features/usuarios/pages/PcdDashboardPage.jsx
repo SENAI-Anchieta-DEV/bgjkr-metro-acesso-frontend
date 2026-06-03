@@ -1,35 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../../auth/useAuth';
 import { pcdService } from '../services/pcdService';
-import { useFetch } from '../../../core/hooks/useFetch'
 import './PcdDashboard.css';
 
 export const PcdDashboardPage = () => {
   const { user } = useAuth();
-  
-  // 1. Tenta buscar o formulário para saber o status da solicitação
-  const { 
-    data: formData, 
-    loading: loadingForm, 
-    erro: erroForm 
-  } = useFetch(
-    () => pcdService.buscarFormularioAtivo(user.email),
-    [user?.email],
-    { enabled: !!user?.email }
-  );
+  const [formData, setFormData] = useState(null);
+  const [pcdData, setPcdData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState('');
 
-  // 2. Tenta buscar os dados de PCD ativo (só existirá se estiver aprovado)
-  const { 
-    data: pcdData, 
-    loading: loadingPcd, 
-    erro: erroPcd 
-  } = useFetch(
-    () => pcdService.buscarPcdAtivo(user.email),
-    [user?.email],
-    { enabled: !!user?.email && formData?.status === 'APROVADO' }
-  );
+  const fetchData = useCallback(async () => {
+    if (!user?.email) return;
 
-  if (loadingForm || loadingPcd) {
+    try {
+      // 1. Tenta buscar o formulário — pode não existir se foi cadastrado pelo admin
+      let form = null;
+      try {
+        form = await pcdService.buscarFormularioAtivo(user.email);
+        setFormData(form);
+      } catch {
+        // Sem formulário — PcD cadastrado diretamente pelo admin, tudo bem
+        setFormData(null);
+      }
+
+      // 2. Busca os dados do PcD sempre (formulário ou não)
+      const pcd = await pcdService.buscarPcdAtivo(user.email);
+      setPcdData(pcd);
+
+      setErro('');
+    } catch (err) {
+      setErro(err?.message || 'Erro ao carregar dados.');
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.email]);
+
+  useEffect(() => {
+    fetchData();
+    // Polling a cada 30s para refletir mudanças de status sem reload manual
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
+  }, [fetchData]);
+
+  if (loading) {
     return (
       <div className="pcd-dashboard-loading">
         <div className="spinner"></div>
@@ -38,8 +52,7 @@ export const PcdDashboardPage = () => {
     );
   }
 
-  // Se não encontrar nem formulário nem PCD, algo está errado
-  if (erroForm && !formData) {
+  if (erro && !formData) {
     return (
       <div className="pcd-dashboard-container">
         <div className="pcd-card" style={{ textAlign: 'center', padding: '40px' }}>
@@ -50,7 +63,7 @@ export const PcdDashboardPage = () => {
     );
   }
 
-  const status = formData?.status || 'PENDENTE';
+  const status = formData?.status ?? (pcdData ? 'APROVADO' : 'PENDENTE');
 
   return (
     <div className="pcd-dashboard-container">
@@ -60,7 +73,7 @@ export const PcdDashboardPage = () => {
       </header>
 
       <div className="pcd-dashboard-grid">
-        
+
         {/* Card de Status Geral da Solicitação */}
         <div className={`pcd-card status-card ${status.toLowerCase()}`}>
           <h3>Status da Solicitação</h3>
@@ -103,10 +116,10 @@ export const PcdDashboardPage = () => {
           <h3>Preferência de Suporte</h3>
           <div className="support-status">
             <span className={`support-badge ${pcdData?.desejaSuporte || formData?.desejaSuporte ? 'yes' : 'no'}`}>
-              {(pcdData?.desejaSuporte || formData?.desejaSuporte) ? '✓ Suporte Ativado' : '✗ Sem Suporte'}
+              {(pcdData?.desejaSuporte ?? formData?.desejaSuporte) ? '✓ Suporte Ativado' : '✗ Sem Suporte'}
             </span>
             <p>
-              {(pcdData?.desejaSuporte || formData?.desejaSuporte)
+              {(pcdData?.desejaSuporte ?? formData?.desejaSuporte)
                 ? 'Os agentes de atendimento serão notificados quando você aproximar sua Tag nas catracas.'
                 : 'Você optou por navegar de forma independente pelas estações.'}
             </p>

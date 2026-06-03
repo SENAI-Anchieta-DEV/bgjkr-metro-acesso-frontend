@@ -4,13 +4,7 @@ export const monitoramentoService = {
   
   // Buscar alertas de PCDs que entraram na estação e precisam de suporte
   buscarAlertas: async (codigoEstacao) => {
-    const response = await httpClient.get(`/api/acessos/alertas/${codigoEstacao}`);
-    return response.data;
-  },
-
-  // Buscar todos os acessos recentes (últimos 30 min) para o painel de presença
-  buscarAcessosRecentes: async (codigoEstacao) => {
-    const response = await httpClient.get(`/api/acessos/recentes/${codigoEstacao}`);
+    const response = await httpClient.get(`/api/pendencia-atendimento/estacao/${codigoEstacao}`);
     return response.data;
   },
 

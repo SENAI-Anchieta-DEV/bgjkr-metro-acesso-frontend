@@ -19,7 +19,7 @@ httpClient.interceptors.response.use(
   (response ) => response, // Se a resposta for OK (200), não faz nada
   (error) => {
     // Se o servidor devolver 401 (Token Expirado ou Inválido) ou 403 (Acesso Negado)
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+    if (error.response && error.response.status === 401) {
 
       // Se estivermos na tela de login ou na solicitação pública, não redirecionamos
       if (window.location.pathname === '/login' || window.location.pathname === '/solicitar-acesso') {
