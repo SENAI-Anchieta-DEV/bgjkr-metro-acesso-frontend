@@ -7,6 +7,6 @@ export const pendenciasService = {
   },
 
   concluirPendencia: async (id) => {
-    await httpClient.post(`/api/pendencia-atendimento/${id}/concluir`);
-},
+    await httpClient.delete(`/api/pendencia-atendimento/${id}`);
+  },
 };

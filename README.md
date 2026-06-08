@@ -1,6 +1,6 @@
 # MetroAcesso — Frontend
 
-Painel de controle web do sistema **MetroAcesso**, desenvolvido como trabalho de conclusão de curso. A aplicação permite o gerenciamento de usuários PCD (Pessoas com Deficiência), agentes de atendimento, estações de metrô e tags RFID, além de oferecer dashboards específicos por perfil de acesso.
+Painel de controle web do sistema **MetroAcesso**, desenvolvido como trabalho de conclusão de curso. A aplicação permite o gerenciamento de usuários PCD (Pessoas com Deficiência), agentes de atendimento, estações de metrô e tags, além de oferecer dashboards específicos por perfil de acesso.
 
 O repositório do backend está disponível em: [github.com/SENAI-Anchieta-DEV/bgjkr-metro-acesso-backend](https://github.com/SENAI-Anchieta-DEV/bgjkr-metro-acesso-backend)
 
@@ -86,7 +86,7 @@ src/
     ├── auth/            # Contexto, hook useAuth e serviço de login/logout
     ├── estacoes/        # Gestão de estações (listagem, cadastro, edição)
     ├── sensores/        # Monitoramento de acessos e alertas em tempo real
-    ├── tags/            # Gestão de tags RFID
+    ├── tags/            # Gestão de tags
     ├── usuarios/        # Dashboards e formulários para PCD, Agente e Admin
     └── validacoes/      # Fila de validação de formulários PCD pendentes
 ```
@@ -99,9 +99,9 @@ O sistema possui três papéis com experiências distintas, controlados por rota
 
 | Papel | Acesso |
 |---|---|
-| `ADMINISTRADOR` | Gestão completa: usuários, estações, tags RFID e validações de cadastro |
+| `ADMINISTRADOR` | Gestão completa: usuários, estações, tags e validações de cadastro |
 | `AGENTE_ATENDIMENTO` | Dashboard de monitoramento da estação, alertas de PCDs e atendimentos |
-| `USUARIO_PCD` | Visualização do próprio cartão de acesso, tag RFID vinculada e perfil |
+| `USUARIO_PCD` | Visualização do próprio cartão de acesso, tag vinculada e perfil |
 
 O redirecionamento pós-login é feito automaticamente com base no papel do usuário autenticado.
 

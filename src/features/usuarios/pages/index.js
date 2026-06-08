@@ -8,3 +8,4 @@ export { PcdProfilePage } from './PcdProfilePage';
 export { AgenteDashboardPage } from './AgenteDashboardPage';
 export { AgentePendenciasPage } from './AgentePendenciasPage';
 export { AgenteAlertasPage } from './AgenteAlertasPage';
+export { AdminDashboardPage } from './AdminDashboardPage';

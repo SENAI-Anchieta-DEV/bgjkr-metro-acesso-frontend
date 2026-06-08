@@ -34,8 +34,8 @@ export const TagFormPage = () => {
     <div className="cadastro-container">
       <div className="cadastro-card">
         <div className="cadastro-header">
-          <h2>{isEdit ? 'Editar Tag RFID' : 'Nova Tag RFID'}</h2>
-          <p>{isEdit ? 'Atualize as informações do dispositivo RFID.' : 'Cadastre um novo dispositivo de identificação no sistema.'}</p>
+          <h2>{isEdit ? 'Editar Tag' : 'Nova Tag'}</h2>
+          <p>{isEdit ? 'Atualize as informações do dispositivo.' : 'Cadastre um novo dispositivo de identificação no sistema.'}</p>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -50,7 +50,7 @@ export const TagFormPage = () => {
                 placeholder="Ex: E28011606000020A12345678"
               />
               <p className="form-hint">
-                O UID deve ser único e corresponder ao gravado fisicamente no chip RFID.
+                O UID deve ser único e corresponder ao gravado fisicamente no chip.
               </p>
             </div>
           </div>

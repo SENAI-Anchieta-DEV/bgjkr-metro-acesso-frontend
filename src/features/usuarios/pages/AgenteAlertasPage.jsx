@@ -14,7 +14,7 @@ export const AgenteAlertasPage = () => {
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔔</div>
           <h3 style={{ color: 'var(--cor-texto-forte)', marginBottom: '0.5rem' }}>Em breve</h3>
           <p style={{ color: 'var(--cor-texto-medio)', fontSize: '0.95rem' }}>
-            Esta funcionalidade ainda está sendo desenvolvida na API. Em breve você poderá acompanhar os alertas de PCDs que entrarem na sua estação em tempo real.
+            Esta funcionalidade ainda está sendo desenvolvida na API. Em breve você poderá acompanhar os alertas de emergência dos PCDs na sua estação em tempo real.
           </p>
         </div>
       </div>

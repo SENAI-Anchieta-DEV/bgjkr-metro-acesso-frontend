@@ -23,12 +23,6 @@ httpClient.interceptors.response.use(
 
       // Se estivermos na tela de login ou na solicitação pública, não redirecionamos
       if (window.location.pathname === '/login' || window.location.pathname === '/solicitar-acesso') {
-
-
-
-
-
-
         return Promise.reject(error);
       }
 

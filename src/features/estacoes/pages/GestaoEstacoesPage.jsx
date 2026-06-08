@@ -150,7 +150,7 @@ export const GestaoEstacoesPage = () => {
                               ) : <p className="empty-text">Nenhum agente vinculado a esta estação.</p>}
                             </div>
                             <div className="expansion-section">
-                              <h4>📡 Sensores RFID</h4>
+                              <h4>📡 Sensores</h4>
                               {estacao.sensores?.length > 0 ? (
                                 <ul className="expansion-list">
                                   {estacao.sensores.map(s => (
@@ -159,7 +159,7 @@ export const GestaoEstacoesPage = () => {
                                     </li>
                                   ))}
                                 </ul>
-                              ) : <p className="empty-text">Nenhum sensor instalado nesta estação.</p>}
+                              ) : <p className="empty-text">Nenhum roteador instalado nesta estação.</p>}
                             </div>
                           </div>
                         </div>

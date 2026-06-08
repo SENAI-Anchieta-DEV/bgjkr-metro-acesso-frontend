@@ -32,7 +32,7 @@ export const GestaoTagsPage = () => {
     <div className="gestao-container">
       <header className="gestao-header">
         <div>
-          <h2>Gestão de Tags RFID</h2>
+          <h2>Gestão de Tags</h2>
           <p>Controle de dispositivos de acesso e vinculação com usuários PCD.</p>
         </div>
         <button className="btn-adicionar" onClick={() => navigate('/tags/nova')}>

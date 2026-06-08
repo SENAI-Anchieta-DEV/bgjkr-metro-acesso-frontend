@@ -11,14 +11,15 @@ import { LoginPage } from '../../features/auth/pages/LoginPage';
 import {
   GestaoUsuariosPage,
   AdminFormPage,
+  AdminDashboardPage,
   AgenteFormPage,
   PcdPublicFormPage,
   PcdAdminFormPage,
   PcdDashboardPage,
   PcdProfilePage,
   AgenteDashboardPage,
-  AgentePendenciasPage,  // ✅
-  AgenteAlertasPage,     // ✅
+  AgentePendenciasPage,
+  AgenteAlertasPage,
 } from '../../features/usuarios/pages';
 
 // Importações de Validações
@@ -37,6 +38,7 @@ const HomeRedirect = () => {
   if (!user) return <Navigate to="/" />;
   if (user.role === 'USUARIO_PCD') return <Navigate to="/meu-acesso" />;
   if (user.role === 'AGENTE_ATENDIMENTO') return <Navigate to="/agente/dashboard" />;
+  if (user.role === 'ADMINISTRADOR') return <Navigate to="/admin/dashboard" />;
   return <Navigate to="/dashboard" />;
 };
 
@@ -63,6 +65,9 @@ export const AppRouter = () => {
             <Route path="/agente/pendencias" element={<ProtectedRoute role="AGENTE_ATENDIMENTO"><AgentePendenciasPage /></ProtectedRoute>} />
             <Route path="/agente/alertas" element={<ProtectedRoute role="AGENTE_ATENDIMENTO"><AgenteAlertasPage /></ProtectedRoute>} />
 
+            {/* Administrativo: Dashboard */}
+            <Route path="/admin/dashboard" element={<ProtectedRoute role="ADMINISTRADOR"><AdminDashboardPage /></ProtectedRoute>} />
+
             {/* Administrativo: Usuários */}
             <Route path="/usuarios" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoUsuariosPage /></ProtectedRoute>} />
             <Route path="/usuarios/novo-agente" element={<ProtectedRoute role="ADMINISTRADOR"><AgenteFormPage /></ProtectedRoute>} />
@@ -80,7 +85,7 @@ export const AppRouter = () => {
             <Route path="/estacoes/nova" element={<ProtectedRoute role="ADMINISTRADOR"><EstacaoFormPage /></ProtectedRoute>} />
             <Route path="/estacoes/editar/:codigo" element={<ProtectedRoute role="ADMINISTRADOR"><EstacaoFormPage /></ProtectedRoute>} />
 
-            {/* Administrativo: Tags RFID */}
+            {/* Administrativo: Tags */}
             <Route path="/tags" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoTagsPage /></ProtectedRoute>} />
             <Route path="/tags/nova" element={<ProtectedRoute role="ADMINISTRADOR"><TagFormPage /></ProtectedRoute>} />
             <Route path="/tags/editar/:codigoTag" element={<ProtectedRoute role="ADMINISTRADOR"><TagFormPage /></ProtectedRoute>} />
