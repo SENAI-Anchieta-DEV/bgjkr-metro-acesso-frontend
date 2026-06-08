@@ -8,15 +8,17 @@ import { LandingPage } from '../shell/LandingPage';
 import { LoginPage } from '../../features/auth/pages/LoginPage';
 
 // Importações de Usuários
-import { 
-  GestaoUsuariosPage, 
-  AdminFormPage, 
-  AgenteFormPage, 
-  PcdPublicFormPage, 
-  PcdAdminFormPage, 
-  PcdDashboardPage, 
+import {
+  GestaoUsuariosPage,
+  AdminFormPage,
+  AgenteFormPage,
+  PcdPublicFormPage,
+  PcdAdminFormPage,
+  PcdDashboardPage,
   PcdProfilePage,
-  AgenteDashboardPage
+  AgenteDashboardPage,
+  AgentePendenciasPage,  // ✅
+  AgenteAlertasPage,     // ✅
 } from '../../features/usuarios/pages';
 
 // Importações de Validações
@@ -58,14 +60,17 @@ export const AppRouter = () => {
 
             {/* Agente */}
             <Route path="/agente/dashboard" element={<ProtectedRoute role="AGENTE_ATENDIMENTO"><AgenteDashboardPage /></ProtectedRoute>} />
-
-
+            <Route path="/agente/pendencias" element={<ProtectedRoute role="AGENTE_ATENDIMENTO"><AgentePendenciasPage /></ProtectedRoute>} />
+            <Route path="/agente/alertas" element={<ProtectedRoute role="AGENTE_ATENDIMENTO"><AgenteAlertasPage /></ProtectedRoute>} />
 
             {/* Administrativo: Usuários */}
             <Route path="/usuarios" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoUsuariosPage /></ProtectedRoute>} />
             <Route path="/usuarios/novo-agente" element={<ProtectedRoute role="ADMINISTRADOR"><AgenteFormPage /></ProtectedRoute>} />
             <Route path="/usuarios/novo-admin" element={<ProtectedRoute role="ADMINISTRADOR"><AdminFormPage /></ProtectedRoute>} />
             <Route path="/usuarios/novo-pcd" element={<ProtectedRoute role="ADMINISTRADOR"><PcdAdminFormPage /></ProtectedRoute>} />
+            <Route path="/usuarios/editar-admin/:email" element={<ProtectedRoute role="ADMINISTRADOR"><AdminFormPage /></ProtectedRoute>} />
+            <Route path="/usuarios/editar-agente/:email" element={<ProtectedRoute role="ADMINISTRADOR"><AgenteFormPage /></ProtectedRoute>} />
+            <Route path="/usuarios/editar-pcd/:email" element={<ProtectedRoute role="ADMINISTRADOR"><PcdAdminFormPage /></ProtectedRoute>} />
 
             {/* Administrativo: Validações */}
             <Route path="/validacoes" element={<ProtectedRoute role="ADMINISTRADOR"><ValidacoesPage /></ProtectedRoute>} />

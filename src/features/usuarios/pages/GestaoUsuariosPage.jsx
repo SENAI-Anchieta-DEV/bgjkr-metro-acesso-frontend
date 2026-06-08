@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usuariosService } from '../services/usuariosService';
+import { httpClient } from '../../../core/api/httpClient';
 import './GestaoUsuariosPage.css';
+import { handleVerComprovacao } from '../../../core/utils/comprovacaoUtils';
 
 // ─── Modal de seleção de tipo de usuário ───────────────────────────────────────
 const NovoUsuarioModal = ({ onClose, onSelect }) => (
@@ -20,7 +22,7 @@ const NovoUsuarioModal = ({ onClose, onSelect }) => (
             <span>Acesso total ao sistema</span>
           </div>
           <svg className="option-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
 
@@ -31,18 +33,18 @@ const NovoUsuarioModal = ({ onClose, onSelect }) => (
             <span>Funcionário da estação</span>
           </div>
           <svg className="option-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
 
         <button className="modal-option pcd" onClick={() => onSelect('pcd')}>
           <div className="option-icon">♿</div>
           <div className="option-info">
-            <strong>Usuário PCD</strong>
+            <strong>Usuário PcD</strong>
             <span>Passageiro com necessidades especiais</span>
           </div>
           <svg className="option-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
@@ -63,7 +65,7 @@ export const GestaoUsuariosPage = () => {
   const carregarUsuarios = useCallback(async () => {
     setLoading(true);
     setErro('');
-       try {
+    try {
       const [admins, agentes, pcds] = await Promise.all([
         usuariosService.listarAdmins(),
         usuariosService.listarAgentes(),
@@ -72,7 +74,7 @@ export const GestaoUsuariosPage = () => {
 
       const adminsComRole = admins.map(u => ({ ...u, role: 'ADMINISTRADOR' }));
       const agentesComRole = agentes.map(u => ({ ...u, role: 'AGENTE_ATENDIMENTO' }));
-      const pcdsComRole = pcds.map(u => ({ ...u, role: 'PCD' })); // ✅ corrigido
+      const pcdsComRole = pcds.map(u => ({ ...u, role: 'USUARIO_PCD' }));
 
       setUsuarios([...adminsComRole, ...agentesComRole, ...pcdsComRole]);
     } catch (err) {
@@ -91,13 +93,13 @@ export const GestaoUsuariosPage = () => {
   const handleRemover = async (user) => {
     if (!window.confirm(`Deseja remover o usuário "${user.nome}" (${user.email})?`)) return;
 
-     setRemovendoEmail(user.email);
+    setRemovendoEmail(user.email);
     try {
       if (user.role === 'ADMINISTRADOR') {
         await usuariosService.removerAdmin(user.email);
       } else if (user.role === 'AGENTE_ATENDIMENTO') {
         await usuariosService.removerAgente(user.email);
-      } else if (user.role === 'PCD') {
+      } else if (user.role === 'USUARIO_PCD') {
         await usuariosService.removerPcd(user.email); // ✅ corrigido
       }
 
@@ -108,7 +110,6 @@ export const GestaoUsuariosPage = () => {
       setRemovendoEmail(null);
     }
   };
-  
 
   const handleSelecionarTipo = (tipo) => {
     setShowModal(false);
@@ -117,13 +118,46 @@ export const GestaoUsuariosPage = () => {
     else if (tipo === 'pcd') navigate('/usuarios/novo-pcd');
   };
 
+  const handleVerComprovacao = async (email) => {
+    try {
+      const response = await httpClient.get(`/api/pcd/${encodeURIComponent(email)}/comprovacao`, {
+        responseType: 'blob',
+      });
+
+      const contentType = response.headers['content-type']?.split(';')[0].trim();
+      const disposition = response.headers['content-disposition'];
+
+      const nomeBase = disposition
+        ?.split('filename=')?.[1]
+        ?.replace(/"/g, '')
+        ?? 'comprovacao';
+
+      // Extrai extensão do contentType (ex: "application/pdf" → "pdf", "image/png" → "png")
+      const extensao = contentType?.split('/')?.[1] ?? '';
+
+      const nomeArquivo = extensao ? `${nomeBase}.${extensao}` : nomeBase;
+
+      const url = URL.createObjectURL(new Blob([response.data], { type: contentType }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', nomeArquivo);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Erro ao carregar comprovação de deficiência:', err);
+      alert('Não foi possível carregar a comprovação de deficiência.');
+    }
+  };
+
   const getInitials = (nome) => (nome ? nome.charAt(0).toUpperCase() : 'U');
 
   const renderRoleBadge = (role) => {
     const config = {
       ADMINISTRADOR: { label: 'Administrador', className: 'role-admin' },
       AGENTE_ATENDIMENTO: { label: 'Agente', className: 'role-agente' },
-      PCD: { label: 'Pcd', className: 'role-pcd' },
+      USUARIO_PCD: { label: 'Pcd', className: 'role-pcd' },
     };
     const { label, className } = config[role] || { label: 'Desconhecido', className: '' };
     return <span className={`role-badge ${className}`}>{label}</span>;
@@ -135,7 +169,7 @@ export const GestaoUsuariosPage = () => {
 
   const totalAdmins = usuarios.filter(u => u.role === 'ADMINISTRADOR').length;
   const totalAgentes = usuarios.filter(u => u.role === 'AGENTE_ATENDIMENTO').length;
-  const totalPcds = usuarios.filter(u => u.role === 'PCD').length;
+  const totalPcds = usuarios.filter(u => u.role === 'USUARIO_PCD').length;
   return (
     <>
       {showModal && (
@@ -154,7 +188,7 @@ export const GestaoUsuariosPage = () => {
           </div>
           <button className="btn-adicionar" onClick={() => setShowModal(true)}>
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
             </svg>
             Adicionar Usuário
           </button>
@@ -202,21 +236,21 @@ export const GestaoUsuariosPage = () => {
             { key: 'TODOS', label: 'Todos' },
             { key: 'ADMINISTRADOR', label: 'Administradores' },
             { key: 'AGENTE_ATENDIMENTO', label: 'Agentes' },
-            { key: 'PCD', label: 'Usuários PCD' },
+            { key: 'USUARIO_PCD', label: 'Usuários PcD' },
           ].map(({ key, label }) => (
-        <button
-  key={key}
-  className={`filtro-btn ${filtro === key ? 'ativo' : ''}`}
-  onClick={() => setFiltro(key)}
->
-  {label}
-  <span className="filtro-count">
-    {key === 'TODOS' ? usuarios.length
-      : key === 'ADMINISTRADOR' ? totalAdmins
-      : key === 'AGENTE_ATENDIMENTO' ? totalAgentes
-      : totalPcds}
-  </span>
-</button>
+            <button
+              key={key}
+              className={`filtro-btn ${filtro === key ? 'ativo' : ''}`}
+              onClick={() => setFiltro(key)}
+            >
+              {label}
+              <span className="filtro-count">
+                {key === 'TODOS' ? usuarios.length
+                  : key === 'ADMINISTRADOR' ? totalAdmins
+                    : key === 'AGENTE_ATENDIMENTO' ? totalAgentes
+                      : totalPcds}
+              </span>
+            </button>
           ))}
         </div>
 
@@ -224,7 +258,7 @@ export const GestaoUsuariosPage = () => {
         <div className="table-container">
           {loading ? (
             <div className="empty-state">
-              <div className="loading-spinner"/>
+              <div className="loading-spinner" />
               <p>Carregando usuários...</p>
             </div>
           ) : usuariosFiltrados.length > 0 ? (
@@ -241,23 +275,49 @@ export const GestaoUsuariosPage = () => {
                 {usuariosFiltrados.map(user => (
                   <tr key={user.id || user.email}>
                     <td>
-            <div className="user-cell">
-  <div className={`user-avatar avatar-${
-    user.role === 'ADMINISTRADOR'
-      ? 'admin'
-      : user.role === 'AGENTE_ATENDIMENTO'
-      ? 'agente'
-      : 'pcd'
-  }`}>
-    {getInitials(user.nome)}
-  </div>
-  <span className="user-name">{user.nome}</span>
-</div>
+                      <div className="user-cell">
+                        <div className={`user-avatar avatar-${user.role === 'ADMINISTRADOR'
+                          ? 'admin'
+                          : user.role === 'AGENTE_ATENDIMENTO'
+                            ? 'agente'
+                            : 'pcd'
+                          }`}>
+                          {getInitials(user.nome)}
+                        </div>
+                        <span className="user-name">{user.nome}</span>
+                      </div>
                     </td>
                     <td>{renderRoleBadge(user.role)}</td>
                     <td><span className="user-email">{user.email}</span></td>
                     <td>
                       <div className="action-buttons" style={{ justifyContent: 'flex-end' }}>
+                        {user.role === 'USUARIO_PCD' && (
+                          <button
+                            className="btn-icon btn-comprovacao"
+                            title="Visualizar comprovação de deficiência"
+                            onClick={() => handleVerComprovacao(user.email, (e) => `/api/pcd/${encodeURIComponent(e)}/comprovacao`)}
+                          >
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </button>
+                        )}
+
+                        <button
+                          className="btn-icon btn-edit"
+                          title="Editar usuário"
+                          onClick={() => {
+                            if (user.role === 'ADMINISTRADOR') navigate(`/usuarios/editar-admin/${encodeURIComponent(user.email)}`);
+                            else if (user.role === 'AGENTE_ATENDIMENTO') navigate(`/usuarios/editar-agente/${encodeURIComponent(user.email)}`);
+                            else if (user.role === 'USUARIO_PCD') navigate(`/usuarios/editar-pcd/${encodeURIComponent(user.email)}`);
+                          }}
+                        >
+                          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
+
                         <button
                           className="btn-icon btn-delete"
                           title="Remover usuário"
@@ -268,7 +328,7 @@ export const GestaoUsuariosPage = () => {
                             <span style={{ fontSize: '0.7rem' }}>...</span>
                           ) : (
                             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                           )}
                         </button>
@@ -282,7 +342,7 @@ export const GestaoUsuariosPage = () => {
             <div className="empty-state">
               <div className="empty-icon">
                 <svg width="48" height="48" fill="none" stroke="#94A3B8" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </div>
               <h3>Nenhum usuário encontrado</h3>

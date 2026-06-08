@@ -2,19 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { validacoesService } from '../services/validacoesService';
 import { tagsService } from '../../tags/services/tagsService';
 import { env } from '../../../core/config/env';
+import { httpClient } from '../../../core/api/httpClient';
 import './ValidacoesPage.css';
+import { handleVerComprovacao } from '../../../core/utils/comprovacaoUtils';
 
 export default function ValidacoesPage() {
   const [formularios, setFormularios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState('');
   const [processando, setProcessando] = useState(null);
-
-
-
-
-
-
   const carregarDados = async () => {
     setLoading(true);
     setErro('');
@@ -35,35 +31,16 @@ export default function ValidacoesPage() {
   const handleApprove = async (form) => {
     if (!window.confirm(`Aprovar a solicitação de ${form.nome}?`)) return;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     setProcessando(form.id);
-
-
-
-
-
-
     try {
-      // O back-end original NÃO aceita codigoTag aqui. 
-      // Ele escolhe uma tag automaticamente no service.
       await validacoesService.processarValidacao(form.email, true, null);
       setFormularios(prev => prev.filter(f => f.id !== form.id));
       alert('Usuário aprovado com sucesso! Uma Tag foi vinculada automaticamente.');
     } catch (err) {
-      console.error('Erro ao aprovar:', err);
-      alert('Erro ao processar a aprovação. Tente novamente.');
+      const mensagem = err.response?.data?.detail
+        ?? err.response?.data?.message
+        ?? 'Erro ao processar a aprovação. Tente novamente.';
+      alert(mensagem);
     } finally {
       setProcessando(null);
     }
@@ -71,6 +48,7 @@ export default function ValidacoesPage() {
 
   const handleReject = async (form) => {
     const motivoReprovacao = window.prompt('Digite o motivo da reprovação:');
+    console.log('motivoReprovacao:', motivoReprovacao); // ✅
     if (!motivoReprovacao || !motivoReprovacao.trim()) return;
 
     setProcessando(form.id);
@@ -83,6 +61,42 @@ export default function ValidacoesPage() {
       alert('Erro ao processar a decisão. Tente novamente.');
     } finally {
       setProcessando(null);
+    }
+  };
+
+  const handleVerComprovacao = async (email) => {
+    try {
+      const response = await httpClient.get(`/api/formulario/${encodeURIComponent(email)}/comprovacao`, {
+        responseType: 'blob',
+      });
+
+      const contentType = response.headers['content-type']?.split(';')[0].trim();
+      const disposition = response.headers['content-disposition'];
+
+      const nomeBase = disposition
+        ?.split('filename=')?.[1]
+        ?.replace(/"/g, '')
+        ?? 'comprovacao';
+
+      const extensao = contentType !== 'application/octet-stream'
+        ? contentType?.split('/')?.[1] ?? ''
+        : '';
+
+      const nomeArquivo = extensao && !nomeBase.includes('.')
+        ? `${nomeBase}.${extensao}`
+        : nomeBase;
+
+      const url = URL.createObjectURL(new Blob([response.data], { type: contentType }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', nomeArquivo);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Erro ao carregar comprovação de deficiência:', err);
+      alert('Não foi possível carregar a comprovação de deficiência.');
     }
   };
 
@@ -124,7 +138,7 @@ export default function ValidacoesPage() {
               <th>E-mail</th>
               <th>Deficiência(s)</th>
               <th>Suporte</th>
-              <th>Laudo</th>
+              <th>Comprovação de Deficiência</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -143,24 +157,22 @@ export default function ValidacoesPage() {
                   <td>
                     {Array.isArray(form.tiposDeficiencia)
                       ? form.tiposDeficiencia.map(t => (
-                          <span key={t} className="badge-info" style={{ marginRight: '4px' }}>
-                            {t.charAt(0) + t.slice(1).toLowerCase()}
-                          </span>
-                        ))
+                        <span key={t} className="badge-info" style={{ marginRight: '4px' }}>
+                          {t.charAt(0) + t.slice(1).toLowerCase()}
+                        </span>
+                      ))
                       : <span className="badge-info">—</span>
                     }
                   </td>
                   <td>{form.desejaSuporte ? 'Sim' : 'Não'}</td>
                   <td>
                     {form.comprovacaoId ? (
-                      <a
-                        href={`${env.apiBaseUrl}/upload/${form.comprovacaoId}`}
-                        target="_blank"
-                        rel="noreferrer"
+                      <button
                         className="btn-view"
+                        onClick={() => handleVerComprovacao(form.email, (e) => `/api/formulario/${encodeURIComponent(e)}/comprovacao`)}
                       >
-                        Ver laudo
-                      </a>
+                        Comprovação
+                      </button>
                     ) : (
                       <span style={{ color: '#94a3b8' }}>Sem arquivo</span>
                     )}
@@ -191,7 +203,7 @@ export default function ValidacoesPage() {
 
 
 
-   </div>
+    </div>
   );
 }
 

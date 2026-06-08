@@ -31,6 +31,11 @@
   border-radius: 8px;
 }
 
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 .sidebar-nav {
   flex: 1;
   padding: 24px 16px;

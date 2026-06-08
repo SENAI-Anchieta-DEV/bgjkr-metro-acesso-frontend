@@ -53,7 +53,7 @@ export const PcdPublicFormPage = () => {
       return;
     }
     if (!comprovacao) {
-      setErro('O laudo médico é obrigatório.');
+      setErro('A comprovação de deficiência é obrigatório.');
       return;
     }
 
@@ -85,7 +85,7 @@ export const PcdPublicFormPage = () => {
           <div className="success-icon">✓</div>
           <h2>Solicitação Enviada!</h2>
           <p>
-            Recebemos seus dados e o laudo médico com sucesso.
+            Recebemos seus dados e a comprovação de deficiência com sucesso.
           </p>
           <div className="success-info-box">
             <p>
@@ -155,7 +155,7 @@ export const PcdPublicFormPage = () => {
               </div>
 
               <div className="full form-group">
-                <label>Anexar Laudo Médico (PDF ou Imagem)</label>
+                <label>Anexar Laudo Médico ou outra forma de comprovação de deficiência (PDF ou Imagem)</label>
                 <div className="file-upload-wrapper">
                   <div className="file-upload-text">
                     <span>{comprovacao ? '📄 ' + comprovacao.name : '📁 Selecionar arquivo'}</span>

@@ -1,154 +1,107 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/useAuth';
-import { monitoramentoService } from '../../sensores/services/monitoramentoService';
-import { pendenciasService } from '../services/pendenciasService';
-import { getErrorMessage } from '../../../core/utils/error';
-import './AgenteDashboardPage.css';
+import { usuariosService } from '../services/usuariosService';
+import './AgentedashboardPage.css';
 
 export const AgenteDashboardPage = () => {
   const { user } = useAuth();
-  const [alertas, setAlertas] = useState([]);
-  const [pendencias, setPendencias] = useState([]);
+  const navigate = useNavigate();
+  const [agente, setAgente] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchData = useCallback(async () => {
-    try {
-      const promises = [];
-      
-      if (user?.codigoEstacao) {
-        promises.push(monitoramentoService.buscarAlertas(user.codigoEstacao));
-      } else {
-        promises.push(Promise.resolve([]));
-      }
-
-      if (user?.email) {
-        promises.push(pendenciasService.listarPendenciasDoAgente(user.email));
-      } else {
-        promises.push(Promise.resolve([]));
-      }
-
-      const [alertasData, pendenciasData] = await Promise.all(promises);
-      
-      setAlertas(alertasData);
-      setPendencias(pendenciasData);
-      setError(null);
-    } catch (err) {
-      setError(getErrorMessage(err, 'Erro ao carregar dados do painel'));
-    } finally {
-      setLoading(false);
-    }
-  }, [user?.codigoEstacao, user?.email]);
+  const [erro, setErro] = useState('');
 
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
-  }, [fetchData]);
+    if (!user?.email) return;
+    usuariosService.buscarAgente(user.email)
+      .then(setAgente)
+      .catch(() => setErro('Não foi possível carregar seus dados.'))
+      .finally(() => setLoading(false));
+  }, [user?.email]);
 
-  const handleConcluirAlerta = async (acessoId) => {
-    try {
-      await monitoramentoService.concluirAtendimento(acessoId);
-      setAlertas(prev => prev.filter(alerta => alerta.id !== acessoId));
-    } catch (err) {
-      alert(getErrorMessage(err, 'Erro ao concluir alerta'));
-    }
-  };
-
-  const handleConcluirPendencia = async (id) => {
-    try {
-      await pendenciasService.removerPendencia(id);
-      setPendencias(prev => prev.filter(p => p.id !== id));
-    } catch (err) {
-      alert(getErrorMessage(err, 'Erro ao concluir atendimento pendente'));
-    }
-  };
-
-  if (loading && !alertas.length && !pendencias.length) {
-    return <div className="agente-dashboard-container">Carregando painel do agente...</div>;
+  if (loading) {
+    return (
+      <div className="admin-container">
+        <div style={{ textAlign: 'center', padding: '60px', color: '#64748b' }}>
+          Carregando painel...
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="agente-dashboard-container">
-      <header className="agente-header">
-        <div>
-          <h1>Painel do Agente</h1>
-          <p>Olá, {user?.nome}. Acompanhe os acessos e suas pendências.</p>
+    <div className="admin-container">
+      <div className="admin-header">
+        <h1>Painel do Agente</h1>
+        <p>Bem-vindo, {agente?.nome ?? user?.nome}. Gerencie seus atendimentos abaixo.</p>
+      </div>
+
+      {erro && <div className="error-banner">{erro}</div>}
+
+      {/* Informações do Agente */}
+      <div className="table-container" style={{ padding: '2rem' }}>
+        <h2 style={{ color: 'var(--cor-texto-forte)', marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 700 }}>
+          Meus Dados
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <InfoField label="Nome" value={agente?.nome} />
+          <InfoField label="E-mail" value={agente?.email} />
+          <InfoField label="Estação Vinculada" value={agente?.estacao?.nome ?? 'Não vinculada'} />
+          <InfoField label="Início do Turno" value={agente?.inicioTurno ?? '—'} />
+          <InfoField label="Fim do Turno" value={agente?.fimTurno ?? '—'} />
         </div>
-        <div className="estacao-badge">
-          Estação: {user?.nomeEstacao || user?.codigoEstacao || 'Não vinculada'}
-        </div>
-      </header>
+      </div>
 
-      {error && <div className="error-message">{error}</div>}
-
-      <div className="dashboard-grid">
-        {/* Minhas Pendências de Atendimento */}
-        <section className="dashboard-section full-width">
-          <div className="section-header">
-            <h2>Minhas Pendências de Atendimento</h2>
-            {pendencias.length > 0 && <span className="alert-count blue">{pendencias.length}</span>}
-          </div>
-
-          <div className="pendencias-horizontal-list">
-            {pendencias.length === 0 ? (
-              <p className="empty-state">Você não possui atendimentos pendentes.</p>
-            ) : (
-              pendencias.map(pendencia => (
-                <div key={pendencia.id} className="pendencia-card-mini">
-                  <div className="pendencia-header">
-                    <h3>{pendencia.pcdAtendido.nome}</h3>
-                    {pendencia.pcdAtendido.desejaSuporte && <span className="status-tag urgent">Suporte</span>}
-                  </div>
-                  <div className="pendencia-body">
-                    <p><strong>Estação:</strong> {pendencia.estacao.nome}</p>
-                    <p><strong>Entrada:</strong> {pendencia.entrada.codigoEntrada}</p>
-                    <p className="time">{new Date(pendencia.dataHora).toLocaleTimeString()}</p>
-                  </div>
-                  <button 
-                    className="btn-concluir-pendencia"
-                    onClick={() => handleConcluirPendencia(pendencia.id)}
-                  >
-                    Concluir
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
-
-        {/* Central de Alertas da Estação */}
-        <section className="dashboard-section">
-          <div className="section-header">
-            <h2>Alertas da Estação</h2>
-            {alertas.length > 0 && <span className="alert-count">{alertas.length}</span>}
-          </div>
-
-          <div className="cards-list">
-            {alertas.length === 0 ? (
-              <p className="empty-state">Nenhum alerta na estação no momento.</p>
-            ) : (
-              alertas.map(alerta => (
-                <div key={alerta.id} className={`alerta-card ${alerta.desejaSuporte ? 'urgente' : ''}`}>
-                  <div className="alerta-info">
-                    <h3>{alerta.nomeUsuario}</h3>
-                    <p><strong>Tipo:</strong> {alerta.tipoDeficiencia || 'Não informado'}</p>
-                    <p><strong>Status:</strong> {alerta.desejaSuporte ? '⚠️ SOLICITOU SUPORTE' : 'Entrada na estação'}</p>
-                    <p className="presenca-time">{new Date(alerta.dataHora).toLocaleTimeString()}</p>
-                  </div>
-                  <button 
-                    className="btn-concluir"
-                    onClick={() => handleConcluirAlerta(alerta.id)}
-                  >
-                    Concluir
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
-
+      {/* Atalhos */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+        <AtalhoCard
+          titulo="Pendências de Atendimento"
+          descricao="Visualize e conclua os atendimentos PCD pendentes atribuídos a você."
+          icone="♿"
+          onClick={() => navigate('/agente/pendencias')}
+          cor="var(--cor-primaria)"
+        />
+        <AtalhoCard
+          titulo="Alertas da Estação"
+          descricao="Acompanhe os alertas de PCDs que entraram na sua estação."
+          icone="🔔"
+          onClick={() => navigate('/agente/alertas')}
+          cor="#F59E0B"
+          emBreve
+        />
       </div>
     </div>
   );
 };
+
+const InfoField = ({ label, value }) => (
+  <div>
+    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--cor-texto-suave)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+      {label}
+    </span>
+    <p style={{ marginTop: '4px', color: 'var(--cor-texto-forte)', fontSize: '0.95rem' }}>
+      {value ?? '—'}
+    </p>
+  </div>
+);
+
+const AtalhoCard = ({ titulo, descricao, icone, onClick, cor, emBreve }) => (
+  <div
+    className="table-container"
+    onClick={!emBreve ? onClick : undefined}
+    style={{
+      padding: '2rem',
+      cursor: emBreve ? 'default' : 'pointer',
+      transition: 'transform 0.2s',
+      opacity: emBreve ? 0.6 : 1,
+    }}
+    onMouseEnter={e => { if (!emBreve) e.currentTarget.style.transform = 'translateY(-2px)'; }}
+    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
+  >
+    <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{icone}</div>
+    <h3 style={{ color: cor, fontWeight: 700, marginBottom: '0.5rem' }}>
+      {titulo} {emBreve && <span style={{ fontSize: '0.7rem', color: 'var(--cor-texto-suave)', fontWeight: 400 }}>(em breve)</span>}
+    </h3>
+    <p style={{ color: 'var(--cor-texto-medio)', fontSize: '0.9rem' }}>{descricao}</p>
+  </div>
+);

@@ -38,8 +38,28 @@ export const usuariosService = {
     return response.data;
   },
 
+  atualizarAdmin: async (email, dados) => {
+    const response = await httpClient.put(`/api/admin/${email}`, dados);
+    return response.data;
+  },
+
+  buscarAdmin: async (email) => {
+    const response = await httpClient.get(`/api/admin/${email}`);
+    return response.data;
+  },
+
   cadastrarAgente: async (dados) => {
     const response = await httpClient.post('/api/agente', dados);
+    return response.data;
+  },
+
+  atualizarAgente: async (email, dados) => {
+    const response = await httpClient.put(`/api/agente/${email}`, dados);
+    return response.data;
+  },
+
+  buscarAgente: async (email) => {
+    const response = await httpClient.get(`/api/agente/${email}`);
     return response.data;
   },
 
@@ -50,8 +70,22 @@ export const usuariosService = {
   },
 
   cadastrarPcdDireto: async (dados) => {
-    // Cadastro administrativo (JSON) que já vincula a TAG
-    const response = await httpClient.post('/api/pcd', dados);
+    // Cadastro administrativo com arquivo (multipart/form-data)
+    const response = await httpClient.post('/api/pcd', dados, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
+
+  buscarPcd: async (email) => {
+    const response = await httpClient.get(`/api/pcd/${email}`);
+    return response.data;
+  },
+
+  atualizarPcd: async (email, dados) => {
+    const response = await httpClient.put(`/api/pcd/${email}`, dados, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     return response.data;
   },
 

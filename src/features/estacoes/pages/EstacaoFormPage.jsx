@@ -5,7 +5,8 @@ import '../../usuarios/pages/Cadastro.css';
 
 export const EstacaoFormPage = () => {
   const navigate = useNavigate();
-  const { codigoEstacao } = useParams();
+  const { codigo } = useParams();
+  const codigoEstacao = codigo;
   const isEdit = !!codigoEstacao;
 
   const [formData, setFormData] = useState({ nome: '', codigoEstacao: '', linhas: [] });
@@ -73,7 +74,7 @@ export const EstacaoFormPage = () => {
                 value={formData.codigoEstacao} 
                 onChange={e => setFormData({...formData, codigoEstacao: e.target.value})} 
                 required 
-                disabled={isEdit} 
+                
                 placeholder="Ex: JAB"
               />
             </div>
