@@ -6,6 +6,7 @@ import station from '../../assets/station.jpg'
 import pcdStation from '../../assets/pcd-station.jpg'
 import tag from '../../assets/tag.png'
 import qrcode from '../../assets/qrcode.jpg'
+import pitchVideo from '../../assets/pitch.mp4'
 
 export const LandingPage = () => {
   return (
@@ -24,10 +25,12 @@ export const LandingPage = () => {
         </div>
         <div className="botoes-header">
           <Link to="/solicitar-acesso" className="btn-solicitar-pequeno">
-            Cadastro para PcD
+            <span className="btn-label-full">Cadastro para PcD</span>
+            <span className="btn-label-short">Cadastro</span>
           </Link>
           <Link to="/login" className="btn-login-header">
-            Entre com uma conta
+            <span className="btn-label-full">Entre com uma conta</span>
+            <span className="btn-label-short">Entrar</span>
           </Link>
         </div>
       </header>
@@ -43,6 +46,22 @@ export const LandingPage = () => {
         <Link to="/solicitar-acesso" className="btn-solicitar">
           Solicitar Acesso Gratuito para PcD
         </Link>
+      </section>
+
+      {/* PITCH VIDEO */}
+      <section className="video-section">
+        <h2>Conheça o <span className="destaque-azul">MetroAcesso</span></h2>
+        <p className="video-subtitle">Veja como nossa solução transforma o atendimento a pessoas com deficiência no metrô.</p>
+        <div className="video-wrapper">
+          <video
+            controls
+            preload="metadata"
+            className="pitch-video"
+          >
+            <source src={pitchVideo} type="video/mp4" />
+            Seu navegador não suporta a reprodução de vídeo.
+          </video>
+        </div>
       </section>
 
       {/* PROBLEMA */}

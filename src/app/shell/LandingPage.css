@@ -1202,3 +1202,146 @@ p {
 .cta-direita img {
   width: 20vw;
 }
+/* ── VIDEO SECTION ────────────────────────────────────────── */
+.video-section {
+  padding: 6rem 6%;
+  background-color: var(--cor-fundo-mais-esc);
+  border-top: 1px solid var(--cor-borda);
+  text-align: center;
+}
+
+.video-section h2 {
+  font-family: var(--fonte-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.8rem;
+  color: var(--cor-texto-forte);
+  color: white;
+}
+
+.video-subtitle {
+  color: rgba(255,255,255,0.65);
+  font-size: 1.1rem;
+  font-weight: 300;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.video-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: var(--raio-grande);
+  overflow: hidden;
+  border: 1px solid var(--cor-borda-ativa);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0,156,222,0.08);
+  background: #000;
+}
+
+.pitch-video {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* ── RESPONSIVE FIXES ─────────────────────────────────────── */
+
+/* Button label swap: full label by default, short label hidden */
+.btn-label-short { display: none; }
+.btn-label-full  { display: inline; }
+
+/* Header: shrink logo and buttons on small screens */
+@media (max-width: 640px) {
+  .landing-logo {
+    height: 36px;
+  }
+
+  /* Hide "MetroAcesso" brand name — logo alone identifies the brand */
+  #nome-metro-acesso {
+    display: none;
+  }
+
+  .logo-nome {
+    gap: 8px;
+  }
+
+  .botoes-header {
+    gap: 8px;
+  }
+
+  /* Swap to short labels */
+  .btn-label-full  { display: none; }
+  .btn-label-short { display: inline; }
+
+  .btn-login-header,
+  .btn-solicitar-pequeno {
+    font-size: 0.78rem;
+    padding: 0.5rem 1rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 360px) {
+  .landing-header {
+    padding: 0.8rem 3%;
+  }
+
+  .btn-login-header,
+  .btn-solicitar-pequeno {
+    font-size: 0.72rem;
+    padding: 0.45rem 0.8rem;
+  }
+}
+
+/* Hero paragraph: remove max-width constraint on mobile */
+@media (max-width: 768px) {
+  .hero-section p {
+    max-width: 100%;
+    font-size: 1.1rem;
+  }
+}
+
+/* CTA section: stack vertically on mobile, fix QR code size */
+@media (max-width: 768px) {
+  .cta-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 5rem 6%;
+    gap: 3rem;
+  }
+
+  .cta-esquerda {
+    width: 100%;
+  }
+
+  .cta-direita {
+    margin-left: 0;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .cta-direita img {
+    width: min(260px, 65vw);
+  }
+
+  .btn-solicitar-grande {
+    font-size: 1.1rem;
+    padding: 1.1rem 1.8rem;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Video section responsive */
+@media (max-width: 768px) {
+  .video-section {
+    padding: 4rem 5%;
+  }
+
+  .video-subtitle {
+    font-size: 1rem;
+  }
+}
