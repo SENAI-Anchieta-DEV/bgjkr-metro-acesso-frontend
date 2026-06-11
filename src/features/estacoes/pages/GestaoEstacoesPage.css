@@ -21,22 +21,21 @@
 }
 
 /* Cores das Linhas do Metrô SP */
-.linha-1 { background-color: #0053a0; } /* Azul */
-.linha-2 { background-color: #008144; } /* Verde */
-.linha-3 { background-color: #ef4123; } /* Vermelha */
-.linha-4 { background-color: #ffcc00; color: #000; } /* Amarela */
-.linha-5 { background-color: #93278f; } /* Lilás */
-.linha-15 { background-color: #9e9f9f; } /* Prata */
-/* Cores das Linhas da CPTM */
-.linha-7  { background-color: #f7841d; } /* Rubi - Laranja */
-.linha-8  { background-color: #97a0a9; } /* Diamante - Cinza */
-.linha-9  { background-color: #01a9a4; } /* Esmeralda - Verde-água */
-.linha-10 { background-color: #007b5e; } /* Turquesa - Verde escuro */
-.linha-11 { background-color: #f0192b; } /* Coral - Vermelho */
-.linha-12 { background-color: #003f8e; } /* Safira - Azul escuro */
-.linha-13 { background-color: #00adef; } /* Jade - Azul claro */
+.linha-1 { background-color: #191697; } /* Azul */
+.linha-2 { background-color: #007B5F; } /* Verde */
+.linha-3 { background-color: #EC2C39; } /* Vermelha */
+.linha-4 { background-color: #FFD425; color: #000; } /* Amarela */
+.linha-5 { background-color: #844CD1; } /* Lilás */
+.linha-6 { background-color: #EB6E00; } /* laranja */
+.linha-7  { background-color: #AA0348; } /* Rubi */
+.linha-8  { background-color: #949488; } /* Diamante - Cinza */
+.linha-9  { background-color: #009896; } /* Esmeralda - Verde-água */
+.linha-10 { background-color: #008AA9; } /* Turquesa - Verde escuro */
+.linha-11 { background-color: #F64426; } /* Coral - Vermelho */
+.linha-12 { background-color: #1E2085; } /* Safira - Azul escuro */
+.linha-13 { background-color: #01B353; } /* Jade - Azul claro */
 .linha-14 { background-color: #000000; } /* Onix - Preto */
-.linha-6  { background-color: #f0662a; } /* Laranja */
+.linha-15 { background-color: #909090; } /* Prata */
 .linha-default { background-color: #444; }
 
 .count-badge {

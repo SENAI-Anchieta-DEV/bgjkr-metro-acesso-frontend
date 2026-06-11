@@ -18,12 +18,13 @@ export const pcdService = {
     if (dados.tiposDeficiencia) {
       dados.tiposDeficiencia.forEach(tipo => formData.append('tiposDeficiencia', tipo));
     }
+    if (dados.comprovacao) formData.append('comprovacao', dados.comprovacao); // opcional
 
-    const response = await httpClient.put(`/api/pcd/${email}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
+    const response = await httpClient.put(`/api/pcd/${email}`, formData);
+    // ↑ sem headers — axios define o Content-Type + boundary automaticamente
     return response.data;
   },
+  
   // Remover/desativar conta do PCD
   removerPcd: async (email) => {
     const response = await httpClient.delete(`/api/pcd/${email}`);
