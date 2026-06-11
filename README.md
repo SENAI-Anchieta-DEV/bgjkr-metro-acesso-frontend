@@ -85,7 +85,7 @@ src/
 └── features/
     ├── auth/            # Contexto, hook useAuth e serviço de login/logout
     ├── estacoes/        # Gestão de estações (listagem, cadastro, edição)
-    ├── sensores/        # Monitoramento de acessos e alertas em tempo real
+    ├── entradas/        # Monitoramento de acessos e alertas em tempo real
     ├── tags/            # Gestão de tags
     ├── usuarios/        # Dashboards e formulários para PCD, Agente e Admin
     └── validacoes/      # Fila de validação de formulários PCD pendentes

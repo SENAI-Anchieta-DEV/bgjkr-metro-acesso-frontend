@@ -6,6 +6,7 @@ import { DashboardLayout } from '../shell/DashboardLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { LandingPage } from '../shell/LandingPage';
 import { LoginPage } from '../../features/auth/pages/LoginPage';
+import { EntradaFormPage } from '../../features/estacoes/pages/EntradaFormPage';
 
 // Importações de Usuários
 import {
@@ -84,6 +85,9 @@ export const AppRouter = () => {
             <Route path="/estacoes" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoEstacoesPage /></ProtectedRoute>} />
             <Route path="/estacoes/nova" element={<ProtectedRoute role="ADMINISTRADOR"><EstacaoFormPage /></ProtectedRoute>} />
             <Route path="/estacoes/editar/:codigo" element={<ProtectedRoute role="ADMINISTRADOR"><EstacaoFormPage /></ProtectedRoute>} />
+
+            <Route path="/estacoes/:codigoEstacao/entradas/nova" element={<ProtectedRoute role="ADMINISTRADOR"><EntradaFormPage /></ProtectedRoute>} />
+            <Route path="/estacoes/:codigoEstacao/entradas/editar/:codigoEntrada" element={<ProtectedRoute role="ADMINISTRADOR"><EntradaFormPage /></ProtectedRoute>} />
 
             {/* Administrativo: Tags */}
             <Route path="/tags" element={<ProtectedRoute role="ADMINISTRADOR"><GestaoTagsPage /></ProtectedRoute>} />

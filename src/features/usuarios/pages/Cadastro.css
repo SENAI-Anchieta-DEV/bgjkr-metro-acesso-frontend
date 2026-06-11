@@ -43,7 +43,9 @@
 }
 
 /* Inputs e Selects padronizados com o tema Dark do Admin */
-input, select, textarea {
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
   width: 100%;
   padding: 0.85rem 1rem;
   border-radius: 8px;
