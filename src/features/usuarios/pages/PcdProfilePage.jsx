@@ -74,15 +74,12 @@ export const PcdProfilePage = () => {
 
     setSaving(true);
     try {
-      const formDataMultipart = new FormData();
-      formDataMultipart.append('nome', formData.nome);
-      formDataMultipart.append('desejaSuporte', formData.desejaSuporte);
-      if (formData.senha) formDataMultipart.append('senha', formData.senha);
-      formData.tiposDeficiencia.forEach(tipo =>
-        formDataMultipart.append('tiposDeficiencia', tipo)
-      );
-
-      await pcdService.atualizarPcd(user.email, formDataMultipart);
+      await pcdService.atualizarPcd(user.email, {
+        nome: formData.nome,
+        senha: formData.senha || null,
+        desejaSuporte: formData.desejaSuporte,
+        tiposDeficiencia: formData.tiposDeficiencia,
+      });
       setSucesso('Perfil atualizado com sucesso!');
       setTimeout(() => navigate('/meu-acesso'), 2000);
     } catch (err) {

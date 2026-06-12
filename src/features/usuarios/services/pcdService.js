@@ -2,14 +2,13 @@ import { httpClient } from '../../../core/api/httpClient';
 
 export const pcdService = {
 
-  // Buscar dados do PCD logado pelo email
   buscarPcdAtivo: async (email) => {
     const response = await httpClient.get(`/api/pcd/${email}`);
     return response.data;
   },
 
-  // Atualizar dados do PCD
   atualizarPcd: async (email, dados) => {
+    console.log('dados recebidos:', dados);
     const formData = new FormData();
     if (dados.nome) formData.append('nome', dados.nome);
     if (dados.email) formData.append('email', dados.email);
@@ -18,20 +17,22 @@ export const pcdService = {
     if (dados.tiposDeficiencia) {
       dados.tiposDeficiencia.forEach(tipo => formData.append('tiposDeficiencia', tipo));
     }
-    if (dados.comprovacao) formData.append('comprovacao', dados.comprovacao); // opcional
+    if (dados.comprovacao) formData.append('comprovacao', dados.comprovacao);
+
+    console.log('formData entries:');
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
     const response = await httpClient.put(`/api/pcd/${email}`, formData);
-    // ↑ sem headers — axios define o Content-Type + boundary automaticamente
     return response.data;
   },
-  
-  // Remover/desativar conta do PCD
+
   removerPcd: async (email) => {
     const response = await httpClient.delete(`/api/pcd/${email}`);
     return response.data;
   },
 
-  // Buscar formulário ativo do PCD
   buscarFormularioAtivo: async (email) => {
     const response = await httpClient.get(`/api/formulario/${email}`);
     return response.data;
